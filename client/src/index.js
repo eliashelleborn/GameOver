@@ -13,7 +13,7 @@ import dude from './assets/sprites/dude.png';
 
 const config = {
   type: Phaser.AUTO,
-  width: 800,
+  width: 1600,
   height: 640,
   physics: {
     default: 'arcade',
@@ -54,7 +54,7 @@ let bg;
 
 function create(game) {
     // BACKGROUND
-    bg = this.add.tileSprite(100, 100, 0, 0, 'background');
+    bg = this.add.tileSprite(800, 100, 2200, 1200, 'background');
 
     // MAP
     map = this.make.tilemap({key: 'map'});
@@ -72,11 +72,11 @@ function create(game) {
 
     // PLAYER COLLISION
     this.physics.add.collider(player, groundLayer);
-    // groundLayer.setCollision([0, 1, 6, 7, 10, 11, 16, 17,22, 23, 26, 27, 38, 39, 40, 41, 70, 71, 100, 110, 120, 130])
+    groundLayer.setCollision([0, 1, 6, 7, 10, 11, 16, 17,22, 23, 26, 27, 38, 39, 40, 41, 70, 71, 100, 110, 120, 130])
 
     // CAMERA SETTINGS
     
-    this.cameras.main.setBounds(0, 0, 20000, map.heightInPixels);
+    this.cameras.main.setBounds(0, 0, 1600, map.heightInPixels);
     // make the camera follow the player
     this.cameras.main.startFollow(player);
 
@@ -84,7 +84,6 @@ function create(game) {
     this.anims.create({
         key: 'left',
         frames: this.anims.generateFrameNumbers('dude', {
-            start: 0,
             end: 3
         }),
         frameRate: 10,
