@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 // Maps
-import mapTest from './assets/maps/inca2.json.js.js';
+import mapTest from './assets/maps/inca2.json';
 import inca from './assets/maps/inca_front.png';
 
 // Backgrounds
@@ -11,66 +11,34 @@ import background from './assets/backgrounds/background.png';
 import star from './assets/sprites/star.png';
 import dude from './assets/sprites/dude.png';
 
-const config = {
-  type: Phaser.AUTO,
-  width: 1600,
-  height: 640,
-  parent: 'game',
-  physics: {
-    default: 'arcade',
-    arcade: {
-      gravity: { y: 300 },
-      debug: false
-    }
-  },
-  scene: {
-    preload: preload,
-    create: create,
-    update: update
-  }
-};
-
 let game;
-export const createGame = () => {
-  game = new Phaser.Game(config);
-};
+let map;
+let player;
+let cursors;
+let groundLayer;
+let bg;
 
 function preload() {
   this.load.tilemapTiledJSON('map', mapTest);
   this.load.spritesheet('inca', inca, {
     frameWidth: 16,
-    frameHeight: 16
+    frameHeight: 16,
   });
   this.load.image('background', background);
   this.load.image('star', star);
   this.load.spritesheet('dude', dude, {
     frameWidth: 32,
-    frameHeight: 48
+    frameHeight: 48,
   });
 }
 
-let map;
-let player;
-let cursors;
-let groundLayer;
-var text;
-let bg;
-let fireButton;
-let bullets;
-
-function create(game) {
-  // BULLETS
-  bullets = this.physics.add.group({
-    key: 'bullet',
-    repeat: 10
-  });
-
+function create() {
   // BACKGROUND
   bg = this.add.tileSprite(800, 100, 2200, 1200, 'background');
 
   // MAP
   map = this.make.tilemap({ key: 'map' });
-  var groundTiles = map.addTilesetImage('inca');
+  const groundTiles = map.addTilesetImage('inca');
   groundLayer = map.createDynamicLayer('layer', groundTiles, 0, 0);
 
   // PLAYER
@@ -104,7 +72,7 @@ function create(game) {
     100,
     110,
     120,
-    130
+    130,
   ]);
 
   // CAMERA SETTINGS
@@ -117,10 +85,10 @@ function create(game) {
   this.anims.create({
     key: 'left',
     frames: this.anims.generateFrameNumbers('dude', {
-      end: 3
+      end: 3,
     }),
     frameRate: 10,
-    repeat: -1
+    repeat: -1,
   });
 
   this.anims.create({
@@ -128,23 +96,21 @@ function create(game) {
     frames: [
       {
         key: 'dude',
-        frame: 4
-      }
+        frame: 4,
+      },
     ],
-    frameRate: 20
+    frameRate: 20,
   });
 
   this.anims.create({
     key: 'right',
     frames: this.anims.generateFrameNumbers('dude', {
       start: 5,
-      end: 8
+      end: 8,
     }),
     frameRate: 10,
-    repeat: -1
+    repeat: -1,
   });
-
-  fireButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 }
 function update() {
   cursors = this.input.keyboard.createCursorKeys();
@@ -164,21 +130,29 @@ function update() {
   if (cursors.up.isDown && player.body.onFloor()) {
     player.setVelocityY(-530);
   }
-
-  // FIRE
-  if (fireButton.isDown) {
-    fire();
-  }
 }
 
-function fire() {
-  // Get one of the bullets
-  bullet = bullets.getFirstExists(false);
+const config = {
+  type: Phaser.AUTO,
+  width: 1600,
+  height: 640,
+  parent: 'game',
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: { y: 300 },
+      debug: false,
+    },
+  },
+  scene: {
+    preload,
+    create,
+    update,
+  },
+};
 
-  if (bullet) {
-    //  And fire it
-    bullet.reset(player.x, player.y + 8);
-    bullet.body.velocity.y = -400;
-    bulletTime = game.time.now + 200;
-  }
-}
+const createGame = () => {
+  game = new Phaser.Game(config);
+};
+
+export default createGame;

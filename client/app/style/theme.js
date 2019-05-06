@@ -1,5 +1,5 @@
 const theme = {
-  colorPrimary: 'dodgerblue'
+  colorPrimary: 'dodgerblue',
 };
 
 export default theme;

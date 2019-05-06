@@ -7,18 +7,16 @@ import theme from './style/theme';
 // Pages
 import Game from './pages/Game';
 
-const App = () => {
-  return (
-    <ThemeProvider theme={theme}>
-      <Fragment>
-        <GlobalStyle />
-        <Router>
-          <Route exact path="/" render={() => <h1>Start</h1>} />
-          <Route path="/game" component={Game} />
-        </Router>
-      </Fragment>
-    </ThemeProvider>
-  );
-};
+const App = () => (
+  <ThemeProvider theme={theme}>
+    <Fragment>
+      <GlobalStyle />
+      <Router>
+        <Route exact path="/" render={() => <h1>Start</h1>} />
+        <Route path="/game" component={Game} />
+      </Router>
+    </Fragment>
+  </ThemeProvider>
+);
 
 export default App;
