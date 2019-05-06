@@ -51,8 +51,19 @@ let cursors;
 let groundLayer
 var text;
 let bg;
+let fireButton;
+let bullets
 
 function create(game) {
+
+    // BULLETS
+    bullets = this.physics.add.group({
+        key: 'bullet',
+        repeat: 10
+    });
+   
+
+
     // BACKGROUND
     bg = this.add.tileSprite(800, 100, 2200, 1200, 'background');
 
@@ -61,12 +72,10 @@ function create(game) {
     var groundTiles = map.addTilesetImage('inca');
     groundLayer = map.createDynamicLayer('layer', groundTiles, 0, 0);
 
-
-    
-
     // PLAYER
     player = this.physics.add.sprite(240, 450, 'dude');
 
+    // BOUNCE WHEN HIT THE GROUND
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
@@ -75,8 +84,8 @@ function create(game) {
     groundLayer.setCollision([0, 1, 6, 7, 10, 11, 16, 17,22, 23, 26, 27, 38, 39, 40, 41, 70, 71, 100, 110, 120, 130])
 
     // CAMERA SETTINGS
-    
     this.cameras.main.setBounds(0, 0, 1600, map.heightInPixels);
+    
     // make the camera follow the player
     this.cameras.main.startFollow(player);
 
@@ -108,8 +117,9 @@ function create(game) {
         frameRate: 10,
         repeat: -1
     });
-}
 
+    fireButton = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+}
 function update() {
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -124,7 +134,28 @@ function update() {
         player.anims.play('turn');
     }
 
-    if (cursors.up.isDown) {
-        player.setVelocityY(-330);
+    // JUMP
+    if (cursors.up.isDown && player.body.onFloor()) {
+        player.setVelocityY(-530);
     }
+
+    // FIRE
+    if (fireButton.isDown) {
+        fire();
+    }
+}
+
+
+function fire () {
+   
+    // Get one of the bullets
+    bullet = bullets.getFirstExists(false);
+    
+    if (bullet) {
+        //  And fire it
+        bullet.reset(player.x, player.y + 8);
+        bullet.body.velocity.y = -400;
+        bulletTime = game.time.now + 200;
+    }
+
 }
