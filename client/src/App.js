@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import { ThemeProvider } from 'styled-components';
+import GlobalStyle from './style/GlobalStyle';
+import theme from './style/theme';
 
 const App = () => {
   return (
-    <div>
-      <h1>asd</h1>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Fragment>
+        <GlobalStyle />
+        <h1>App</h1>
+      </Fragment>
+    </ThemeProvider>
   );
 };
 
