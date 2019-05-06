@@ -1,5 +1,5 @@
 import React from 'react';
-import GameCanvas from '../game/GameCanvas';
+import GameCanvas from '~/game/GameCanvas';
 
 const Game = () => {
   return (

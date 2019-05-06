@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 // Maps
-import mapTest from './assets/maps/inca2.json';
+import mapTest from './assets/maps/inca2.json.js.js';
 import inca from './assets/maps/inca_front.png';
 
 // Backgrounds
