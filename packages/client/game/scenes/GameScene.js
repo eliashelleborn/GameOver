@@ -13,7 +13,7 @@ class GameScene extends Phaser.Scene {
     
     create() {
         
-        const numberOfPlayers = 3;
+        this.numberOfPlayers = 3;
         // // BACKGROUND
         this.bg = this.add.tileSprite(800, 100, 2200, 1200, 'background');
 
@@ -26,11 +26,9 @@ class GameScene extends Phaser.Scene {
         this.groundLayer = this.map.createDynamicLayer('layer', this.groundTiles, 0, 0);
 
         //PLAYER
-        
-        
         // Creating number of players and adding them to group
         this.players = this.add.group();
-        for (let i = 0; i < numberOfPlayers; i++){
+        for (let i = 0; i < this.numberOfPlayers; i++){
             // Randomize Starting Position
             let startX = Math.floor(Math.random() * this.map.widthInPixels);
             let startY = Math.floor(Math.random() * this.map.heightInPixels);
@@ -40,7 +38,6 @@ class GameScene extends Phaser.Scene {
               x: startX,
               y: startY,
             });
-            console.log(player);
             this.players.add(player);
         }
 
@@ -60,13 +57,23 @@ class GameScene extends Phaser.Scene {
         // Making it Player Ones Turn
         this.playersTurn = 1;
         this.activePlayer = this.players.children.entries[this.playersTurn-1];
+
         // Making camera following the player
         this.cameras.main.startFollow(this.activePlayer);
 
-       
+        // Creating a timer display
+        this.timerText = this.make.text({
+          x: 2, //this.activePlayer.x,
+          y: 2, // this.activePlayer.y - 50,
+          text: 'Timer',
+          style: {
+            fontSize: '32px',
+            fill: '#FFF'
+          }
+        })
     }
 
-    update() {
+    update(time, delta) {
         // Defining the keys used in the game
         this.keys = {
             left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown,
@@ -77,8 +84,27 @@ class GameScene extends Phaser.Scene {
         // Moving the player
         this.activePlayer.update(this.keys);
         
-
+        // Creating a turnbased timer
+        this.timer = this.time.addEvent({
+          delay: 5000,
+          callback: this.changeTurn(),
+          loop: true
+        });
+        this.displayTimer(time);
+       
         
+    }
+    changeTurn() {
+        // console.log('hej');
+        // if (this.playersTurn < this.numberOfPlayers){
+        //     this.playersTurn++;
+
+        // }
+    }
+    displayTimer(time) {
+
+        this.timerText.setText(Math.round(time/1000));
+
     }
 }
 
