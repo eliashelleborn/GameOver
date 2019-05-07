@@ -4,7 +4,9 @@
   "description": "Made by: * Elias Johansson - [@eliasjohansson](https://github.com/eliasjohansson) * Per Baltzar - [@perbaltzar](https://github.com/perbaltzar)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "lerna run start --parallel",
+    "server:start": "cd packages/server && npm run start",
+    "client:start": "cd packages/client && npm run start"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-react": "^7.13.0"
+    "eslint-plugin-react": "^7.13.0",
+    "lerna": "^3.13.4"
   }
 }

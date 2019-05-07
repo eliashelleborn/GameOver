@@ -1,10 +1,10 @@
 {
-  "name": "worms-mp-server",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "nodemon --exec babel-node src/index.js",
+    "start": "nodemon --exec babel-node src/index.js",
     "build": "babel src -d build"
   },
   "keywords": [],
