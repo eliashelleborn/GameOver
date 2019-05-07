@@ -1,0 +1,26 @@
+{
+  "name": "client",
+  "version": "1.1.0",
+  "description": "A Phaser 3 Game",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "parcel build index.html",
+    "start": "parcel index.html"
+  },
+  "license": "MIT",
+  "licenseUrl": "http://www.opensource.org/licenses/mit-license.php",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "parcel-bundler": "^1.12.3"
+  },
+  "dependencies": {
+    "phaser": "^3.16.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
+    "styled-components": "^4.2.0",
+    "styled-modern-normalize": "^0.2.0"
+  }
+}
