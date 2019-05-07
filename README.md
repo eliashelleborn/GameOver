@@ -9,4 +9,4 @@ Made by:
 ## Pull requests
 * Game setup #1
 * Server setup #2
-* Project structure and linting
+* Project structure and linting #3
