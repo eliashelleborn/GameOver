@@ -12,6 +12,7 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
+        this.arrayOfGhost = ['blue', 'green', 'red'];
         this.timeLeft;
         this.nextTurn = 10;
         this.switchCoolDown = 0;
@@ -36,17 +37,22 @@ class GameScene extends Phaser.Scene {
             let startY = Math.floor(Math.random() * this.map.heightInPixels);
             let player = new Player({
               scene: this,
-              key: 'blue',
+              key: this.arrayOfGhost[i],
               x: startX,
               y: startY,
               id: i
             });
             this.players.add(player);
         }
+        // Making it Player Ones Turn
+        this.playersTurn = 0;
+        this.activePlayer = this.players.children.entries[this.playersTurn];
 
         // Looping through players to make them collide with tileset
         this.players.children.entries.forEach(player => {
             this.physics.add.collider(player, this.groundLayer);
+            // Stopping movement for everyone else
+            player.isItMyTurn(this.playersTurn);
         });
         
         // // Property collide set in TILED on Tileset
@@ -57,9 +63,7 @@ class GameScene extends Phaser.Scene {
         // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
         this.cameras.main.setBounds(0, 0, 100, this.map.heightInPixels);
 
-        // Making it Player Ones Turn
-        this.playersTurn = 1;
-        this.activePlayer = this.players.children.entries[this.playersTurn-1];
+        
 
         // Making camera following the player
         this.cameras.main.startFollow(this.activePlayer);
@@ -99,17 +103,22 @@ class GameScene extends Phaser.Scene {
     }
     changeTurn() {
         // Checking if we reached the end of the players 
-        if (this.playersTurn < this.numberOfPlayers){
+        if (this.playersTurn < this.numberOfPlayers-1){
             this.playersTurn++;
         }else{
             // Player 1 turn again
-            this.playersTurn = 1;
+            this.playersTurn = 0;
         }
         
         // Setting active player
         this.activePlayer = this.players.children.entries[
-            this.playersTurn - 1
+            this.playersTurn
         ]; 
+        this.players.children.entries.forEach(player => {
+            player.isItMyTurn(this.playersTurn);
+            player.update(this.keys);
+        });
+        
     }
 
     getTimeLeft(time) {
@@ -118,7 +127,7 @@ class GameScene extends Phaser.Scene {
         if (this.timeLeft === 0){
             this.changeTurn();
             // Setting the timer to next time it's ready for switch
-            this.nextTurn = Math.round(time / 1000) + 30;
+            this.nextTurn = Math.round(time / 1000) + 10;
         }
     }
 

@@ -15,6 +15,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
             y: -400
         }
         this.id = config.id
+        this.myTurn = false;
+
+        this.animations = {
+            left: `${config.key}-l`,
+            right: `${config.key}-r`,
+            stand: `${config.key}-s`
+        }
         
     }
     create () {
@@ -23,11 +30,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
         
     }
     update(keys) {
-     
+
         // // Moving the player
-        if (keys.left) {
+        if (keys.left && this.myTurn) {
             this.run(-this.velocity.x)
-        } else if (keys.right) {
+        } else if (keys.right && this.myTurn) {
             this.run(this.velocity.x)
         } else {
             this.run(0);
@@ -42,14 +49,18 @@ export default class Player extends Phaser.GameObjects.Sprite {
     run (vel) {
         this.body.setVelocityX(vel);
         if (vel < 0){
-            this.anims.play('left', true);
+            this.anims.play(this.animations.left, true);
         }else if (vel > 0){
-            this.anims.play('right', true);
+            this.anims.play(this.animations.right, true);
         }else {
-            this.anims.play('turn');
+            this.anims.play(this.animations.stand);
         }
     }
     jump () {
         this.body.setVelocityY(this.velocity.y);
+    }
+    isItMyTurn (playersTurn) {
+        this.myTurn = playersTurn === this.id;  
+        console.log(this.myTurn)
     }
 }
