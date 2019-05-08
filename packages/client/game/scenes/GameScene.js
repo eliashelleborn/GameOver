@@ -12,7 +12,9 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
-        
+        this.timeLeft;
+        this.nextTurn = 10;
+        this.switchCoolDown = 0;
         this.numberOfPlayers = 3;
         // // BACKGROUND
         this.bg = this.add.tileSprite(800, 100, 2200, 1200, 'background');
@@ -37,6 +39,7 @@ class GameScene extends Phaser.Scene {
               key: 'blue',
               x: startX,
               y: startY,
+              id: i
             });
             this.players.add(player);
         }
@@ -68,7 +71,7 @@ class GameScene extends Phaser.Scene {
           text: 'Timer',
           style: {
             fontSize: '32px',
-            fill: '#FFF'
+            fill: '#D00'
           }
         })
     }
@@ -84,27 +87,45 @@ class GameScene extends Phaser.Scene {
         // Moving the player
         this.activePlayer.update(this.keys);
         
-        // Creating a turnbased timer
-        this.timer = this.time.addEvent({
-          delay: 5000,
-          callback: this.changeTurn(),
-          loop: true
-        });
+
+        this.getTimeLeft(time);
         this.displayTimer(time);
+
+        
+
+
        
         
     }
     changeTurn() {
-        // console.log('hej');
-        // if (this.playersTurn < this.numberOfPlayers){
-        //     this.playersTurn++;
-
-        // }
+        // Checking if we reached the end of the players 
+        if (this.playersTurn < this.numberOfPlayers){
+            this.playersTurn++;
+        }else{
+            // Player 1 turn again
+            this.playersTurn = 1;
+        }
+        
+        // Setting active player
+        this.activePlayer = this.players.children.entries[
+            this.playersTurn - 1
+        ]; 
     }
+
+    getTimeLeft(time) {
+        // Calculating time left of turn
+        this.timeLeft = this.nextTurn - Math.round(time/1000);
+        if (this.timeLeft === 0){
+            this.changeTurn();
+            // Setting the timer to next time it's ready for switch
+            this.nextTurn = Math.round(time / 1000) + 30;
+        }
+    }
+
+
     displayTimer(time) {
-
-        this.timerText.setText(Math.round(time/1000));
-
+        // Displaying time on screen 
+        this.timerText.setText(this.timeLeft);
     }
 }
 

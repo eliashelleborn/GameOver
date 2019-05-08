@@ -1,7 +1,7 @@
 export default class Player extends Phaser.GameObjects.Sprite {
     constructor(config) {
 
-        super(config.scene, config.x, config.y, config.key);
+        super(config.scene, config.x, config.y, config.key, config.id);
 
         this.scene = config.scene;
         this.scene.physics.world.enable(this);
@@ -14,6 +14,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
             x: 50,
             y: -400
         }
+        this.id = config.id
         
     }
     create () {
