@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 
 import { useStore, useActions } from 'easy-peasy';
@@ -29,8 +29,16 @@ const App = () => {
         </small>
 
         <Router>
-          <Route exact path="/" component={Start} />
-          <Route path="/game" component={Game} />
+          <div>
+            <Link to="/">Home</Link>
+          </div>
+
+          {socket && (
+            <Fragment>
+              <Route exact path="/" component={Start} />
+              <Route path="/game/:id" component={Game} />
+            </Fragment>
+          )}
         </Router>
       </Fragment>
     </ThemeProvider>

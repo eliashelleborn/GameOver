@@ -1,9 +1,10 @@
+import DataStore from '../models/DataStore';
+import lobbyEvents from './lobby';
+
+const dataStore = new DataStore();
+
 export default (io) => {
   io.on('connection', (socket) => {
-    console.log('User connected');
-
-    socket.on('disconnect', () => {
-      console.log('User disconnected');
-    });
+    lobbyEvents(io, socket, dataStore);
   });
 };

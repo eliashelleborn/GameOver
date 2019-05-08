@@ -2,7 +2,6 @@ import 'dotenv/config';
 import http from 'http';
 import SocketIO from 'socket.io';
 import app from './config/express';
-import redis from './config/redis';
 import events from './events';
 
 const server = http.Server(app);

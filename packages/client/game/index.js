@@ -10,7 +10,6 @@ import background from './assets/backgrounds/background.png';
 // Sprites
 import star from './assets/sprites/star.png';
 import dude from './assets/sprites/dude.png';
-import store from '../app/store/index.js';
 
 let game;
 let map;
