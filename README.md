@@ -7,6 +7,6 @@ Made by:
 <img src="https://media.giphy.com/media/l0HFixTtvQ78aaxqw/giphy.gif" width="100%">
 
 ## Pull requests
-* Game setup #1
-* Server setup #2
-* Project structure and linting #3
+* [Game setup #1](https://github.com/eliasjohansson/GameOver/pull/1)
+* [Server setup #2](https://github.com/eliasjohansson/GameOver/pull/2)
+* [Project structure and linting #3](https://github.com/eliasjohansson/GameOver/pull/3)

@@ -10,6 +10,7 @@ import background from './assets/backgrounds/background.png';
 // Sprites
 import star from './assets/sprites/star.png';
 import dude from './assets/sprites/dude.png';
+import store from '../app/store/index.js';
 
 let game;
 let map;
@@ -18,7 +19,7 @@ let cursors;
 let groundLayer;
 let bg;
 
-function preload() {
+async function preload() {
   this.load.tilemapTiledJSON('map', mapTest);
   this.load.spritesheet('inca', inca, {
     frameWidth: 16,

@@ -1,18 +1,13 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+
 import createGame from './index';
 
-class GameCanvas extends Component {
-  componentDidMount() {
+const GameCanvas = () => {
+  useEffect(() => {
     createGame();
-  }
+  }, []);
 
-  shouldComponentUpdate() {
-    return false;
-  }
-
-  render() {
-    return <div id="game" />;
-  }
-}
+  return <div id="game" />;
+};
 
 export default GameCanvas;
