@@ -1,5 +1,5 @@
-import Player from '../sprites/Player.js'
-
+import Player from '../sprites/Player.js';
+import Crosshair from '../sprites/Crosshair.js';
 class GameScene extends Phaser.Scene {
     constructor(test) {
         super({
@@ -12,12 +12,14 @@ class GameScene extends Phaser.Scene {
     }
     
     create() {
+        // Start Values
         this.arrayOfGhost = ['blue', 'green', 'red'];
         this.timeLeft;
         this.nextTurn = 10;
         this.switchCoolDown = 0;
         this.numberOfPlayers = 3;
-        // // BACKGROUND
+
+        // BACKGROUND
         this.bg = this.add.tileSprite(800, 100, 2200, 1200, 'background');
 
         // MAP
@@ -70,36 +72,48 @@ class GameScene extends Phaser.Scene {
 
         // Creating a timer display
         this.timerText = this.make.text({
-          x: 2, //this.activePlayer.x,
-          y: 2, // this.activePlayer.y - 50,
-          text: 'Timer',
-          style: {
-            fontSize: '32px',
-            fill: '#D00'
-          }
+            x: 2, //this.activePlayer.x,
+            y: 2, // this.activePlayer.y - 50,
+            text: 'Timer',
+            style: {
+                fontSize: '32px',
+                fill: '#D00'
+            }
         })
+
+        // Creating the crosshair
+        this.crosshair = new Crosshair({
+            scene: this,
+            key: 'crosshair-s',
+            x: 100,
+            y: 100
+        });
+        
     }
 
     update(time, delta) {
         // Defining the keys used in the game
         this.keys = {
-            left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown,
-            right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT).isDown,
-            jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER).isDown
+            player: {
+                left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown,
+                right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT).isDown,
+                jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER).isDown
+             },
+             crosshair: {
+                 up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP).isDown,
+                 down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN).isDown
+             }
         }
+        //
 
         // Moving the player
-        this.activePlayer.update(this.keys);
+        this.activePlayer.update(this.keys.player);
         
+        this.crosshair.update(this.keys.crosshair, this.activePlayer.x, this.activePlayer.y);
 
         this.getTimeLeft(time);
         this.displayTimer(time);
 
-        
-
-
-       
-        
     }
     changeTurn() {
         // Checking if we reached the end of the players 

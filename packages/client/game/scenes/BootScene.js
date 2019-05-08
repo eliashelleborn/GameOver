@@ -13,6 +13,13 @@ import red from '../assets/sprites/ghost-red.png'
 // Animations
 import makeAnimations from '../animations/animations.js'
 
+// Weapons
+import bullet from '../assets/sprites/bullet.png'
+
+// Crosshair
+import crosshair from '../assets/sprites/crosshair.png'
+
+
 class BootScene extends Phaser.Scene {
     constructor(test) {
         super({
@@ -57,8 +64,17 @@ class BootScene extends Phaser.Scene {
             frameHeight: 32
         });
         
+        // Weapons
+        this.load.spritesheet('bullet', bullet, {
+            frameWidth: 32,
+            frameHeight: 24
+        });
 
-
+        // Crosshair
+        this.load.spritesheet('crosshair', crosshair, {
+            frameWidth: 32,
+            frameHeight: 32
+        });
         
     }
 } 

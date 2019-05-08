@@ -87,4 +87,12 @@ export default function makeAnimations(scene) {
          frameRate: 10,
          repeat: -1
      });
+
+     scene.anims.create({
+         key: 'crosshair-s', 
+         frames: [{
+           key: 'crosshair',
+           frame: 0
+         }]
+     })
 }
