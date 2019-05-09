@@ -4,7 +4,12 @@ class Game {
   constructor(id, host) {
     this.id = id;
     this.host = host;
+    this.status = 'lobby'; // 'lobby' || 'playing'
     this.players = [];
+  }
+
+  startGame() {
+    this.status = 'playing';
   }
 
   addPlayer(id, name) {

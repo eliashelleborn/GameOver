@@ -58,4 +58,13 @@ export default (io, socket, dataStore) => {
   socket.on('disconnect', () => {
     handleLeave();
   });
+
+  // START GAME
+  socket.on('start game', (id) => {
+    const game = dataStore.findGame(id);
+    if (game && game.host === socket.id) {
+      game.startGame();
+      io.to(`game ${game.id}`).emit('start game', game);
+    }
+  });
 };
