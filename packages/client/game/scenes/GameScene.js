@@ -109,7 +109,7 @@ class GameScene extends Phaser.Scene {
         // Moving the player
         this.activePlayer.update(this.keys.player);
         
-        this.crosshair.update(this.keys.crosshair, this.activePlayer.x, this.activePlayer.y);
+        this.crosshair.update(this.keys, this.activePlayer.x, this.activePlayer.y);
 
         this.getTimeLeft(time);
         this.displayTimer(time);
@@ -132,6 +132,9 @@ class GameScene extends Phaser.Scene {
             player.isItMyTurn(this.playersTurn);
             player.update(this.keys);
         });
+
+        // Setting crosshairs position
+        this.crosshair.startTurnPosition(this.activePlayer.x, this.activePlayer.y); 
         
     }
 
