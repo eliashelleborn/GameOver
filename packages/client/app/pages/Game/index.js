@@ -2,7 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useStore, useActions } from 'easy-peasy';
 import PropTypes from 'prop-types';
-import GameCanvas from '../../game/GameCanvas';
+import GameCanvas from '../../../game/GameCanvas';
+import Lobby from './Lobby';
+import GameScreen from './GameScreen';
+import Controller from './Controller';
 
 const Game = ({ match }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,14 +16,16 @@ const Game = ({ match }) => {
   useEffect(() => {
     if (!game) {
       socket.emit('join game', match.params);
-      socket.on('join game', (g) => {
-        setGame(g);
-        setIsLoading(false);
-      });
-      socket.on('join game failed', () => {
-        setIsLoading(false);
-      });
     }
+
+    socket.on('join game', (g) => {
+      setGame(g);
+      setIsLoading(false);
+    });
+
+    socket.on('join game failed', () => {
+      setIsLoading(false);
+    });
 
     socket.on('players updated', (players) => {
       updatePlayers(players);
@@ -28,6 +33,10 @@ const Game = ({ match }) => {
 
     socket.on('game deleted', () => {
       setGame(null);
+    });
+
+    socket.on('start game', (g) => {
+      setGame(g);
     });
 
     return () => {
@@ -41,19 +50,8 @@ const Game = ({ match }) => {
 
   return (
     <div>
-      {game && (
-        <h1>
-          {'Game ID: '}
-          {game.id}
-        </h1>
-      )}
-      <ul>
-        {game.players.map(player => (
-          <li key={player.id}>{`${player.id} - ${player.name}`}</li>
-        ))}
-      </ul>
-
-      <div>{false && <GameCanvas />}</div>
+      {game.status === 'lobby' && <Lobby game={game} />}
+      {game.status === 'playing' && (game.host === socket.id ? <GameScreen /> : <Controller />)}
     </div>
   );
 };
@@ -61,7 +59,7 @@ const Game = ({ match }) => {
 Game.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      name: PropTypes.string.isRequired,
+      name: PropTypes.string,
     }),
   }),
 };
