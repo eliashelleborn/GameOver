@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useStore, useActions } from 'easy-peasy';
 import PropTypes from 'prop-types';
-import GameCanvas from '../../../game/GameCanvas';
 import Lobby from './Lobby';
 import GameScreen from './GameScreen';
 import Controller from './Controller';
@@ -35,12 +34,10 @@ const Game = ({ match }) => {
 
     socket.on('game deleted', () => {
       setGame(null);
-      console.log(isLoading);
     });
 
     socket.on('start game', (g) => {
       setGame(g);
-      console.log(isLoading);
     });
 
     return () => {

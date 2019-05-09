@@ -1,4 +1,5 @@
-import Player from '../sprites/Player.js';
+import Player from '../sprites/Player';
+import store from '../../app/store';
 
 class GameScene extends Phaser.Scene {
   constructor(test) {
@@ -10,11 +11,29 @@ class GameScene extends Phaser.Scene {
   preload() {}
 
   create() {
+    let gameState = store.getState().game;
+
+    // If on testing page, create fake game data
+    if (gameState.testing) {
+      gameState.game = {
+        host: '123',
+        status: 'playing',
+        players: [
+          {
+            id: '1',
+            name: 'Tester',
+          },
+        ],
+      };
+    }
+
+    gameState = gameState.game;
+
     this.arrayOfGhost = ['blue', 'green', 'red'];
     this.timeLeft;
     this.nextTurn = 50;
     this.switchCoolDown = 0;
-    this.numberOfPlayers = 3;
+    this.numberOfPlayers = gameState.players.length;
     // // BACKGROUND
     this.bg = this.add.tileSprite(800, 100, 2200, 1200, 'background');
 
@@ -29,7 +48,7 @@ class GameScene extends Phaser.Scene {
     // PLAYER
     // Creating number of players and adding them to group
     this.players = this.add.group();
-    for (let i = 0; i < this.numberOfPlayers; i++) {
+    gameState.players.forEach((p, i) => {
       // Randomize Starting Position
       const startX = Math.floor(Math.random() * this.map.widthInPixels);
       const startY = Math.floor(Math.random() * this.map.heightInPixels);
@@ -38,13 +57,17 @@ class GameScene extends Phaser.Scene {
         key: this.arrayOfGhost[i],
         x: startX,
         y: startY,
-        id: i,
+        info: {
+          id: p.id,
+          name: p.name,
+        },
       });
       this.players.add(player);
-    }
+    });
+
     // Making it Player Ones Turn
-    this.playersTurn = 0;
-    this.activePlayer = this.players.children.entries[this.playersTurn];
+    this.playersTurn = gameState.players[0].id;
+    this.activePlayer = this.players.children.entries[0];
 
     // Looping through players to make them collide with tileset
     this.players.children.entries.forEach((player) => {
@@ -61,7 +84,7 @@ class GameScene extends Phaser.Scene {
     // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     /* this.cameras.main.setViewport(0, 0, window.innerWidth, window.innerHeight); */
-    this.cameras.main.setZoom(1.4);
+    this.cameras.main.setZoom(1.3);
 
     // Making camera following the player
     this.cameras.main.startFollow(this.activePlayer);

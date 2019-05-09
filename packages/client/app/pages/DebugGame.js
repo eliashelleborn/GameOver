@@ -3,7 +3,7 @@ import GameCanvas from '../../game/GameCanvas';
 
 const DebugGame = () => (
   <div>
-    <GameCanvas />
+    <GameCanvas testing />
   </div>
 );
 

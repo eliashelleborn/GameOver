@@ -4,7 +4,7 @@ import GameCanvas from '../../../game/GameCanvas';
 
 const StyledGameScreen = styled.div``;
 
-const GameScreen = props => (
+const GameScreen = () => (
   <StyledGameScreen>
     <GameCanvas />
   </StyledGameScreen>
