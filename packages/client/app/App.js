@@ -9,6 +9,7 @@ import theme from './style/theme';
 // Pages
 import Start from './pages/Start';
 import Game from './pages/Game';
+import DebugGame from './pages/DebugGame';
 
 const App = () => {
   const connect = useActions(actions => actions.socket.connect);
@@ -22,16 +23,16 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Fragment>
         <GlobalStyle />
-
+        {/*
         <small>
           {'Socket ID: '}
           {socket && <b>{socket.id}</b>}
-        </small>
+        </small> */}
 
         <Router>
-          <div>
+          {/*   <div>
             <Link to="/">Home</Link>
-          </div>
+          </div> */}
 
           {socket && (
             <Fragment>
@@ -39,6 +40,8 @@ const App = () => {
               <Route path="/game/:id" component={Game} />
             </Fragment>
           )}
+
+          <Route path="/game-debug" component={DebugGame} />
         </Router>
       </Fragment>
     </ThemeProvider>
