@@ -19,8 +19,8 @@ Starting server and client
 3. `$ npm start`
 
 ## Pull requests
-* #1 Game setup
-* #2 Server setup
-* #3 Project structure and linting
-* #4 Turn based gameplay added to Game
-* #5 Bug Fixes and added graphics in Game
+* [#1 Game setup](https://github.com/eliasjohansson/GameOver/pull/1)
+* [#2 Server setup](https://github.com/eliasjohansson/GameOver/pull/2)
+* [#3 Project structure and linting](https://github.com/eliasjohansson/GameOver/pull/3)
+* [#4 Turn based gameplay added to Game](https://github.com/eliasjohansson/GameOver/pull/4)
+* [#5 Bug Fixes and added graphics in Game](https://github.com/eliasjohansson/GameOver/pull/5)
