@@ -6,62 +6,58 @@ import inca from '../assets/maps/inca_front.png';
 import background from '../assets/backgrounds/background.png';
 
 // Ghosts
-import blue from '../assets/sprites/ghost-blue.png'
-import green from '../assets/sprites/ghost-green.png'
-import red from '../assets/sprites/ghost-red.png'
+import blue from '../assets/sprites/ghost-blue.png';
+import green from '../assets/sprites/ghost-green.png';
+import red from '../assets/sprites/ghost-red.png';
 
 // Animations
-import makeAnimations from '../animations/animations.js'
+import makeAnimations from '../animations/animations.js';
 
 class BootScene extends Phaser.Scene {
-    constructor(test) {
-        super({
-            key: 'BootScene'
-        });
-    }
-    preload () {
-        // Collection of loading to do. 
-        const progress = this.add.graphics();
+  constructor(test) {
+    super({
+      key: 'BootScene',
+    });
+  }
 
-        // Register a load complete event to launch the title screen when all files are loaded
-        this.load.on('complete', () => {
-            // prepare all animations, defined in a separate file
-            makeAnimations(this);
-            progress.destroy();
+  preload() {
+    // Collection of loading to do.
+    const progress = this.add.graphics();
 
-            this.scene.start('GameScene');
-        });
+    // Register a load complete event to launch the title screen when all files are loaded
+    this.load.on('complete', () => {
+      // prepare all animations, defined in a separate file
+      makeAnimations(this);
+      progress.destroy();
 
-        // Map Images
-        this.load.tilemapTiledJSON('map', mapTest);
-        this.load.spritesheet('inca', inca, {
-            frameWidth: 16,
-            frameHeight: 16
-        });
+      this.scene.start('GameScene');
+    });
 
-        // Background
-        this.load.image('background', background);
+    // Map Images
+    this.load.tilemapTiledJSON('map', mapTest);
+    this.load.spritesheet('inca', inca, {
+      frameWidth: 16,
+      frameHeight: 16,
+    });
 
-        // Sprites
-        this.load.spritesheet('blue',  blue, {
-            frameWidth: 32,
-            frameHeight: 32
-        });
+    // Background
+    this.load.image('background', background);
 
-        this.load.spritesheet('green',  green, {
-            frameWidth: 32,
-            frameHeight: 32
-        });
-        this.load.spritesheet('red',  red, {
-            frameWidth: 32,
-            frameHeight: 32
-        });
-        
+    // Sprites
+    this.load.spritesheet('blue', blue, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
 
-
-        
-    }
-} 
+    this.load.spritesheet('green', green, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('red', red, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+  }
+}
 
 export default BootScene;
-    
