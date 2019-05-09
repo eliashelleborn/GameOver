@@ -26,6 +26,10 @@ const Game = ({ match }) => {
       updatePlayers(players);
     });
 
+    socket.on('game deleted', () => {
+      setGame(null);
+    });
+
     return () => {
       socket.emit('leave game');
       socket.removeAllListeners();
@@ -45,7 +49,7 @@ const Game = ({ match }) => {
       )}
       <ul>
         {game.players.map(player => (
-          <li>{`${player.id} - ${player.name}`}</li>
+          <li key={player.id}>{`${player.id} - ${player.name}`}</li>
         ))}
       </ul>
 
@@ -58,8 +62,12 @@ Game.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
       name: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
+    }),
+  }),
+};
+
+Game.defaultProps = {
+  match: null,
 };
 
 export default Game;
