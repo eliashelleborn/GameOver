@@ -67,8 +67,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
   run(vel) {
     this.body.setVelocityX(vel);
     if (vel < 0) {
+      this.direction = -1;
       this.anims.play(this.animations.left, true);
     } else if (vel > 0) {
+      this.direction = 1;
       this.anims.play(this.animations.right, true);
     } else {
       this.anims.play(this.animations.stand);
@@ -82,12 +84,19 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
   fire() {
 
-    let thrust = 100 + Math.random() * 1000;
+    // let thrust = 100 + Math.random() * 1000;
+    console.log(this.x, this.scene.crosshair.x)
+    let angle;
+    if (this.x < this.scene.crosshair.x) {
+      angle = Phaser.Math.Angle.Between(this.x, this.y, this.scene.crosshair.x, this.scene.crosshair.y);
+    } else {
+      angle = -(Phaser.Math.Angle.Between(this.scene.crosshair.x, this.scene.crosshair.y, this.x, this.y));
+    }
 
-    this.weapon.fire(this.x, this.y, thrust);
+    let thrust = 1000;
+    console.log(angle);
+    this.weapon.fire(this.x, this.y, thrust, angle, this.direction);
 
   }
-  getNewWeapon() {
 
-  }
 }

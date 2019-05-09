@@ -16,13 +16,15 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
 
   }
 
-  fire(x, y, force) {
+  fire(x, y, force, angle, direction) {
     new Projectile({
       scene: this.scene,
       key: 'bullet',
-      x: x + 50,
+      x: x,
       y: y,
-      force: force
+      force: force,
+      angle: angle,
+      direction: direction
     })
 
     // this.projectiles
