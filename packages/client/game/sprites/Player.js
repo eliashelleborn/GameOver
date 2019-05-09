@@ -30,7 +30,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
         
     }
     update(keys) {
-
         // // Moving the player
         if (keys.left && this.myTurn) {
             this.run(-this.velocity.x)

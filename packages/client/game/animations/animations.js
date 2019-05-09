@@ -88,6 +88,8 @@ export default function makeAnimations(scene) {
          repeat: -1
      });
 
+
+     // CROSSHAIR
      scene.anims.create({
          key: 'crosshair-s', 
          frames: [{

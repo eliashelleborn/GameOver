@@ -13,9 +13,10 @@ class GameScene extends Phaser.Scene {
     
     create() {
         // Start Values
+        this.turnDuration = 15;
         this.arrayOfGhost = ['blue', 'green', 'red'];
         this.timeLeft;
-        this.nextTurn = 10;
+        this.nextTurn = this.turnDuration;
         this.switchCoolDown = 0;
         this.numberOfPlayers = 3;
 
@@ -88,6 +89,7 @@ class GameScene extends Phaser.Scene {
             x: 100,
             y: 100
         });
+        this.crosshair.startTurnPosition(this.activePlayer.x, this.activePlayer.y)
         
     }
 
@@ -109,8 +111,10 @@ class GameScene extends Phaser.Scene {
         // Moving the player
         this.activePlayer.update(this.keys.player);
         
+        // Moving the crosshair
         this.crosshair.update(this.keys, this.activePlayer.x, this.activePlayer.y);
 
+        // Timer
         this.getTimeLeft(time);
         this.displayTimer(time);
 
@@ -139,12 +143,13 @@ class GameScene extends Phaser.Scene {
     }
 
     getTimeLeft(time) {
+        
         // Calculating time left of turn
         this.timeLeft = this.nextTurn - Math.round(time/1000);
         if (this.timeLeft === 0){
             this.changeTurn();
             // Setting the timer to next time it's ready for switch
-            this.nextTurn = Math.round(time / 1000) + 10;
+            this.nextTurn = Math.round(time / 1000) + this.turnDuration;
         }
     }
 
