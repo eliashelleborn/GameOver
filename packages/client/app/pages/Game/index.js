@@ -16,6 +16,8 @@ const Game = ({ match }) => {
   useEffect(() => {
     if (!game) {
       socket.emit('join game', match.params);
+    } else {
+      setIsLoading(false);
     }
 
     socket.on('join game', (g) => {
@@ -33,10 +35,12 @@ const Game = ({ match }) => {
 
     socket.on('game deleted', () => {
       setGame(null);
+      console.log(isLoading);
     });
 
     socket.on('start game', (g) => {
       setGame(g);
+      console.log(isLoading);
     });
 
     return () => {
