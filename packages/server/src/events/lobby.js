@@ -22,7 +22,6 @@ export default (io, socket, dataStore) => {
       socket.join(`game ${game.id}`);
       socket.to(`game ${game.id}`).emit('players updated', game.players);
       socket.emit('join game', game);
-      console.log(io.sockets.adapter.rooms[`game ${game.id}`].sockets);
       return;
     }
 
@@ -42,8 +41,6 @@ export default (io, socket, dataStore) => {
       gameByHost.players.forEach((p) => {
         io.sockets.sockets[p.id].leave(`game ${gameByHost.id}`);
       });
-
-      console.log(io.sockets.adapter.rooms[`game ${gameByHost.id}`]);
     }
 
     const gameByPlayer = dataStore.findGameByPlayer(socket.id);
@@ -51,7 +48,6 @@ export default (io, socket, dataStore) => {
       gameByPlayer.removePlayer(socket.id);
       socket.to(`game ${gameByPlayer.id}`).emit('players updated', gameByPlayer.players);
       socket.leave(`game ${gameByPlayer.id}`);
-      console.log(io.sockets.adapter.rooms[`game ${gameByPlayer.id}`]);
     }
   };
 
