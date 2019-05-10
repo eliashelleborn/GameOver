@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 // Maps
 import mapTest from '../assets/maps/inca2.json';
 import inca from '../assets/maps/inca_front.png';
@@ -11,10 +13,10 @@ import green from '../assets/sprites/ghost-green.png';
 import red from '../assets/sprites/ghost-red.png';
 
 // Animations
-import makeAnimations from '../animations/animations.js';
+import makeAnimations from '../animations/animations';
 
 class BootScene extends Phaser.Scene {
-  constructor(test) {
+  constructor() {
     super({
       key: 'BootScene',
     });

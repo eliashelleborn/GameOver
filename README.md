@@ -1,5 +1,5 @@
 # Multiplayer Worms (GameOver Project)
-Using [Phaser3](https://phaser.io/), [Socket.io](https://socket.io/) and [Parcel](https://parceljs.org/)
+Using [Phaser3](https://phaser.io/), [Socket.io](https://socket.io/) and [React](https://reactjs.org/).
 
 ### Made by:
 * Elias Johansson - [@eliasjohansson](https://github.com/eliasjohansson)
@@ -10,17 +10,20 @@ Using [Phaser3](https://phaser.io/), [Socket.io](https://socket.io/) and [Parcel
 
 ## Installation
 Clone this repo.
-1. `$ git clone https://github.com/eliasjohansson/GameOver/`
+* `$ git clone https://github.com/eliasjohansson/GameOver/`
 
 Install dependencies
-2. `$ lerna bootstrap`
+* `$ lerna bootstrap`
 
 Starting server and client
-3. `$ npm start`
+* `$ npm start`
 
 ## Pull requests
 * [#1 Game setup](https://github.com/eliasjohansson/GameOver/pull/1)
 * [#2 Server setup](https://github.com/eliasjohansson/GameOver/pull/2)
 * [#3 Project structure and linting](https://github.com/eliasjohansson/GameOver/pull/3)
-* [#4 Turn based gameplay added to Game](https://github.com/eliasjohansson/GameOver/pull/4)
-* [#5 Bug Fixes and added graphics in Game](https://github.com/eliasjohansson/GameOver/pull/5)
+* [#4 Feature / Turn based gameplay added to Game](https://github.com/eliasjohansson/GameOver/pull/4)
+* [#5 Fix / Bug Fixes and added graphics in Game](https://github.com/eliasjohansson/GameOver/pull/5)
+* [#6 Feature / Lobby](https://github.com/eliasjohansson/GameOver/pull/6)
+* [#7 Feature / Fullscreen](https://github.com/eliasjohansson/GameOver/pull/7)
+* [#8 Feature / Initiate game](https://github.com/eliasjohansson/GameOver/pull/8)
