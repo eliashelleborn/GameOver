@@ -2,15 +2,31 @@ import Phaser from 'phaser';
 import Player from '../sprites/Player';
 import store from '../../app/store';
 
-class GameScene extends Phaser.Scene {
+class TestScene extends Phaser.Scene {
   constructor() {
     super({
-      key: 'GameScene',
+      key: 'TestScene',
     });
   }
 
   create() {
-    const gameState = store.getState().game.game;
+    let gameState = store.getState().game;
+
+    // If on testing page, create fake game data
+    if (gameState.testing) {
+      gameState.game = {
+        host: '123',
+        status: 'playing',
+        players: [
+          {
+            id: '1',
+            name: 'Tester',
+          },
+        ],
+      };
+    }
+
+    gameState = gameState.game;
 
     this.arrayOfGhost = ['blue', 'green', 'red'];
     this.timeLeft;
@@ -67,7 +83,7 @@ class GameScene extends Phaser.Scene {
     // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     /* this.cameras.main.setViewport(0, 0, window.innerWidth, window.innerHeight); */
-    this.cameras.main.setZoom(1.3);
+    this.cameras.main.setZoom(1);
 
     // Making camera following the player
     this.cameras.main.startFollow(this.activePlayer);
@@ -133,4 +149,4 @@ class GameScene extends Phaser.Scene {
   }
 }
 
-export default GameScene;
+export default TestScene;
