@@ -18,8 +18,5 @@ const config = {
   scene: [BootScene, GameScene],
 };
 
-let game;
-const createGame = () => {
-  game = new Phaser.Game(config);
-};
+const createGame = () => new Phaser.Game(config);
 export default createGame;

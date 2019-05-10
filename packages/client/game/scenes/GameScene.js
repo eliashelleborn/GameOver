@@ -1,14 +1,13 @@
+import Phaser from 'phaser';
 import Player from '../sprites/Player';
 import store from '../../app/store';
 
 class GameScene extends Phaser.Scene {
-  constructor(test) {
+  constructor() {
     super({
       key: 'GameScene',
     });
   }
-
-  preload() {}
 
   create() {
     let gameState = store.getState().game;
@@ -101,7 +100,7 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  update(time, delta) {
+  update(time) {
     // Defining the keys used in the game
     this.keys = {
       left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown,
@@ -119,7 +118,7 @@ class GameScene extends Phaser.Scene {
   changeTurn() {
     // Checking if we reached the end of the players
     if (this.playersTurn < this.numberOfPlayers - 1) {
-      this.playersTurn++;
+      this.playersTurn += 1;
     } else {
       // Player 1 turn again
       this.playersTurn = 0;

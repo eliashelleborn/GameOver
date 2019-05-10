@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 export default class Player extends Phaser.GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.key, config.info);
@@ -63,6 +65,5 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   isItMyTurn(playersTurn) {
     this.myTurn = playersTurn === this.id;
-    console.log(this.myTurn);
   }
 }
