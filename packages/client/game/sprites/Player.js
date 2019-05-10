@@ -55,10 +55,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     // FIRE WEAPON
     if (keys.fire) {
-
-      this.fire();
-    } else {
-
+      this.startFire(keys.fire);
+    } else if (!keys.fire && this.startedFire) {
+      console.log('fire')
+      this.fire()
     }
     if (this.weapon) {
       this.weapon.update(this.x, this.y);
@@ -82,21 +82,27 @@ export default class Player extends Phaser.GameObjects.Sprite {
   isItMyTurn(playersTurn) {
     this.myTurn = playersTurn === this.id;
   }
-  fire() {
 
-    // let thrust = 100 + Math.random() * 1000;
-    console.log(this.x, this.scene.crosshair.x)
+  startFire(firing) {
+    this.weapon.addThrust();
+    this.startedFire = true;
+  }
+
+  fire() {
+    this.startedFire = false;
+    console.log('started')
     let angle;
+    let thrust = 0;
+
     if (this.x < this.scene.crosshair.x) {
       angle = Phaser.Math.Angle.Between(this.x, this.y, this.scene.crosshair.x, this.scene.crosshair.y);
     } else {
       angle = -(Phaser.Math.Angle.Between(this.scene.crosshair.x, this.scene.crosshair.y, this.x, this.y));
     }
+    this.weapon.fire(this.x, this.y, angle, this.direction);
 
-    let thrust = 1000;
-    console.log(angle);
-    this.weapon.fire(this.x, this.y, thrust, angle, this.direction);
-
+    // TIMER TO CHANGE TURN
+    this.scene.changeTurn();
   }
 
 }

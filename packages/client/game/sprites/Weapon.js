@@ -7,6 +7,8 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     this.damage = 10;
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
+    this.thrust = 0;
+    this.maxThrust = 2000;
 
   }
 
@@ -15,17 +17,28 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     // this.y = y;
 
   }
+  addThrust() {
+    if (this.thrust < this.maxThrust) {
+      this.thrust += 10;
+    }
+    console.log(this.thrust);
+  }
 
-  fire(x, y, force, angle, direction) {
+  getAngle() {
+
+  }
+
+  fire(x, y, angle, direction) {
     new Projectile({
       scene: this.scene,
       key: 'bullet',
       x: x,
       y: y,
-      force: force,
+      force: this.thrust,
       angle: angle,
       direction: direction
     })
+    this.thrust = 0;
 
     // this.projectiles
     // console.log(this.projectiles.children.entries[0].body);
