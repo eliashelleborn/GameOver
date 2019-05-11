@@ -1,11 +1,9 @@
-
+import Phaser from 'phaser';
 import Weapon from './Weapon';
 
 export default class Player extends Phaser.GameObjects.Sprite {
   constructor(config) {
-
     super(config.scene, config.x, config.y, config.key, config.id);
-
 
     this.scene = config.scene;
     this.scene.physics.world.enable(this);
@@ -17,32 +15,27 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     this.velocity = {
       x: 150,
-      y: -400
-    }
-    this.health = 100
-    this.id = config.id
+      y: -400,
+    };
+    this.health = 100;
+    this.id = config.id;
     this.myTurn = false;
 
     this.animations = {
       left: `${config.key}-left`,
       right: `${config.key}-right`,
       standLeft: `${config.key}-standLeft`,
-      standRight: `${config.key}-standRight`
-    }
+      standRight: `${config.key}-standRight`,
+    };
     this.weapon = new Weapon({
       scene: this.scene,
       key: 'bazooka',
       x: this.x,
-      y: this.y
+      y: this.y,
     });
-
-  }
-  create() {
-
   }
 
   update(keys) {
-
     // Host can move with keyboard
     if (this.id === this.scene.gameState.host) {
       // // Moving the player
@@ -54,7 +47,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.run(0);
       }
 
-
       // JUMP
       if (keys.jump && this.body.onFloor()) {
         this.jump();
@@ -65,12 +57,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
     if (keys.fire) {
       this.startFire(keys.fire);
     } else if (!keys.fire && this.startedFire) {
-      this.fire()
+      this.fire();
     }
     if (this.weapon) {
       this.weapon.update(this.x, this.y);
     }
   }
+
   run(vel) {
     this.body.setVelocityX(vel);
     if (vel < 0) {
@@ -85,31 +78,30 @@ export default class Player extends Phaser.GameObjects.Sprite {
       this.anims.play(this.animations.standRight);
     }
   }
+
   jump() {
     this.body.setVelocityY(this.velocity.y);
   }
+
   isItMyTurn(playersTurn) {
     this.myTurn = playersTurn === this.id;
   }
 
-
-  startFire(firing) {
+  startFire() {
     this.weapon.addThrust();
     this.startedFire = true;
   }
 
   fire() {
     this.startedFire = false;
-    let angle;
-    let thrust = 0;
 
     this.weapon.setAngle();
     this.weapon.fire(this.direction);
   }
+
   die() {
     this.scene.players.remove(this);
     this.nameText.destroy();
     this.destroy();
-
   }
 }
