@@ -12,8 +12,13 @@ const gameStore = {
     state.game = payload;
   }),
 
-  updatePlayers: action((state, payload) => {
-    state.game.players = payload;
+  addPlayer: action((state, player) => {
+    state.game.players.push(player);
+  }),
+
+  removePlayer: action((state, player) => {
+    const i = state.game.players.indexOf(player);
+    state.game.players.splice(i, 1);
   }),
 };
 

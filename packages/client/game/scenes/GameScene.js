@@ -10,13 +10,13 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    const gameState = store.getState().game.game;
+    this.gameState = store.getState().game.game;
 
     this.arrayOfGhost = ['blue', 'green', 'red'];
     this.timeLeft;
     this.nextTurn = 50;
     this.switchCoolDown = 0;
-    this.numberOfPlayers = gameState.players.length;
+    this.numberOfPlayers = this.gameState.players.length;
     // // BACKGROUND
     this.bg = this.add.tileSprite(800, 100, 2200, 1200, 'background');
 
@@ -28,10 +28,13 @@ class GameScene extends Phaser.Scene {
     this.groundTiles = this.map.addTilesetImage('inca');
     this.groundLayer = this.map.createDynamicLayer('layer', this.groundTiles, 0, 0);
 
+    // World bounds
+    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+
     // PLAYER
     // Creating number of players and adding them to group
     this.players = this.add.group();
-    gameState.players.forEach((p, i) => {
+    this.gameState.players.forEach((p, i) => {
       // Randomize Starting Position
       const startX = Math.floor(Math.random() * this.map.widthInPixels);
       const startY = Math.floor(Math.random() * this.map.heightInPixels);
@@ -49,7 +52,7 @@ class GameScene extends Phaser.Scene {
     });
 
     // Making it Player Ones Turn
-    this.playersTurn = gameState.players[0].id;
+    this.playersTurn = this.gameState.players[0].id;
     this.activePlayer = this.players.children.entries[0];
 
     // Looping through players to make them collide with tileset
