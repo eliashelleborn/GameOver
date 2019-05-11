@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useStore, useActions } from 'easy-peasy';
 import { Redirect } from 'react-router-dom';
 import GameCanvas from '../../game/GameCanvas';
-import Lobby from './Game/Lobby';
-import GameScreen from './Game/GameScreen';
 import Controller from './Game/Controller';
 
 const TestGame = () => {

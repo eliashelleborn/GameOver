@@ -14,8 +14,8 @@ class TestScene extends Phaser.Scene {
     const { socket } = store.getState().socket;
 
     this.arrayOfGhost = ['blue', 'green', 'red'];
-    this.timeLeft;
     this.nextTurn = 50;
+    this.timeLeft = this.nextTurn;
     this.switchCoolDown = 0;
     this.numberOfPlayers = this.gameState.players.length;
     // MAP
@@ -29,7 +29,7 @@ class TestScene extends Phaser.Scene {
     // PLAYER
     // Creating number of players and adding them to group
     this.players = this.add.group();
-    this.gameState.players.forEach((p, i) => {
+    this.gameState.players.forEach((p) => {
       // Randomize Starting Position
       const startX = 850;
       const startY = this.map.heightInPixels - 350;
@@ -154,7 +154,7 @@ class TestScene extends Phaser.Scene {
     }
   }
 
-  displayTimer(time) {
+  displayTimer() {
     // Displaying time on screen
     this.timerText.setText(this.timeLeft);
   }

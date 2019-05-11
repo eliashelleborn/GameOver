@@ -7,7 +7,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.scene = config.scene;
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
-    this.scene.collide;
     this.scene.physics.add.collider(this.body, this.scene.groundLayer);
     this.body.setBounce(0.3);
     this.body.setCollideWorldBounds(true);
@@ -32,7 +31,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
   update(keys) {
     // Host can move with keyboard
     if (this.id === this.scene.gameState.host) {
-      console.log(keys.left);
       // // Moving the player
       if (keys.left && this.myTurn) {
         this.run(-this.velocity.x);

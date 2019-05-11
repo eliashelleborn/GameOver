@@ -13,8 +13,8 @@ class GameScene extends Phaser.Scene {
     this.gameState = store.getState().game.game;
 
     this.arrayOfGhost = ['blue', 'green', 'red'];
-    this.timeLeft;
     this.nextTurn = 50;
+    this.timeLeft = this.nextTurn;
     this.switchCoolDown = 0;
     this.numberOfPlayers = this.gameState.players.length;
     // // BACKGROUND
@@ -53,7 +53,7 @@ class GameScene extends Phaser.Scene {
 
     // Making it Player Ones Turn
     this.playersTurn = this.gameState.players[0].id;
-    this.activePlayer = this.players.children.entries[0];
+    [this.activePlayer] = this.players.children.entries;
 
     // Looping through players to make them collide with tileset
     this.players.children.entries.forEach((player) => {
@@ -130,7 +130,7 @@ class GameScene extends Phaser.Scene {
     }
   }
 
-  displayTimer(time) {
+  displayTimer() {
     // Displaying time on screen
     this.timerText.setText(this.timeLeft);
   }
