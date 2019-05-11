@@ -5,6 +5,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
     this.anims.play(config.key);
+    this.scene.cameras.main.startFollow(this);
 
     // Adding Collision
     this.scene.physics.add.collider(this, this.scene.players, () => this.hitGround());
@@ -35,6 +36,10 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
   }
   hitGround() {
+
+    this.scene.cameras.main.startFollow(this.scene.activePlayer);
+    // Move changeTurn to after explosion later
+    this.scene.changeTurn();
     this.destroy();
   }
 }

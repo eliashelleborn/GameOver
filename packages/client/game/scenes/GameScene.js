@@ -66,12 +66,13 @@ class GameScene extends Phaser.Scene {
     });
 
     // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
-    this.cameras.main.setBounds(0, 0, 100, this.map.heightInPixels);
+    this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
 
 
     // Making camera following the player
     this.cameras.main.startFollow(this.activePlayer);
+    this.cameras.main.setZoom(1);
 
     // Creating a timer display
     this.timerText = this.make.text({

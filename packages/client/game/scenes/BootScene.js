@@ -15,6 +15,7 @@ import makeAnimations from '../animations/animations.js';
 
 // Weapons
 import bullet from '../assets/sprites/bullet.png';
+import bazooka from '../assets/sprites/bazooka.png';
 
 // Crosshair
 import crosshair from '../assets/sprites/crosshair.png';
@@ -68,6 +69,11 @@ class BootScene extends Phaser.Scene {
     this.load.spritesheet('bullet', bullet, {
       frameWidth: 32,
       frameHeight: 24
+    });
+
+    this.load.spritesheet('bazooka', bazooka, {
+      frameWidth: 32,
+      frameHeight: 32
     });
 
     // Crosshair

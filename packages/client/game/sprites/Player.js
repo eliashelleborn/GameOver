@@ -13,7 +13,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.scene.physics.add.collider(this, this.scene.groundLayer);
     this.body.setBounce(0.3);
     this.body.setCollideWorldBounds(true);
-
+    this.direction = 1;
 
     this.velocity = {
       x: 150,
@@ -24,13 +24,16 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.myTurn = false;
 
     this.animations = {
-      left: `${config.key}-l`,
-      right: `${config.key}-r`,
-      stand: `${config.key}-s`
+      left: `${config.key}-left`,
+      right: `${config.key}-right`,
+      standLeft: `${config.key}-standLeft`,
+      standRight: `${config.key}-standRight`
     }
     this.weapon = new Weapon({
       scene: this.scene,
-      key: 'bullet'
+      key: 'bazooka',
+      x: this.x,
+      y: this.y
     });
 
   }
@@ -57,7 +60,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     if (keys.fire) {
       this.startFire(keys.fire);
     } else if (!keys.fire && this.startedFire) {
-      console.log('fire')
       this.fire()
     }
     if (this.weapon) {
@@ -72,8 +74,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
     } else if (vel > 0) {
       this.direction = 1;
       this.anims.play(this.animations.right, true);
+    } else if (this.direction === 1) {
+      this.anims.play(this.animations.standLeft);
     } else {
-      this.anims.play(this.animations.stand);
+      this.anims.play(this.animations.standRight);
     }
   }
   jump() {
@@ -90,19 +94,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   fire() {
     this.startedFire = false;
-    console.log('started')
     let angle;
     let thrust = 0;
 
-    if (this.x < this.scene.crosshair.x) {
-      angle = Phaser.Math.Angle.Between(this.x, this.y, this.scene.crosshair.x, this.scene.crosshair.y);
-    } else {
-      angle = -(Phaser.Math.Angle.Between(this.scene.crosshair.x, this.scene.crosshair.y, this.x, this.y));
-    }
-    this.weapon.fire(this.x, this.y, angle, this.direction);
-
-    // TIMER TO CHANGE TURN
-    this.scene.changeTurn();
+    this.weapon.setAngle();
+    this.weapon.fire(this.direction);
   }
-
 }
