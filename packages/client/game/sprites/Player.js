@@ -30,18 +30,22 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update(keys) {
-    // // Moving the player
-    if (keys.left && this.myTurn) {
-      this.run(-this.velocity.x);
-    } else if (keys.right && this.myTurn) {
-      this.run(this.velocity.x);
-    } else {
-      this.run(0);
-    }
+    // Host can move with keyboard
+    if (this.id === this.scene.gameState.host) {
+      console.log(keys.left);
+      // // Moving the player
+      if (keys.left && this.myTurn) {
+        this.run(-this.velocity.x);
+      } else if (keys.right && this.myTurn) {
+        this.run(this.velocity.x);
+      } else {
+        this.run(0);
+      }
 
-    // JUMP
-    if (keys.jump && this.body.onFloor()) {
-      this.jump();
+      // JUMP
+      if (keys.jump && this.body.onFloor()) {
+        this.jump();
+      }
     }
 
     // Update text position
@@ -65,5 +69,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   isItMyTurn(playersTurn) {
     this.myTurn = playersTurn === this.id;
+  }
+
+  die() {
+    this.scene.players.remove(this);
+    this.nameText.destroy();
+    this.destroy();
   }
 }

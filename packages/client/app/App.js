@@ -9,7 +9,7 @@ import theme from './style/theme';
 // Pages
 import Start from './pages/Start';
 import Game from './pages/Game';
-import DebugGame from './pages/DebugGame';
+import TestGame from './pages/TestGame';
 
 const App = () => {
   const connect = useActions(actions => actions.socket.connect);
@@ -38,10 +38,9 @@ const App = () => {
             <Fragment>
               <Route exact path="/" component={Start} />
               <Route path="/game/:id" component={Game} />
+              <Route path="/testing" component={TestGame} />
             </Fragment>
           )}
-
-          <Route path="/game-debug" component={DebugGame} />
         </Router>
       </Fragment>
     </ThemeProvider>
