@@ -1,27 +1,22 @@
 import Phaser from 'phaser';
 
 // Scenes
-import BootScene from './scenes/BootScene.js';
-import GameScene from './scenes/GameScene.js';
+import BootScene from './scenes/BootScene';
+import GameScene from './scenes/GameScene';
 
 const config = {
   type: Phaser.AUTO,
-  width: 1600,
-  height: 640,
+  width: window.innerWidth,
+  height: window.innerHeight,
   physics: {
     default: 'arcade',
     arcade: {
       gravity: { y: 1000 },
-      debug: false
-    }
+      debug: false,
+    },
   },
-  scene: [
-    BootScene,
-    GameScene
-  ]
+  scene: [BootScene, GameScene],
 };
-let game
-const createGame = () => {
-   game = new Phaser.Game(config);
-}
+
+const createGame = () => new Phaser.Game(config);
 export default createGame;

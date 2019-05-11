@@ -1,10 +1,10 @@
 import React from 'react';
 import GameCanvas from '../../game/GameCanvas';
 
-const Game = () => (
+const DebugGame = () => (
   <div>
-    <GameCanvas />
+    <GameCanvas testing />
   </div>
 );
 
-export default Game;
+export default DebugGame;

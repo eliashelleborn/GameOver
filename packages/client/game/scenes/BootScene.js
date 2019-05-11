@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 // Maps
 import mapTest from '../assets/maps/inca2.json';
 import inca from '../assets/maps/inca_front.png';
@@ -26,6 +28,7 @@ class BootScene extends Phaser.Scene {
       key: 'BootScene'
     });
   }
+
   preload() {
     // Collection of loading to do.
     const progress = this.add.graphics();
@@ -44,6 +47,7 @@ class BootScene extends Phaser.Scene {
     this.load.spritesheet('inca', inca, {
       frameWidth: 16,
       frameHeight: 16
+
     });
 
     // Background
@@ -53,6 +57,8 @@ class BootScene extends Phaser.Scene {
     this.load.spritesheet('blue', blue, {
       frameWidth: 32,
       frameHeight: 32
+
+
     });
 
     this.load.spritesheet('green', green, {
@@ -80,6 +86,7 @@ class BootScene extends Phaser.Scene {
     this.load.spritesheet('crosshair', crosshair, {
       frameWidth: 32,
       frameHeight: 32
+
     });
   }
 }

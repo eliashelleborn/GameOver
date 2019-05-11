@@ -1,3 +1,4 @@
+
 import Weapon from './Weapon';
 
 export default class Player extends Phaser.GameObjects.Sprite {

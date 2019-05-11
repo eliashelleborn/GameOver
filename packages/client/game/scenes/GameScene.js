@@ -1,3 +1,4 @@
+
 import Player from '../sprites/Player';
 import Crosshair from '../sprites/Crosshair';
 class GameScene extends Phaser.Scene {
@@ -160,6 +161,7 @@ class GameScene extends Phaser.Scene {
 
   displayTimer(time) {
     // Displaying time on screen 
+
     this.timerText.setText(this.timeLeft);
   }
 }
