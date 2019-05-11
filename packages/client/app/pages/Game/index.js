@@ -10,7 +10,7 @@ const Game = ({ match }) => {
   const [isLoading, setIsLoading] = useState(true);
   const { socket } = useStore(state => state.socket);
   const { game } = useStore(state => state.game);
-  const { setGame, updatePlayers } = useActions(actions => actions.game);
+  const { setGame, addPlayer, removePlayer } = useActions(actions => actions.game);
 
   useEffect(() => {
     if (!game) {
@@ -28,8 +28,12 @@ const Game = ({ match }) => {
       setIsLoading(false);
     });
 
-    socket.on('players updated', (players) => {
-      updatePlayers(players);
+    socket.on('player joined', (player) => {
+      addPlayer(player);
+    });
+
+    socket.on('player left', (player) => {
+      removePlayer(player);
     });
 
     socket.on('game deleted', () => {

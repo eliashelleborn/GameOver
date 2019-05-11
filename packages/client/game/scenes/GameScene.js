@@ -10,18 +10,20 @@ class GameScene extends Phaser.Scene {
   preload() {
 
 
+
   }
 
   create() {
+    this.gameState = store.getState().game.game;
+
     // Start Values
     this.turnDuration = 150;
     this.arrayOfGhost = ['blue', 'green', 'red'];
-    this.timeLeft;
     this.nextTurn = this.turnDuration;
     this.switchCoolDown = 0;
-    this.numberOfPlayers = 3;
-
-    // BACKGROUND
+    this.timeLeft = this.nextTurn;
+    this.numberOfPlayers = this.gameState.players.length;
+    // // BACKGROUND
     this.bg = this.add.tileSprite(800, 100, 2200, 1200, 'background');
 
     // MAP
@@ -32,12 +34,13 @@ class GameScene extends Phaser.Scene {
     this.groundTiles = this.map.addTilesetImage('inca');
     this.groundLayer = this.map.createDynamicLayer('layer', this.groundTiles, 0, 0);
 
-    //PLAYER
+    // World bounds
+    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+
+    // PLAYER
     // Creating number of players and adding them to group
     this.players = this.add.group();
-    this.ghosts = this.add.group();
-
-    for (let i = 0; i < this.numberOfPlayers; i++) {
+    this.gameState.players.forEach((p, i) => {
       // Randomize Starting Position
       let startX = Math.floor(Math.random() * this.map.widthInPixels);
       let startY = Math.floor(Math.random() * this.map.heightInPixels);
@@ -51,8 +54,8 @@ class GameScene extends Phaser.Scene {
       this.players.add(player);
     }
     // Making it Player Ones Turn
-    this.playersTurn = 0;
-    this.activePlayer = this.players.children.entries[this.playersTurn];
+    this.playersTurn = this.gameState.players[0].id;
+    [this.activePlayer] = this.players.children.entries;
 
     // Looping through players to make them collide with tileset
     this.players.children.entries.forEach(player => {
@@ -159,9 +162,9 @@ class GameScene extends Phaser.Scene {
   }
 
 
+
   displayTimer(time) {
     // Displaying time on screen 
-
     this.timerText.setText(this.timeLeft);
   }
 }

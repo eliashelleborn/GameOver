@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 
 // Maps
-import mapTest from '../assets/maps/inca2.json';
+import map from '../assets/maps/map.json';
+import testMap from '../assets/maps/test-map.json';
 import inca from '../assets/maps/inca_front.png';
 
 // Backgrounds
@@ -22,6 +23,9 @@ import bazooka from '../assets/sprites/bazooka.png';
 // Crosshair
 import crosshair from '../assets/sprites/crosshair.png';
 
+import store from '../../app/store';
+
+
 class BootScene extends Phaser.Scene {
   constructor(test) {
     super({
@@ -30,6 +34,8 @@ class BootScene extends Phaser.Scene {
   }
 
   preload() {
+    const { testing } = store.getState().game;
+
     // Collection of loading to do.
     const progress = this.add.graphics();
 
@@ -39,11 +45,11 @@ class BootScene extends Phaser.Scene {
       makeAnimations(this);
       progress.destroy();
 
-      this.scene.start('GameScene');
+      this.scene.start(testing ? 'TestScene' : 'GameScene');
     });
 
     // Map Images
-    this.load.tilemapTiledJSON('map', mapTest);
+    this.load.tilemapTiledJSON('map', testing ? testMap : map);
     this.load.spritesheet('inca', inca, {
       frameWidth: 16,
       frameHeight: 16
