@@ -7,7 +7,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.scene = config.scene;
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
-    this.scene.collide;
     this.scene.physics.add.collider(this.body, this.scene.groundLayer);
     this.body.setBounce(0.3);
     this.body.setCollideWorldBounds(true);
@@ -30,18 +29,21 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update(keys) {
-    // // Moving the player
-    if (keys.left && this.myTurn) {
-      this.run(-this.velocity.x);
-    } else if (keys.right && this.myTurn) {
-      this.run(this.velocity.x);
-    } else {
-      this.run(0);
-    }
+    // Host can move with keyboard
+    if (this.id === this.scene.gameState.host) {
+      // // Moving the player
+      if (keys.left && this.myTurn) {
+        this.run(-this.velocity.x);
+      } else if (keys.right && this.myTurn) {
+        this.run(this.velocity.x);
+      } else {
+        this.run(0);
+      }
 
-    // JUMP
-    if (keys.jump && this.body.onFloor()) {
-      this.jump();
+      // JUMP
+      if (keys.jump && this.body.onFloor()) {
+        this.jump();
+      }
     }
 
     // Update text position
@@ -65,5 +67,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   isItMyTurn(playersTurn) {
     this.myTurn = playersTurn === this.id;
+  }
+
+  die() {
+    this.scene.players.remove(this);
+    this.nameText.destroy();
+    this.destroy();
   }
 }

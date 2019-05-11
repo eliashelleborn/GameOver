@@ -2,24 +2,22 @@ import Phaser from 'phaser';
 import Player from '../sprites/Player';
 import store from '../../app/store';
 
-class GameScene extends Phaser.Scene {
+class TestScene extends Phaser.Scene {
   constructor() {
     super({
-      key: 'GameScene',
+      key: 'TestScene',
     });
   }
 
   create() {
     this.gameState = store.getState().game.game;
+    const { socket } = store.getState().socket;
 
     this.arrayOfGhost = ['blue', 'green', 'red'];
     this.nextTurn = 50;
     this.timeLeft = this.nextTurn;
     this.switchCoolDown = 0;
     this.numberOfPlayers = this.gameState.players.length;
-    // // BACKGROUND
-    this.bg = this.add.tileSprite(800, 100, 2200, 1200, 'background');
-
     // MAP
     this.map = this.make.tilemap({
       key: 'map',
@@ -28,19 +26,16 @@ class GameScene extends Phaser.Scene {
     this.groundTiles = this.map.addTilesetImage('inca');
     this.groundLayer = this.map.createDynamicLayer('layer', this.groundTiles, 0, 0);
 
-    // World bounds
-    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-
     // PLAYER
     // Creating number of players and adding them to group
     this.players = this.add.group();
-    this.gameState.players.forEach((p, i) => {
+    this.gameState.players.forEach((p) => {
       // Randomize Starting Position
-      const startX = Math.floor(Math.random() * this.map.widthInPixels);
-      const startY = Math.floor(Math.random() * this.map.heightInPixels);
+      const startX = 850;
+      const startY = this.map.heightInPixels - 350;
       const player = new Player({
         scene: this,
-        key: this.arrayOfGhost[i],
+        key: this.arrayOfGhost[0],
         x: startX,
         y: startY,
         info: {
@@ -51,9 +46,32 @@ class GameScene extends Phaser.Scene {
       this.players.add(player);
     });
 
+    // SOCKET EVENTS
+    socket.on('player joined', (p) => {
+      const startX = Math.floor(Math.random() * (1000 - 750) + 750);
+      const startY = this.map.heightInPixels - 350;
+      const player = new Player({
+        scene: this,
+        key: this.arrayOfGhost[1],
+        x: startX,
+        y: startY,
+        info: {
+          id: p.id,
+          name: p.name,
+        },
+      });
+      this.players.add(player);
+      this.physics.add.collider(player, this.groundLayer);
+    });
+
+    socket.on('player left', (p) => {
+      const [player] = this.players.getChildren().filter(i => i.id === p.id);
+      player.die();
+    });
+
     // Making it Player Ones Turn
     this.playersTurn = this.gameState.players[0].id;
-    [this.activePlayer] = this.players.children.entries;
+    this.activePlayer = this.players.getFirst(true);
 
     // Looping through players to make them collide with tileset
     this.players.children.entries.forEach((player) => {
@@ -70,7 +88,9 @@ class GameScene extends Phaser.Scene {
     // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     /* this.cameras.main.setViewport(0, 0, window.innerWidth, window.innerHeight); */
-    this.cameras.main.setZoom(1.3);
+    this.cameras.main.setZoom(1.2);
+
+    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
     // Making camera following the player
     this.cameras.main.startFollow(this.activePlayer);
@@ -96,7 +116,11 @@ class GameScene extends Phaser.Scene {
     };
 
     // Moving the player
-    this.activePlayer.update(this.keys);
+    /*    this.activePlayer.update(this.keys); */
+
+    this.players.getChildren().forEach((p) => {
+      p.update(this.keys);
+    });
 
     this.getTimeLeft(time);
     this.displayTimer(time);
@@ -136,4 +160,4 @@ class GameScene extends Phaser.Scene {
   }
 }
 
-export default GameScene;
+export default TestScene;
