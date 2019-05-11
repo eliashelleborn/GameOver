@@ -6,13 +6,15 @@ class DataStore {
     this.games = [];
   }
 
-  createGame(host) {
-    const id = makeID(4);
+  createGame({ host, testing }) {
+    let id = makeID(4);
     if (this.findGame(id)) {
       return this.createGame();
     }
 
-    const game = new Game(id, host);
+    if (testing) id = 'test';
+
+    const game = new Game(id, host, testing || false);
     this.games.push(game);
 
     return game;

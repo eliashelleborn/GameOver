@@ -1,11 +1,12 @@
 import Player from './Player';
 
 class Game {
-  constructor(id, host) {
+  constructor(id, host, testing) {
     this.id = id;
     this.host = host;
-    this.status = 'lobby'; // 'lobby' || 'playing'
+    this.status = testing ? 'test' : 'lobby'; // 'lobby' || 'playing' || 'test'
     this.players = [];
+    this.testing = testing;
   }
 
   startGame() {
@@ -15,6 +16,7 @@ class Game {
   addPlayer(id, name) {
     const player = new Player(id, name);
     this.players.push(player);
+    return player;
   }
 
   removePlayer(id) {
@@ -22,6 +24,7 @@ class Game {
     if (player) {
       this.players.splice(this.players.indexOf(player), 1);
     }
+    return player;
   }
 
   findPlayer(id) {

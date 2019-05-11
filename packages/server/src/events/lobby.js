@@ -1,7 +1,7 @@
 export default (io, socket, dataStore) => {
   // HOST GAME
   socket.on('host game', () => {
-    const game = dataStore.createGame(socket.id);
+    const game = dataStore.createGame({ host: socket.id });
 
     if (game) {
       socket.join(`game ${game.id}`);
@@ -17,10 +17,10 @@ export default (io, socket, dataStore) => {
     const game = dataStore.findGame(id);
 
     if (game) {
-      game.addPlayer(socket.id, name);
+      const newPlayer = game.addPlayer(socket.id, name);
 
       socket.join(`game ${game.id}`);
-      socket.to(`game ${game.id}`).emit('players updated', game.players);
+      socket.to(`game ${game.id}`).emit('player joined', newPlayer);
       socket.emit('join game', game);
       return;
     }
@@ -39,14 +39,16 @@ export default (io, socket, dataStore) => {
       socket.leave(`game ${gameByHost.id}`);
       // Make all other players leave room
       gameByHost.players.forEach((p) => {
-        io.sockets.sockets[p.id].leave(`game ${gameByHost.id}`);
+        if (p.id !== socket.id) {
+          io.sockets.sockets[p.id].leave(`game ${gameByHost.id}`);
+        }
       });
     }
 
     const gameByPlayer = dataStore.findGameByPlayer(socket.id);
     if (gameByPlayer) {
-      gameByPlayer.removePlayer(socket.id);
-      socket.to(`game ${gameByPlayer.id}`).emit('players updated', gameByPlayer.players);
+      const removedPlayer = gameByPlayer.removePlayer(socket.id);
+      socket.to(`game ${gameByPlayer.id}`).emit('player left', removedPlayer);
       socket.leave(`game ${gameByPlayer.id}`);
     }
   };
