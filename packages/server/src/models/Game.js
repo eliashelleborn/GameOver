@@ -4,7 +4,7 @@ class Game {
   constructor(id, host, testing) {
     this.id = id;
     this.host = host;
-    this.status = testing ? 'test' : 'lobby'; // 'lobby' || 'playing' || 'test'
+    this.status = testing ? 'test' : 'lobby'; // 'lobby' || 'playing' || 'test'
     this.players = [];
     this.testing = testing;
   }

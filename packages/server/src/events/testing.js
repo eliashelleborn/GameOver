@@ -3,8 +3,6 @@ export default (io, socket, dataStore) => {
   socket.on('join/host test-game', () => {
     let game = dataStore.findGame('test');
 
-    console.log(game);
-
     if (!game) {
       game = dataStore.createGame({ host: socket.id, testing: true });
     }

@@ -46,7 +46,10 @@ class GameScene extends Phaser.Scene {
         key: this.arrayOfGhost[i],
         x: startX,
         y: startY,
-        id: i,
+        info: {
+          id: p.id,
+          name: p.name,
+        },
       });
       this.players.add(player);
     });

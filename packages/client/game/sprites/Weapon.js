@@ -43,7 +43,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
 
   fire(direction) {
     // Creating a projectile which fires away
-    Projectile({
+    new Projectile({
       scene: this.scene,
       key: 'bullet',
       x: this.x,
