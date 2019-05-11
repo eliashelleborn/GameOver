@@ -1,8 +1,11 @@
-import Phaser from 'phaser';
+
+import Weapon from './Weapon';
 
 export default class Player extends Phaser.GameObjects.Sprite {
   constructor(config) {
-    super(config.scene, config.x, config.y, config.key, config.info);
+
+    super(config.scene, config.x, config.y, config.key, config.id);
+
 
     this.scene = config.scene;
     this.scene.physics.world.enable(this);
@@ -10,25 +13,36 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.scene.physics.add.collider(this.body, this.scene.groundLayer);
     this.body.setBounce(0.3);
     this.body.setCollideWorldBounds(true);
+    this.direction = 1;
+
     this.velocity = {
-      x: 50,
-      y: -400,
-    };
-    this.id = config.info.id;
-    this.name = config.info.name;
+      x: 150,
+      y: -400
+    }
+    this.health = 100
+    this.id = config.id
     this.myTurn = false;
 
     this.animations = {
-      left: `${config.key}-l`,
-      right: `${config.key}-r`,
-      stand: `${config.key}-s`,
-    };
+      left: `${config.key}-left`,
+      right: `${config.key}-right`,
+      standLeft: `${config.key}-standLeft`,
+      standRight: `${config.key}-standRight`
+    }
+    this.weapon = new Weapon({
+      scene: this.scene,
+      key: 'bazooka',
+      x: this.x,
+      y: this.y
+    });
 
-    // Show players name
-    this.nameText = this.scene.add.text(this.x - 25, this.y - 50, this.name);
+  }
+  create() {
+
   }
 
   update(keys) {
+
     // Host can move with keyboard
     if (this.id === this.scene.gameState.host) {
       // // Moving the player
@@ -40,38 +54,62 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.run(0);
       }
 
+
       // JUMP
       if (keys.jump && this.body.onFloor()) {
         this.jump();
       }
     }
 
-    // Update text position
-    this.nameText.setPosition(this.x - 25, this.y - 50);
+    // FIRE WEAPON
+    if (keys.fire) {
+      this.startFire(keys.fire);
+    } else if (!keys.fire && this.startedFire) {
+      this.fire()
+    }
+    if (this.weapon) {
+      this.weapon.update(this.x, this.y);
+    }
   }
-
   run(vel) {
     this.body.setVelocityX(vel);
     if (vel < 0) {
+      this.direction = -1;
       this.anims.play(this.animations.left, true);
     } else if (vel > 0) {
+      this.direction = 1;
       this.anims.play(this.animations.right, true);
+    } else if (this.direction === 1) {
+      this.anims.play(this.animations.standLeft);
     } else {
-      this.anims.play(this.animations.stand);
+      this.anims.play(this.animations.standRight);
     }
   }
-
   jump() {
     this.body.setVelocityY(this.velocity.y);
   }
-
   isItMyTurn(playersTurn) {
     this.myTurn = playersTurn === this.id;
   }
 
+
+  startFire(firing) {
+    this.weapon.addThrust();
+    this.startedFire = true;
+  }
+
+  fire() {
+    this.startedFire = false;
+    let angle;
+    let thrust = 0;
+
+    this.weapon.setAngle();
+    this.weapon.fire(this.direction);
+  }
   die() {
     this.scene.players.remove(this);
     this.nameText.destroy();
     this.destroy();
+
   }
 }

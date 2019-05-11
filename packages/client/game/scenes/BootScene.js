@@ -14,13 +14,22 @@ import green from '../assets/sprites/ghost-green.png';
 import red from '../assets/sprites/ghost-red.png';
 
 // Animations
-import makeAnimations from '../animations/animations';
+import makeAnimations from '../animations/animations.js';
+
+// Weapons
+import bullet from '../assets/sprites/bullet.png';
+import bazooka from '../assets/sprites/bazooka.png';
+
+// Crosshair
+import crosshair from '../assets/sprites/crosshair.png';
+
 import store from '../../app/store';
 
+
 class BootScene extends Phaser.Scene {
-  constructor() {
+  constructor(test) {
     super({
-      key: 'BootScene',
+      key: 'BootScene'
     });
   }
 
@@ -43,7 +52,8 @@ class BootScene extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', testing ? testMap : map);
     this.load.spritesheet('inca', inca, {
       frameWidth: 16,
-      frameHeight: 16,
+      frameHeight: 16
+
     });
 
     // Background
@@ -52,16 +62,37 @@ class BootScene extends Phaser.Scene {
     // Sprites
     this.load.spritesheet('blue', blue, {
       frameWidth: 32,
-      frameHeight: 32,
+      frameHeight: 32
+
+
     });
 
     this.load.spritesheet('green', green, {
       frameWidth: 32,
-      frameHeight: 32,
+      frameHeight: 32
     });
+
     this.load.spritesheet('red', red, {
       frameWidth: 32,
-      frameHeight: 32,
+      frameHeight: 32
+    });
+
+    // Weapons
+    this.load.spritesheet('bullet', bullet, {
+      frameWidth: 32,
+      frameHeight: 24
+    });
+
+    this.load.spritesheet('bazooka', bazooka, {
+      frameWidth: 32,
+      frameHeight: 32
+    });
+
+    // Crosshair
+    this.load.spritesheet('crosshair', crosshair, {
+      frameWidth: 32,
+      frameHeight: 32
+
     });
   }
 }
