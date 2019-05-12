@@ -50,7 +50,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
       y: this.y,
       force: this.thrust,
       angle: this.angle,
-      direction,
+      direction
     });
     this.thrust = 0;
   }

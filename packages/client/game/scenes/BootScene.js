@@ -23,6 +23,9 @@ import bazooka from '../assets/sprites/bazooka.png';
 // Crosshair
 import crosshair from '../assets/sprites/crosshair.png';
 
+// Explosion
+import explosion from '../assets/sprites/explosion.png';
+
 import store from '../../app/store';
 
 class BootScene extends Phaser.Scene {
@@ -33,7 +36,9 @@ class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    const { testing } = store.getState().game;
+    const {
+      testing
+    } = store.getState().game;
 
     // Collection of loading to do.
     const progress = this.add.graphics();
@@ -88,6 +93,12 @@ class BootScene extends Phaser.Scene {
     this.load.spritesheet('crosshair', crosshair, {
       frameWidth: 32,
       frameHeight: 32,
+    });
+
+    // Explosion
+    this.load.spritesheet('explosion', explosion, {
+      frameWidth: 24,
+      frameHeight: 24,
     });
   }
 }

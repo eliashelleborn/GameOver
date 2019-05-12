@@ -8,16 +8,16 @@ const socketStore = {
     state.socket = payload;
   }),
 
-  connect: thunk(async (actions) => {
+  connect: thunk(async actions => {
     const socket = io('http://localhost:3001');
 
-    await new Promise((resolve) => {
+    await new Promise(resolve => {
       socket.on('connect', () => {
         actions.setSocket(socket);
         resolve();
       });
     });
-  }),
+  })
 };
 
 export default socketStore;

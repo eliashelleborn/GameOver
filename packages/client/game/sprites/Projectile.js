@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Explosion from './Explosion';
 
 export default class Projectile extends Phaser.GameObjects.Sprite {
   constructor(config) {
@@ -31,12 +32,20 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     // Moving the projectile
     this.body.setVelocityX(this.velocityX);
     this.body.setVelocityY(this.velocityY);
+
+
   }
 
   hitGround() {
-    this.scene.cameras.main.startFollow(this.scene.activePlayer);
     // Move changeTurn to after explosion later
-    this.scene.changeTurn();
+    // Took this away in testing
+    // this.scene.changeTurn();
+    this.explosion = new Explosion({
+      scene: this.scene,
+      x: this.x,
+      y: this.y,
+      key: 'explosion'
+    })
     this.destroy();
   }
 }
