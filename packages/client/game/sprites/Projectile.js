@@ -1,3 +1,5 @@
+import Phaser from 'phaser';
+
 export default class Projectile extends Phaser.GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.key, config.force, config.direction);
@@ -31,12 +33,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.body.setVelocityY(this.velocityY);
   }
 
-
-  update() {
-
-  }
   hitGround() {
-
     this.scene.cameras.main.startFollow(this.scene.activePlayer);
     // Move changeTurn to after explosion later
     this.scene.changeTurn();

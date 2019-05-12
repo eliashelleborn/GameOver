@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Player from '../sprites/Player';
 import store from '../../app/store';
+import Crosshair from '../sprites/Crosshair';
 
 class TestScene extends Phaser.Scene {
   constructor() {
@@ -105,25 +106,44 @@ class TestScene extends Phaser.Scene {
         fill: '#D00',
       },
     });
+
+    // Creating the crosshair
+    this.crosshair = new Crosshair({
+      scene: this,
+      key: 'crosshair-s',
+      x: 100,
+      y: 100,
+    });
+    this.crosshair.startTurnPosition(this.activePlayer.x, this.activePlayer.y);
   }
 
   update(time) {
     // Defining the keys used in the game
     this.keys = {
-      left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown,
-      right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT).isDown,
-      jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER).isDown,
+      player: {
+        left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown,
+        right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT).isDown,
+        jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER).isDown,
+        fire: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE).isDown,
+      },
+      crosshair: {
+        up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP).isDown,
+        down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN).isDown,
+      },
     };
 
     // Moving the player
     /*    this.activePlayer.update(this.keys); */
 
     this.players.getChildren().forEach((p) => {
-      p.update(this.keys);
+      p.update(this.keys.player);
     });
 
     this.getTimeLeft(time);
     this.displayTimer(time);
+
+    // Moving the crosshair
+    this.crosshair.update(this.keys, this.activePlayer.x, this.activePlayer.y);
   }
 
   changeTurn() {
