@@ -37,3 +37,4 @@ Starting server and client
 - [#10 Feature / Testing Enviroment in Game](https://github.com/eliasjohansson/GameOver/pull/10)
 - [#11 Fix / Shooting in Testing Enviroment](https://github.com/eliasjohansson/GameOver/pull/11)
 - [#12 Fix / Bug in package-lock.json](https://github.com/eliasjohansson/GameOver/pull/12)
+- [#13 Feature / Explosions in Game](https://github.com/eliasjohansson/GameOver/pull/13)
