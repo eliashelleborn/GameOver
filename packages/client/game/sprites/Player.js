@@ -35,9 +35,45 @@ export default class Player extends Phaser.GameObjects.Sprite {
       x: this.x,
       y: this.y,
     });
+
+    this.controllerInputs = {
+      movement: {
+        walk: 0, // 0 = idle     -1 = left       +1 = right
+        jump: false,
+      },
+    };
+
+    // Movement EVENTS
+    this.scene.socket.on('player start move', (playerId, direction) => {
+      if (playerId === this.id) {
+        this.controllerInputs.movement.walk = direction;
+      }
+    });
+    this.scene.socket.on('player stop move', (playerId) => {
+      if (playerId === this.id) {
+        this.controllerInputs.movement.walk = 0;
+      }
+    });
+    this.scene.socket.on('player jump', (playerId) => {
+      if (playerId === this.id) {
+        this.controllerInputs.movement.jump = true;
+      }
+    });
   }
 
   update(keys) {
+    // Controller Movement
+    if (this.controllerInputs.movement.walk !== 0) {
+      this.run(this.velocity.x * this.controllerInputs.movement.walk);
+    } else {
+      this.run(0);
+    }
+
+    if (this.controllerInputs.movement.jump && this.body.onFloor()) {
+      this.jump();
+      this.controllerInputs.movement.jump = false;
+    }
+
     // Host can move with keyboard in TestScene
     if (this.scene.scene.key === 'TestScene') {
       if (this.id === this.scene.gameState.host && this.body.onFloor() && !this.isFlying) {
@@ -65,7 +101,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
     // FRICTION
     if (this.body.velocity.x > 0) {
-      this.body.setVelocityX(this.body.velocity.x *= 0.99);
+      this.body.setVelocityX((this.body.velocity.x *= 0.99));
     }
 
     // Weapon
@@ -77,7 +113,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     if (this.body.onFloor()) {
       this.isFlying = false;
     }
-
   }
 
   run(vel) {
@@ -124,15 +159,14 @@ export default class Player extends Phaser.GameObjects.Sprite {
     if (this.y < explosion.y) {
       this.body.setVelocityY(-(damage * 15));
     } else {
-      this.body.setVelocityY((damage * 15));
+      this.body.setVelocityY(damage * 15);
     }
     if (this.x < explosion.x) {
-      console.log('booom')
+      console.log('booom');
       this.body.setVelocityX(-(damage * 15));
     } else {
-      this.body.setVelocityX((damage * 15));
+      this.body.setVelocityX(damage * 15);
     }
-
   }
 
   die() {

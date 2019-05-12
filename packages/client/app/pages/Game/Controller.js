@@ -26,18 +26,16 @@ const StyledController = styled.div`
 
 const Controller = () => {
   const { socket } = useStore(state => state.socket);
+
   const startMove = (direction) => {
-    console.log(`Move: ${direction}`);
     socket.emit('player start move', direction);
   };
 
   const stopMove = () => {
-    console.log('Stop Moving');
     socket.emit('player stop move');
   };
 
   const jump = () => {
-    console.log('jump');
     socket.emit('player jump');
   };
 
