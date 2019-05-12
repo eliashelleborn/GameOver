@@ -1,4 +1,5 @@
 # Multiplayer Worms (GameOver Project)
+
 Using [Phaser3](https://phaser.io/), [Socket.io](https://socket.io/) and [Parcel](https://parceljs.org/)
 
 ### Made by:
@@ -12,15 +13,15 @@ Using [Phaser3](https://phaser.io/), [Socket.io](https://socket.io/) and [Parcel
 
 Clone this repo.
 
-1. `$ git clone https://github.com/eliasjohansson/GameOver/`
+- `$ git clone https://github.com/eliasjohansson/GameOver/`
 
 Install dependencies
 
-2. `$ npm install`
+- `$ lerna bootstrap`
 
 Starting server and client
 
-3. `$ npm run dev`
+- `$ npm start`
 
 ## Pull requests
 
@@ -33,3 +34,5 @@ Starting server and client
 - [#7 Feature / Fullscreen](https://github.com/eliasjohansson/GameOver/pull/7)
 - [#8 Feature / Initiate game](https://github.com/eliasjohansson/GameOver/pull/8)
 - [#9 Feature / Shooting game](https://github.com/eliasjohansson/GameOver/pull/9)
+- [#10 Feature / Testing Enviroment in Game](https://github.com/eliasjohansson/GameOver/pull/10)
+- [#11 Fix / Shooting in Testing Enviroment](https://github.com/eliasjohansson/GameOver/pull/11)
