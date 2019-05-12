@@ -5,13 +5,16 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.anims.play(config.key);
     this.scene.add.existing(this);
     this.scene.cameras.main.startFollow(this);
+    this.scene.physics.world.enable(this);
+
+    this.body.setAllowGravity(false)
+
     this.timer = this.scene.time.now;
     this.damage = config.damage;
     this.scale = 5 * (config.damage / 100);
     this.setScale(this.scale);
+    this.scene.physics.add.collider(this, this.scene.players, (a, b) => this.hitPlayer(a, b));
 
-    this.scene.physics.add.collider(this, this.scene.players, () => this.hitGround());
-    this.scene.physics.add.collider(this, this.scene.groundLayer, () => this.hitGround());
 
     setTimeout(() => this.explode(this.scene), 650);
 
@@ -21,5 +24,10 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
     scene.cameras.main.startFollow(scene.activePlayer);
     this.destroy();
+  }
+
+  hitPlayer(explosion, player) {
+    // player.takeDamage(this.damage);
+
   }
 }

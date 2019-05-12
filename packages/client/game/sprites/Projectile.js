@@ -14,7 +14,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.scene.physics.add.collider(this, this.scene.players, () => this.hitGround());
     this.scene.physics.add.collider(this, this.scene.groundLayer, () => this.hitGround());
 
-    // Adding the amout of damage
+    // Adding the amount of damage
     this.damage = config.damage;
 
     // Changing gravity
