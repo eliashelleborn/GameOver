@@ -12,8 +12,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.scene.physics.add.collider(this.body, this.scene.groundLayer);
     this.body.setBounce(0.3);
     this.body.setCollideWorldBounds(true);
-    this.direction = 1;
+    this.body.setFrictionX(100);
 
+    this.direction = 1;
+    this.health = 100;
     this.velocity = {
       x: 150,
       y: -400,
@@ -38,7 +40,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
   update(keys) {
     // Host can move with keyboard in TestScene
     if (this.scene.scene.key === 'TestScene') {
-      if (this.id === this.scene.gameState.host) {
+      if (this.id === this.scene.gameState.host && this.body.onFloor() && !this.isFlying) {
         // // Moving the player
         if (keys.left && this.myTurn) {
           this.run(-this.velocity.x);
@@ -61,10 +63,21 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }
       }
     }
+    // FRICTION
+    if (this.body.velocity.x > 0) {
+      this.body.setVelocityX(this.body.velocity.x *= 0.99);
+    }
 
+    // Weapon
     if (this.weapon) {
       this.weapon.update(this.x, this.y);
     }
+
+    // Flying variable
+    if (this.body.onFloor()) {
+      this.isFlying = false;
+    }
+
   }
 
   run(vel) {
@@ -102,9 +115,29 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.weapon.fire(this.direction);
   }
 
+  takeDamage(damage) {
+    this.health = this.health - damage;
+  }
+
+  flyFromExplosion(explosion, damage) {
+    this.isFlying = true;
+    if (this.y < explosion.y) {
+      this.body.setVelocityY(-(damage * 15));
+    } else {
+      this.body.setVelocityY((damage * 15));
+    }
+    if (this.x < explosion.x) {
+      console.log('booom')
+      this.body.setVelocityX(-(damage * 15));
+    } else {
+      this.body.setVelocityX((damage * 15));
+    }
+
+  }
+
   die() {
     this.scene.players.remove(this);
-    this.nameText.destroy();
-    this.destroy();
+    // this.nameText.destroy();
+    // this.destroy();
   }
 }
