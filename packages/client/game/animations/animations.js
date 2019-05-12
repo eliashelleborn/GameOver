@@ -139,4 +139,15 @@ export default function makeAnimations(scene) {
       frame: 0,
     }],
   });
+
+  // EXPLOSION
+  scene.anims.create({
+    key: 'explosion',
+    frames: scene.anims.generateFrameNumbers('explosion', {
+      start: 0,
+      end: 6,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
 }
