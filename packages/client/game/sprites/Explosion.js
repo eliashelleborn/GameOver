@@ -6,7 +6,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.scene.add.existing(this);
     this.scene.cameras.main.startFollow(this);
     this.scene.physics.world.enable(this);
-
+    this.hasHurt = false;
     this.body.setAllowGravity(false)
 
     this.timer = this.scene.time.now;
@@ -14,7 +14,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.scale = 5 * (config.damage / 100);
     this.setScale(this.scale);
     this.scene.physics.add.collider(this, this.scene.players, (a, b) => this.hitPlayer(a, b));
-
+    console.log(this);
 
     setTimeout(() => this.explode(this.scene), 650);
 
@@ -27,7 +27,16 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
   }
 
   hitPlayer(explosion, player) {
-    // player.takeDamage(this.damage);
+    // Calculating the damage
+    // console.log(explosion, player);
+    let distance = Phaser.Math.Distance.Between(player.x, player.y, explosion.x, explosion.y);
+    let updatedDamage = this.damage - distance;
+
+    if (!this.hasHurt) {
+      player.takeDamage(updatedDamage);
+      setTimeout(player.flyFromExplosion(explosion, updatedDamage), 100);
+      this.hasHurt = true;
+    }
 
   }
 }
