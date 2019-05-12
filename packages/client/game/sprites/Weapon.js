@@ -5,7 +5,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.key);
     this.scene = config.scene;
-    this.damage = 10;
+    this.damage = 50;
     this.scene.add.existing(this);
     this.thrust = 0;
     this.maxThrust = 2000;
@@ -50,6 +50,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
       y: this.y,
       force: this.thrust,
       angle: this.angle,
+      damage: this.damage,
       direction
     });
     this.thrust = 0;

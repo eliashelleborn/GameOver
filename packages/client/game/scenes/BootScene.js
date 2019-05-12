@@ -97,8 +97,8 @@ class BootScene extends Phaser.Scene {
 
     // Explosion
     this.load.spritesheet('explosion', explosion, {
-      frameWidth: 24,
-      frameHeight: 24,
+      frameWidth: 34,
+      frameHeight: 32,
     });
   }
 }
