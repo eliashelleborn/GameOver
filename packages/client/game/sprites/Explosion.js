@@ -13,9 +13,15 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.damage = config.damage;
     this.scale = 5 * (config.damage / 100);
     this.setScale(this.scale);
+    // console.log(this.scene.groundLayer);
     this.scene.physics.add.collider(this, this.scene.players, (a, b) => this.hitPlayer(a, b));
-    console.log(this);
-
+    console.log(this.x, this.y, this.width);
+    let hitTiles = this.scene.map.getTilesWithinShape(new Phaser.Geom.Circle(this.x, this.y, this.width));
+    console.log(hitTiles);
+    hitTiles.forEach(tile => {
+      console.log('tiles');
+      this.scene.map.putTileAt(-1, tile.x, tile.y);
+    });
     setTimeout(() => this.explode(this.scene), 650);
 
   }
@@ -37,6 +43,10 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
       setTimeout(player.flyFromExplosion(explosion, updatedDamage), 100);
       this.hasHurt = true;
     }
+  }
 
+  hitGround(explosion, tile) {
+    console.log('HIT GROUND');
+    map.putTileAt(-1, tile.x, tile.y);
   }
 }

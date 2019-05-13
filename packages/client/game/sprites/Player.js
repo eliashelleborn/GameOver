@@ -127,7 +127,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
       this.body.setVelocityY((damage * 15));
     }
     if (this.x < explosion.x) {
-      console.log('booom')
       this.body.setVelocityX(-(damage * 15));
     } else {
       this.body.setVelocityX((damage * 15));
