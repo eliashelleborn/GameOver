@@ -15,11 +15,8 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.setScale(this.scale);
     // console.log(this.scene.groundLayer);
     this.scene.physics.add.collider(this, this.scene.players, (a, b) => this.hitPlayer(a, b));
-    console.log(this.x, this.y, this.width);
-    let hitTiles = this.scene.map.getTilesWithinShape(new Phaser.Geom.Circle(this.x, this.y, this.width));
-    console.log(hitTiles);
+    let hitTiles = this.scene.map.getTilesWithinShape(new Phaser.Geom.Circle(this.x, this.y, (this.width / 2) * this.scale));
     hitTiles.forEach(tile => {
-      console.log('tiles');
       this.scene.map.putTileAt(-1, tile.x, tile.y);
     });
     setTimeout(() => this.explode(this.scene), 650);
