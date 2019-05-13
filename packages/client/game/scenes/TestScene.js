@@ -12,7 +12,7 @@ class TestScene extends Phaser.Scene {
 
   create() {
     this.gameState = store.getState().game.game;
-    const { socket } = store.getState().socket;
+    this.socket = store.getState().socket.socket;
 
     this.arrayOfGhost = ['blue', 'green', 'red'];
     this.nextTurn = 50;
@@ -48,8 +48,8 @@ class TestScene extends Phaser.Scene {
     });
 
     // SOCKET EVENTS
-    socket.on('player joined', (p) => {
-      const startX = Math.floor(Math.random() * (1000 - 750) + 750);
+    this.socket.on('player joined', (p) => {
+      const startX = Math.floor(Math.random() * (800 - 500) + 500);
       const startY = this.map.heightInPixels - 350;
       const player = new Player({
         scene: this,
@@ -65,7 +65,7 @@ class TestScene extends Phaser.Scene {
       this.physics.add.collider(player, this.groundLayer);
     });
 
-    socket.on('player left', (p) => {
+    this.socket.on('player left', (p) => {
       const [player] = this.players.getChildren().filter(i => i.id === p.id);
       player.die();
     });
