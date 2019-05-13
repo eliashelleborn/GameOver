@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import Weapon from './Weapon';
+import Weapon from '../Weapon';
 
 export default class Player extends Phaser.GameObjects.Sprite {
   constructor(config) {
