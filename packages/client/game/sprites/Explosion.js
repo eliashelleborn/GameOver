@@ -41,9 +41,4 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
       this.hasHurt = true;
     }
   }
-
-  hitGround(explosion, tile) {
-    console.log('HIT GROUND');
-    map.putTileAt(-1, tile.x, tile.y);
-  }
 }
