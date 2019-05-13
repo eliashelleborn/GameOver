@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import Weapon from './Weapon';
+import Weapon from '../Weapon';
+import controllerEvents from './events';
 
 export default class Player extends Phaser.GameObjects.Sprite {
   constructor(config) {
@@ -36,69 +37,25 @@ export default class Player extends Phaser.GameObjects.Sprite {
       y: this.y,
     });
 
-    this.controllerInputs = {
+    this.controller = {
       movement: {
-        walk: 0, // 0 = idle     -1 = left       +1 = right
+        direction: 0, // 0 = idle     -1 = left       +1 = right
         jump: false,
       },
     };
 
-    // Movement EVENTS
-    this.scene.socket.on('player start move', (playerId, direction) => {
-      if (playerId === this.id) {
-        this.controllerInputs.movement.walk = direction;
-      }
-    });
-    this.scene.socket.on('player stop move', (playerId) => {
-      if (playerId === this.id) {
-        this.controllerInputs.movement.walk = 0;
-      }
-    });
-    this.scene.socket.on('player jump', (playerId) => {
-      if (playerId === this.id) {
-        this.controllerInputs.movement.jump = true;
-      }
-    });
+    // CONTROLLER INIT
+    controllerEvents(this.scene.socket, this);
   }
 
   update(keys) {
     // Controller Movement
-    if (this.controllerInputs.movement.walk !== 0) {
-      this.run(this.velocity.x * this.controllerInputs.movement.walk);
-    } else {
-      this.run(0);
-    }
+    this.run(this.velocity.x * this.controller.movement.direction);
 
-    if (this.controllerInputs.movement.jump && this.body.onFloor()) {
+    if (this.controller.movement.jump && this.body.onFloor()) {
       this.jump();
-      this.controllerInputs.movement.jump = false;
     }
 
-    // Host can move with keyboard in TestScene
-    if (this.scene.scene.key === 'TestScene') {
-      if (this.id === this.scene.gameState.host && this.body.onFloor() && !this.isFlying) {
-        // // Moving the player
-        if (keys.left && this.myTurn) {
-          this.run(-this.velocity.x);
-        } else if (keys.right && this.myTurn) {
-          this.run(this.velocity.x);
-        } else {
-          this.run(0);
-        }
-
-        // JUMP
-        if (keys.jump && this.body.onFloor()) {
-          this.jump();
-        }
-
-        // FIRE WEAPON
-        if (keys.fire) {
-          this.startFire(keys.fire);
-        } else if (!keys.fire && this.startedFire) {
-          this.fire();
-        }
-      }
-    }
     // FRICTION
     if (this.body.velocity.x > 0) {
       this.body.setVelocityX((this.body.velocity.x *= 0.99));
@@ -132,6 +89,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   jump() {
     this.body.setVelocityY(this.velocity.y);
+    this.controller.movement.jump = false;
   }
 
   isItMyTurn(playersTurn) {
@@ -172,6 +130,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
   die() {
     this.scene.players.remove(this);
     // this.nameText.destroy();
+
     // this.destroy();
   }
 }

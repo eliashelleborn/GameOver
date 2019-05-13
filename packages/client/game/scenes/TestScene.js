@@ -49,7 +49,7 @@ class TestScene extends Phaser.Scene {
 
     // SOCKET EVENTS
     this.socket.on('player joined', (p) => {
-      const startX = Math.floor(Math.random() * (1000 - 750) + 750);
+      const startX = Math.floor(Math.random() * (800 - 500) + 500);
       const startY = this.map.heightInPixels - 350;
       const player = new Player({
         scene: this,
