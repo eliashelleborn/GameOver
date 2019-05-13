@@ -25,13 +25,11 @@ const StyledController = styled.div`
 `;
 
 const Controller = () => {
-  /* const [leftDown, setLeftDown] = useState(false);
-  const [rightDown, setRightDown] = useState(false); */
+  const { socket } = useStore(state => state.socket);
   const [keys, setKeys] = useState({
     left: false,
     right: false,
   });
-  const { socket } = useStore(state => state.socket);
 
   const startMove = (dir) => {
     socket.emit('player start move', dir);
@@ -45,13 +43,21 @@ const Controller = () => {
     socket.emit('player jump');
   };
 
+  const startShoot = () => {
+    socket.emit('player start shoot');
+  };
+
+  const releaseShoot = () => {
+    socket.emit('player release shoot');
+  };
+
   useEffect(() => {
     if (!keys.left && !keys.right) {
       stopMove();
     }
   }, [keys]);
 
-  const keyPress = (e) => {
+  const keyDown = (e) => {
     if (e.key === 'ArrowLeft') {
       setKeys({ ...keys, left: true });
       startMove(-1);
@@ -60,9 +66,12 @@ const Controller = () => {
       setKeys({ ...keys, right: true });
       startMove(1);
     }
-
     if (e.key === 'ArrowUp') {
       jump();
+    }
+
+    if (e.key === 'Space') {
+      socket.emit('player start shoot');
     }
   };
 
@@ -74,10 +83,25 @@ const Controller = () => {
     if (e.key === 'ArrowRight') {
       setKeys({ ...keys, right: false });
     }
+
+    if (e.key === 'Space') {
+      releaseShoot();
+    }
   };
 
   return (
-    <StyledController onKeyDown={keyPress} onKeyUp={keyUp}>
+    <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
+      <button
+        type="button"
+        onKeyDown={keyDown}
+        onKeyUp={keyUp}
+        onMouseDown={startShoot}
+        onMouseUp={releaseShoot}
+      >
+        <span role="img" aria-label="shoot">
+          ☄️
+        </span>
+      </button>
       <button type="button" onMouseDown={jump}>
         <span role="img" aria-label="jump">
           🖕

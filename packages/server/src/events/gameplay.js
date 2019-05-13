@@ -13,4 +13,14 @@ export default (io, socket, dataStore) => {
     const game = dataStore.findGameByPlayer(socket.id);
     socket.to(game.host).emit('player jump', socket.id);
   });
+
+  // WEAPON
+  socket.on('player start shoot', () => {
+    const game = dataStore.findGameByPlayer(socket.id);
+    socket.to(game.host).emit('player start shoot', socket.id);
+  });
+  socket.on('player release shoot', () => {
+    const game = dataStore.findGameByPlayer(socket.id);
+    socket.to(game.host).emit('player release shoot', socket.id);
+  });
 };

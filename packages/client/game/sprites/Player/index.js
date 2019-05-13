@@ -42,6 +42,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
         direction: 0, // 0 = idle     -1 = left       +1 = right
         jump: false,
       },
+      weapon: {
+        fire: false,
+      },
     };
 
     // CONTROLLER INIT
@@ -49,11 +52,18 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update(keys) {
-    // Controller Movement
+    // CONTROLLER
+    // Run
     this.run(this.velocity.x * this.controller.movement.direction);
-
+    // Jump
     if (this.controller.movement.jump && this.body.onFloor()) {
       this.jump();
+    }
+    // Shoot
+    if (this.controller.weapon.fire) {
+      this.startFire();
+    } else if (!this.controller.weapon.fire && this.startedFire) {
+      this.fire();
     }
 
     // FRICTION
