@@ -47,12 +47,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
       },
     };
 
-    // CONTROLLER INIT
+    // Initiate Controller event listeners
     controllerEvents(this.scene.socket, this);
   }
 
-  update(keys) {
-    // CONTROLLER
+  update() {
+    // ===== CONTROLLER =====
     // Run
     this.run(this.velocity.x * this.controller.movement.direction);
     // Jump
@@ -65,6 +65,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     } else if (!this.controller.weapon.fire && this.startedFire) {
       this.fire();
     }
+    // ===== ========== =====
 
     // FRICTION
     if (this.body.velocity.x > 0) {
