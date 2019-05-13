@@ -38,4 +38,4 @@ Starting server and client
 - [#11 Fix / Shooting in Testing Enviroment](https://github.com/eliasjohansson/GameOver/pull/11)
 - [#12 Fix / Bug in package-lock.json](https://github.com/eliasjohansson/GameOver/pull/12)
 - [#13 Feature / Explosions in Game](https://github.com/eliasjohansson/GameOver/pull/13)
-- - [#13 Feature / Controller Component](https://github.com/eliasjohansson/GameOver/pull/14)
+- [#14 Feature / Controller Component](https://github.com/eliasjohansson/GameOver/pull/14)
