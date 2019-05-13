@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useStore } from 'easy-peasy';
 
@@ -25,10 +25,16 @@ const StyledController = styled.div`
 `;
 
 const Controller = () => {
+  /* const [leftDown, setLeftDown] = useState(false);
+  const [rightDown, setRightDown] = useState(false); */
+  const [keys, setKeys] = useState({
+    left: false,
+    right: false,
+  });
   const { socket } = useStore(state => state.socket);
 
-  const startMove = (direction) => {
-    socket.emit('player start move', direction);
+  const startMove = (dir) => {
+    socket.emit('player start move', dir);
   };
 
   const stopMove = () => {
@@ -39,8 +45,39 @@ const Controller = () => {
     socket.emit('player jump');
   };
 
+  useEffect(() => {
+    if (!keys.left && !keys.right) {
+      stopMove();
+    }
+  }, [keys]);
+
+  const keyPress = (e) => {
+    if (e.key === 'ArrowLeft') {
+      setKeys({ ...keys, left: true });
+      startMove(-1);
+    }
+    if (e.key === 'ArrowRight') {
+      setKeys({ ...keys, right: true });
+      startMove(1);
+    }
+
+    if (e.key === 'ArrowUp') {
+      jump();
+    }
+  };
+
+  const keyUp = (e) => {
+    if (e.key === 'ArrowLeft') {
+      setKeys({ ...keys, left: false });
+    }
+
+    if (e.key === 'ArrowRight') {
+      setKeys({ ...keys, right: false });
+    }
+  };
+
   return (
-    <StyledController>
+    <StyledController onKeyDown={keyPress} onKeyUp={keyUp}>
       <button type="button" onMouseDown={jump}>
         <span role="img" aria-label="jump">
           🖕

@@ -17,10 +17,11 @@
     "phaser3-docs": "github:photonstorm/phaser3-docs"
   },
   "dependencies": {
-    "prop-types": "^15.7.2",
     "@babel/polyfill": "^7.4.4",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "easy-peasy": "^2.1.6",
     "phaser": "^3.16.2",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",
