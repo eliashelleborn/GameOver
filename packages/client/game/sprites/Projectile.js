@@ -40,9 +40,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
   }
 
   hitGround() {
-    // Move changeTurn to after explosion later
-    // Took this away in testing
-    // this.scene.changeTurn();
+
     this.explosion = new Explosion({
       scene: this.scene,
       x: this.x,
