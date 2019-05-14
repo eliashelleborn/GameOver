@@ -2,8 +2,10 @@ import Phaser from 'phaser';
 
 // Maps
 import map from '../assets/maps/map.json';
+import newMap from '../assets/maps/mapnew.json';
 import testMap from '../assets/maps/test-map.json';
 import inca from '../assets/maps/inca_front.png';
+import cliffs from '../assets/maps/cliffs-tileset.png';
 
 // Backgrounds
 import background from '../assets/backgrounds/background.png';
@@ -36,9 +38,7 @@ class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    const {
-      testing
-    } = store.getState().game;
+    const { testing } = store.getState().game;
 
     // Collection of loading to do.
     const progress = this.add.graphics();
@@ -53,10 +53,10 @@ class BootScene extends Phaser.Scene {
     });
 
     // Map Images
-    this.load.tilemapTiledJSON('map', testing ? testMap : map);
-    this.load.spritesheet('inca', inca, {
-      frameWidth: 16,
-      frameHeight: 16,
+    this.load.tilemapTiledJSON('map', testing ? newMap : map);
+    this.load.spritesheet('cliffs', cliffs, {
+      frameWidth: 8,
+      frameHeight: 8,
     });
 
     // Background

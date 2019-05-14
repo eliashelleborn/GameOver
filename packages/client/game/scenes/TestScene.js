@@ -24,16 +24,16 @@ class TestScene extends Phaser.Scene {
       key: 'map',
     });
 
-    this.groundTiles = this.map.addTilesetImage('inca');
-    this.groundLayer = this.map.createDynamicLayer('layer', this.groundTiles, 0, 0);
+    this.groundTiles = this.map.addTilesetImage('cliffs');
+    this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
 
     // PLAYER
     // Creating number of players and adding them to group
     this.players = this.add.group();
     this.gameState.players.forEach((p) => {
       // Randomize Starting Position
-      const startX = 850;
-      const startY = this.map.heightInPixels - 350;
+      const startX = 600;
+      const startY = this.map.heightInPixels - 750;
       const player = new Player({
         scene: this,
         key: this.arrayOfGhost[0],
@@ -49,8 +49,8 @@ class TestScene extends Phaser.Scene {
 
     // SOCKET EVENTS
     this.socket.on('player joined', (p) => {
-      const startX = Math.floor(Math.random() * (800 - 500) + 500);
-      const startY = this.map.heightInPixels - 350;
+      const startX = Math.floor(Math.random() * (600 - 300) + 300);
+      const startY = this.map.heightInPixels - 550;
       const player = new Player({
         scene: this,
         key: this.arrayOfGhost[1],

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useStore } from 'easy-peasy';
+import Nipple from 'react-nipple';
 
 const StyledController = styled.div`
   height: 100vh;
@@ -24,8 +25,16 @@ const StyledController = styled.div`
   }
 `;
 
+const StyledNipple = styled(Nipple)`
+  height: 150px;
+  width: 150px;
+
+  position: relative;
+`;
+
 const Controller = () => {
   const { socket } = useStore(state => state.socket);
+  const [stickAngle, setStickAngle] = useState(0);
   const [keys, setKeys] = useState({
     left: false,
     right: false,
@@ -91,6 +100,25 @@ const Controller = () => {
 
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
+      <h2>
+        Angle:
+        {stickAngle}
+      </h2>
+      <StyledNipple
+        options={{
+          mode: 'static',
+          position: { top: '50%', left: '50%' },
+          size: 150,
+          color: 'red',
+          restJoystick: false,
+        }}
+        onMove={(evt, data) => {
+          const angle = Math.round(data.angle.degree);
+          if (angle !== stickAngle) {
+            setStickAngle(Math.round(data.angle.degree));
+          }
+        }}
+      />
       <button
         type="button"
         onKeyDown={keyDown}
