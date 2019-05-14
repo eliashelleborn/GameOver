@@ -14,9 +14,7 @@ class TestScene extends Phaser.Scene {
     this.socket = store.getState().socket.socket;
 
     this.arrayOfGhost = ['blue', 'green', 'red'];
-    this.nextTurn = 50;
-    this.timeLeft = this.nextTurn;
-    this.switchCoolDown = 0;
+
     this.numberOfPlayers = this.gameState.players.length;
     // MAP
     this.map = this.make.tilemap({
@@ -61,8 +59,6 @@ class TestScene extends Phaser.Scene {
         },
       });
       this.players.add(player);
-
-      this.physics.add.collider(player, this.groundLayer);
     });
 
     this.socket.on('player left', (p) => {
@@ -74,12 +70,8 @@ class TestScene extends Phaser.Scene {
     this.playersTurn = this.gameState.players[0].id;
     this.activePlayer = this.players.getFirst(true);
 
-    // Looping through players to make them collide with tileset
-    this.players.children.entries.forEach((player) => {
-      this.physics.add.collider(player, this.groundLayer);
-      // Stopping movement for everyone else
-      player.isItMyTurn(this.playersTurn);
-    });
+    // Making the group players collide with tileset
+    this.physics.add.collider(this.players, this.groundLayer);
 
     // // Property collide set in TILED on Tileset
     this.groundLayer.setCollisionByProperty({
@@ -95,43 +87,12 @@ class TestScene extends Phaser.Scene {
 
     // Making camera following the player
     this.cameras.main.startFollow(this.activePlayer);
-
-    // Creating a timer display
-    this.timerText = this.make.text({
-      x: 2, // this.activePlayer.x,
-      y: 2, // this.activePlayer.y - 50,
-      text: 'Timer',
-      style: {
-        fontSize: '32px',
-        fill: '#D00',
-      },
-    });
   }
 
-  update(time) {
-    // Defining the keys used in the game
-    this.keys = {
-      player: {
-        left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown,
-        right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT).isDown,
-        jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER).isDown,
-        fire: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE).isDown,
-      },
-      crosshair: {
-        up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP).isDown,
-        down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN).isDown,
-      },
-    };
-
-    // Moving the player
-    /*    this.activePlayer.update(this.keys); */
-
+  update() {
     this.players.getChildren().forEach((p) => {
-      p.update(this.keys.player);
+      p.update();
     });
-
-    this.getTimeLeft(time);
-    this.displayTimer(time);
   }
 
   changeTurn() {
@@ -150,21 +111,6 @@ class TestScene extends Phaser.Scene {
       player.isItMyTurn(this.playersTurn);
       player.update(this.keys);
     });
-  }
-
-  getTimeLeft(time) {
-    // Calculating time left of turn
-    this.timeLeft = this.nextTurn - Math.round(time / 1000);
-    if (this.timeLeft === 0) {
-      this.changeTurn();
-      // Setting the timer to next time it's ready for switch
-      this.nextTurn = Math.round(time / 1000) + 10;
-    }
-  }
-
-  displayTimer() {
-    // Displaying time on screen
-    this.timerText.setText(this.timeLeft);
   }
 }
 
