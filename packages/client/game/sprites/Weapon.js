@@ -5,11 +5,10 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
   constructor(config) {
     super(config.scene, config.x, config.y, config.key);
     this.scene = config.scene;
-    this.damage = 100;
+    this.damage = 50;
     this.scene.add.existing(this);
     this.thrust = 0;
     this.maxThrust = 2000;
-    this.angle = null;
   }
 
   update(x, y) {
@@ -23,35 +22,22 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     }
   }
 
-  setAngle() {
-    if (this.x < this.scene.crosshair.x) {
-      this.angle = Phaser.Math.Angle.Between(
-        this.x,
-        this.y,
-        this.scene.crosshair.x,
-        this.scene.crosshair.y,
-      );
-    } else {
-      this.angle = -Phaser.Math.Angle.Between(
-        this.scene.crosshair.x,
-        this.scene.crosshair.y,
-        this.x,
-        this.y,
-      );
-    }
-  }
+  fire(direction, angle) {
+    // Calculation to get dx, dy, the dynamic values to get x and y velocity in projectil
+    const dx = Math.cos(angle);
+    const dy = Math.sin(angle);
 
-  fire(direction) {
-    // Creating a projectile which fires away
-    new Projectile({
+
+    this.projectile = new Projectile({
       scene: this.scene,
       key: 'bullet',
       x: this.x,
       y: this.y,
       force: this.thrust,
-      angle: this.angle,
+      dx,
+      dy,
       damage: this.damage,
-      direction
+      direction,
     });
     this.thrust = 0;
   }
