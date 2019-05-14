@@ -39,3 +39,5 @@ Starting server and client
 - [#12 Fix / Bug in package-lock.json](https://github.com/eliasjohansson/GameOver/pull/12)
 - [#13 Feature / Explosions in Game](https://github.com/eliasjohansson/GameOver/pull/13)
 - [#14 Feature / Controller Component](https://github.com/eliasjohansson/GameOver/pull/14)
+- [#15 Feature / Destructible Terrain](https://github.com/eliasjohansson/GameOver/pull/15)
+- [#16 Feature / Improved Crosshair](https://github.com/eliasjohansson/GameOver/pull/16)
