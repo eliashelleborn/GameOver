@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import Player from '../sprites/Player';
 import store from '../../app/store';
-import Crosshair from '../sprites/Crosshair';
 
 class TestScene extends Phaser.Scene {
   constructor() {
@@ -24,16 +23,16 @@ class TestScene extends Phaser.Scene {
       key: 'map',
     });
 
-    this.groundTiles = this.map.addTilesetImage('inca');
-    this.groundLayer = this.map.createDynamicLayer('layer', this.groundTiles, 0, 0);
+    this.groundTiles = this.map.addTilesetImage('cliffs');
+    this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
 
     // PLAYER
     // Creating number of players and adding them to group
     this.players = this.add.group();
     this.gameState.players.forEach((p) => {
       // Randomize Starting Position
-      const startX = 850;
-      const startY = this.map.heightInPixels - 350;
+      const startX = 600;
+      const startY = this.map.heightInPixels - 750;
       const player = new Player({
         scene: this,
         key: this.arrayOfGhost[0],
@@ -49,8 +48,8 @@ class TestScene extends Phaser.Scene {
 
     // SOCKET EVENTS
     this.socket.on('player joined', (p) => {
-      const startX = Math.floor(Math.random() * (800 - 500) + 500);
-      const startY = this.map.heightInPixels - 350;
+      const startX = Math.floor(Math.random() * (600 - 300) + 300);
+      const startY = this.map.heightInPixels - 550;
       const player = new Player({
         scene: this,
         key: this.arrayOfGhost[1],
@@ -62,6 +61,7 @@ class TestScene extends Phaser.Scene {
         },
       });
       this.players.add(player);
+
       this.physics.add.collider(player, this.groundLayer);
     });
 
@@ -106,15 +106,6 @@ class TestScene extends Phaser.Scene {
         fill: '#D00',
       },
     });
-
-    // Creating the crosshair
-    this.crosshair = new Crosshair({
-      scene: this,
-      key: 'crosshair-s',
-      x: 100,
-      y: 100,
-    });
-    this.crosshair.startTurnPosition(this.activePlayer.x, this.activePlayer.y);
   }
 
   update(time) {
@@ -141,9 +132,6 @@ class TestScene extends Phaser.Scene {
 
     this.getTimeLeft(time);
     this.displayTimer(time);
-
-    // Moving the crosshair
-    this.crosshair.update(this.keys, this.activePlayer.x, this.activePlayer.y);
   }
 
   changeTurn() {
