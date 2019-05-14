@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
 import Player from '../sprites/Player';
 import store from '../../app/store';
-import Crosshair from '../sprites/Crosshair';
 
 class TestScene extends Phaser.Scene {
   constructor() {
@@ -62,6 +61,7 @@ class TestScene extends Phaser.Scene {
         },
       });
       this.players.add(player);
+
       this.physics.add.collider(player, this.groundLayer);
     });
 
@@ -106,15 +106,6 @@ class TestScene extends Phaser.Scene {
         fill: '#D00',
       },
     });
-
-    // Creating the crosshair
-    this.crosshair = new Crosshair({
-      scene: this,
-      key: 'crosshair-s',
-      x: 100,
-      y: 100,
-    });
-    this.crosshair.startTurnPosition(this.activePlayer.x, this.activePlayer.y);
   }
 
   update(time) {
@@ -141,9 +132,6 @@ class TestScene extends Phaser.Scene {
 
     this.getTimeLeft(time);
     this.displayTimer(time);
-
-    // Moving the crosshair
-    this.crosshair.update(this.keys, this.activePlayer.x, this.activePlayer.y);
   }
 
   changeTurn() {

@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import Weapon from '../Weapon';
 
 import controllerEvents from './events';
-
+import Crosshair from '../Crosshair';
 
 export default class Player extends Phaser.GameObjects.Sprite {
   constructor(config) {
@@ -49,6 +49,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
       },
     };
 
+    this.crosshair = new Crosshair({
+      scene: this.scene,
+      key: 'crosshair',
+      x: this.x,
+      y: this.y,
+    });
+
     // Initiate Controller event listeners
     controllerEvents(this.scene.socket, this);
   }
@@ -72,7 +79,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     // FRICTION
     if (this.body.velocity.x > 0) {
       this.body.setVelocityX((this.body.velocity.x *= 0.99));
-
     }
 
     // Weapon
@@ -85,6 +91,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
       this.isFlying = false;
     }
 
+    // Update crosshair position
+    this.crosshair.update(this.x, this.y, 0);
   }
 
   run(vel) {
@@ -106,7 +114,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.body.setVelocityY(this.velocity.y);
 
     this.controller.movement.jump = false;
-
   }
 
   isItMyTurn(playersTurn) {
@@ -134,7 +141,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     if (this.y < explosion.y) {
       this.body.setVelocityY(-(damage * 15));
     } else {
-
       this.body.setVelocityY(damage * 15);
     }
     if (this.x < explosion.x) {
@@ -143,7 +149,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     } else {
       this.body.setVelocityX(damage * 15);
     }
-
   }
 
   die() {
