@@ -27,4 +27,9 @@ export default (socket, player) => {
       player.controller.weapon.fire = false;
     }
   });
+  socket.on('player aim', (playerId, angle) => {
+    if (playerId === player.id) {
+      player.controller.weapon.aim = angle;
+    }
+  });
 };

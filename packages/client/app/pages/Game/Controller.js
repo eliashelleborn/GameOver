@@ -113,9 +113,10 @@ const Controller = () => {
           restJoystick: false,
         }}
         onMove={(evt, data) => {
-          const angle = Math.round(data.angle.degree);
-          if (angle !== stickAngle) {
-            setStickAngle(Math.round(data.angle.degree));
+          const angle = Math.round(data.angle.radian * 100) / 100;
+          if (data.distance === 75 && angle !== stickAngle) {
+            setStickAngle(angle);
+            socket.emit('player aim', angle);
           }
         }}
       />

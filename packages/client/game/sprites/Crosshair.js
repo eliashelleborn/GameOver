@@ -16,6 +16,6 @@ export default class Crosshair extends Phaser.GameObjects.Sprite {
   update(x, y, angle) {
     this.crosshairArea.x = x;
     this.crosshairArea.y = y;
-    Phaser.Geom.Circle.CircumferencePoint(this.crosshairArea, angle, this);
+    Phaser.Geom.Circle.CircumferencePoint(this.crosshairArea, -angle, this);
   }
 }

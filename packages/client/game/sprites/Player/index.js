@@ -46,6 +46,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       },
       weapon: {
         fire: false,
+        aim: 0,
       },
     };
 
@@ -92,7 +93,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
 
     // Update crosshair position
-    this.crosshair.update(this.x, this.y, 0);
+    this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
   }
 
   run(vel) {
