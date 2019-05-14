@@ -19,6 +19,22 @@ const Game = ({ match }) => {
       setIsLoading(false);
     }
 
+    // TURN EVENTS, MOVE TO GAMESCENE
+
+    socket.on('prepare turn', (turn) => {
+      console.log('prepare turn');
+      console.table(turn);
+    });
+    socket.on('start turn', () => {
+      console.log('start turn');
+    });
+    socket.on('end turn', () => {
+      console.log('end turn');
+    });
+    socket.on('countdown', (time, status) => {
+      console.log(time, status);
+    });
+
     socket.on('join game', (g) => {
       setGame(g);
       setIsLoading(false);

@@ -21,7 +21,7 @@ const Lobby = () => {
             {game.id}
           </h1>
           {game.host === socket.id && (
-            <button type="button" disabled={game.players.length === 0} onClick={startGame}>
+            <button type="button" onClick={startGame}>
               Start Game
             </button>
           )}
