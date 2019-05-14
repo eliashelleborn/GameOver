@@ -128,9 +128,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   fire() {
     this.startedFire = false;
-
-    this.weapon.setAngle();
-    this.weapon.fire(this.direction);
+    this.weapon.fire(this.direction, this.controller.weapon.aim);
   }
 
   takeDamage(damage) {

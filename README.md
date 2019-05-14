@@ -23,6 +23,13 @@ Starting server and client
 
 - `$ npm start`
 
+## Credits
+
+Credits to people who made graphics and other stuff.
+
+Ghost Sprite - MaKayla_Panda
+Magic Cliffs Environment - [ansimuz](https://itch.io/profile/ansimuz)
+
 ## Pull requests
 
 - [#1 Game setup](https://github.com/eliasjohansson/GameOver/pull/1)

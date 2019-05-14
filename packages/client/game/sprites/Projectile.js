@@ -3,11 +3,25 @@ import Explosion from './Explosion';
 
 export default class Projectile extends Phaser.GameObjects.Sprite {
   constructor(config) {
-    super(config.scene, config.x, config.y, config.key, config.force, config.direction);
+    super(
+      config.scene,
+      config.x,
+      config.y,
+      config.key,
+      config.force,
+      config.direction,
+      config.dx,
+      config.dy,
+    );
+    // Adding Projectile to scene
     this.scene = config.scene;
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
+
+    // Defining animation
     this.anims.play(config.key);
+
+    // Making camera follow Projectile
     this.scene.cameras.main.startFollow(this);
 
     // Adding Collision
@@ -20,34 +34,19 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     // Changing gravity
     this.body.setGravity(0, 0);
 
-    // Calculating the velocities in X and Y
-    // angleValue moves from 1 to -1 and affecting the velocity
-    this.angleValue = config.angle / 1.5;
-
-    this.velocityY = config.force * this.angleValue;
-
-    if (this.angleValue < 0) {
-      this.velocityX = config.force * (1 + this.angleValue) * config.direction;
-    } else {
-      this.velocityX = config.force * (1 - this.angleValue) * config.direction;
-    }
-
     // Moving the projectile
-    this.body.setVelocityX(this.velocityX);
-    this.body.setVelocityY(this.velocityY);
-
-
+    this.body.setVelocityX(config.force * config.dx);
+    this.body.setVelocityY(config.force * -config.dy);
   }
 
   hitGround() {
-
     this.explosion = new Explosion({
       scene: this.scene,
       x: this.x,
       y: this.y,
       key: 'explosion',
-      damage: this.damage
-    })
+      damage: this.damage,
+    });
     this.destroy();
   }
 }
