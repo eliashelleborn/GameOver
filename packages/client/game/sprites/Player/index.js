@@ -67,7 +67,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update() {
-    console.log(this.scene.gameState.turn.status);
     // ===== CONTROLLER =====
     if (
       this.id === this.scene.gameState.turn.playerId

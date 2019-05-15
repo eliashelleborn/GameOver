@@ -59,7 +59,9 @@ class GameScene extends Phaser.Scene {
       this.getGameState();
     });
     this.socket.on('end turn', () => {});
-    this.socket.on('countdown', (time, status) => {});
+    this.socket.on('countdown', (time, status) => {
+      store.dispatch.game.setTimer(time);
+    });
 
     this.socket.on('player left', (p) => {
       console.log('player left');

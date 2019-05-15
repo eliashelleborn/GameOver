@@ -25,6 +25,10 @@ const gameStore = {
   updateTurn: action((state, turn) => {
     state.game.turn = turn;
   }),
+
+  setTimer: action((state, time) => {
+    state.game.timer = time;
+  }),
 };
 
 export default gameStore;
