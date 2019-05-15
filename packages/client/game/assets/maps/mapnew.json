@@ -23,13 +23,13 @@
         {
          "columns":116,
          "firstgid":1,
-         "image":"cliffs-tileset.png",
-         "imageheight":320,
-         "imagewidth":928,
-         "margin":0,
+         "image":"cliffs-tileset-extruded.png",
+         "imageheight":400,
+         "imagewidth":1160,
+         "margin":1,
          "name":"cliffs",
-         "spacing":0,
-         "tilecount":4640,
+         "spacing":2,
+         "tilecount":7250,
          "tileheight":8,
          "tiles":[
                 {
