@@ -15,10 +15,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.scene.physics.add.collider(this.body, this.scene.groundLayer);
     this.body.setBounce(0.3);
     this.body.setCollideWorldBounds(true);
-    this.body.setFrictionX(100);
+    this.body.setFrictionX(1000);
 
+    this.alive = true;
+    this.canMove = true;
     this.direction = 1;
-    this.health = 100;
     this.velocity = {
       x: 150,
       y: -400,
@@ -32,12 +33,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       standLeft: `${config.key}-standLeft`,
       standRight: `${config.key}-standRight`,
     };
-    this.weapon = new Weapon({
-      scene: this.scene,
-      key: 'bazooka',
-      x: this.x,
-      y: this.y,
-    });
+
 
     this.controller = {
       movement: {
@@ -50,6 +46,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       },
     };
 
+    // ===== CROSSHAIR =====
     this.crosshair = new Crosshair({
       scene: this.scene,
       key: 'crosshair',
@@ -57,14 +54,25 @@ export default class Player extends Phaser.GameObjects.Sprite {
       y: this.y,
     });
 
+    // ===== WEAPON =====
+    this.weapon = new Weapon({
+      scene: this.scene,
+      key: 'bazooka',
+      x: this.x,
+      y: this.y,
+    });
+
     // Initiate Controller event listeners
     controllerEvents(this.scene.socket, this);
+    this.body.setImmovable(false);
   }
 
   update() {
     // ===== CONTROLLER =====
     // Run
-    this.run(this.velocity.x * this.controller.movement.direction);
+    if (this.canMove) {
+      this.run(this.velocity.x * this.controller.movement.direction);
+    }
     // Jump
     if (this.controller.movement.jump && this.body.onFloor()) {
       this.jump();
@@ -78,9 +86,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
     // ===== ========== =====
 
     // FRICTION
-    if (this.body.velocity.x > 0) {
-      this.body.setVelocityX((this.body.velocity.x *= 0.99));
-    }
+    console.log(this.body.velocity.x);
+
 
     // Weapon
     if (this.weapon) {
@@ -88,8 +95,16 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
 
     // Flying variable
-    if (this.body.onFloor()) {
-      this.isFlying = false;
+    if (!this.canMove) {
+      if (this.body.velocity.x > 0) {
+        this.body.setVelocityX((this.body.velocity.x -= 1));
+      } else if (this.body.velocity.x < 0) {
+        this.body.setVelocityX((this.body.velocity.x += 1));
+      }
+      if (this.body.velocity.x < 1 && this.body.velocity.x > -1) {
+        this.body.setVelocityX(0);
+        this.canMove = true;
+      }
     }
 
     // Update crosshair position
@@ -99,10 +114,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
   run(vel) {
     this.body.setVelocityX(vel);
     if (vel < 0) {
-      this.direction = -1;
       this.anims.play(this.animations.left, true);
     } else if (vel > 0) {
-      this.direction = 1;
       this.anims.play(this.animations.right, true);
     } else if (this.direction === 1) {
       this.anims.play(this.animations.standLeft);
@@ -113,12 +126,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   jump() {
     this.body.setVelocityY(this.velocity.y);
-
     this.controller.movement.jump = false;
-  }
-
-  isItMyTurn(playersTurn) {
-    this.myTurn = playersTurn === this.id;
   }
 
   startFire() {
@@ -128,9 +136,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   fire() {
     this.startedFire = false;
-
-    this.weapon.setAngle();
-    this.weapon.fire(this.direction);
+    this.weapon.fire(this.controller.movement.direction, this.controller.weapon.aim);
   }
 
   takeDamage(damage) {
@@ -138,14 +144,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   flyFromExplosion(explosion, damage) {
-    this.isFlying = true;
+    this.canMove = false;
     if (this.y < explosion.y) {
       this.body.setVelocityY(-(damage * 15));
     } else {
       this.body.setVelocityY(damage * 15);
     }
     if (this.x < explosion.x) {
-      console.log('booom');
       this.body.setVelocityX(-(damage * 15));
     } else {
       this.body.setVelocityX(damage * 15);

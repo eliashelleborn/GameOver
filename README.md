@@ -23,6 +23,13 @@ Starting server and client
 
 - `$ npm start`
 
+## Credits
+
+Credits to people who made graphics and other stuff.
+
+Ghost Sprite - MaKayla_Panda
+Magic Cliffs Environment - [ansimuz](https://itch.io/profile/ansimuz)
+
 ## Pull requests
 
 - [#1 Game setup](https://github.com/eliasjohansson/GameOver/pull/1)
@@ -41,3 +48,4 @@ Starting server and client
 - [#14 Feature / Controller Component](https://github.com/eliasjohansson/GameOver/pull/14)
 - [#15 Feature / Destructible Terrain](https://github.com/eliasjohansson/GameOver/pull/15)
 - [#16 Feature / Improved Crosshair](https://github.com/eliasjohansson/GameOver/pull/16)
+- [#17 Feature / Improved Aim and Crosshair movement](https://github.com/eliasjohansson/GameOver/pull/17)
