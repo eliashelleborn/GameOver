@@ -8,7 +8,7 @@ export default (io, socket, dataStore) => {
       io.to(`game ${game.id}`).emit('countdown', game.countdown, game.turn.status);
     } else if (game.turn.status === 'playing') {
       if (game.turn.timeLeft === game.settings.turnTime) {
-        io.to(`game ${game.id}`).emit('start turn');
+        io.to(`game ${game.id}`).emit('start turn', game.turn);
       }
       if (game.turn.timeLeft === 0) {
         io.to(`game ${game.id}`).emit('end turn');

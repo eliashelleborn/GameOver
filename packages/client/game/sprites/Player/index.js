@@ -34,7 +34,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
       standRight: `${config.key}-standRight`,
     };
 
-
     this.controller = {
       movement: {
         direction: 0, // 0 = idle     -1 = left       +1 = right
@@ -68,26 +67,29 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update() {
+    console.log(this.scene.gameState.turn.status);
     // ===== CONTROLLER =====
-    // Run
-    if (this.canMove) {
-      this.run(this.velocity.x * this.controller.movement.direction);
+    if (
+      this.id === this.scene.gameState.turn.playerId
+      && this.scene.gameState.turn.status === 'playing'
+    ) {
+      // Run
+      if (this.canMove) {
+        this.run(this.velocity.x * this.controller.movement.direction);
+      }
+      // Jump
+      if (this.controller.movement.jump && this.body.onFloor()) {
+        this.jump();
+      }
+      // Shoot
+      if (this.controller.weapon.fire) {
+        this.startFire();
+      } else if (!this.controller.weapon.fire && this.startedFire) {
+        this.fire();
+      }
     }
-    // Jump
-    if (this.controller.movement.jump && this.body.onFloor()) {
-      this.jump();
-    }
-    // Shoot
-    if (this.controller.weapon.fire) {
-      this.startFire();
-    } else if (!this.controller.weapon.fire && this.startedFire) {
-      this.fire();
-    }
+
     // ===== ========== =====
-
-    // FRICTION
-    console.log(this.body.velocity.x);
-
 
     // Weapon
     if (this.weapon) {

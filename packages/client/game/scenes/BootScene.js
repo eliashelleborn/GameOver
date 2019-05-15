@@ -38,9 +38,7 @@ class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    const {
-      testing
-    } = store.getState().game;
+    const { testing } = store.getState().game;
 
     // Collection of loading to do.
     const progress = this.add.graphics();
@@ -60,7 +58,7 @@ class BootScene extends Phaser.Scene {
       frameWidth: 8,
       frameHeight: 8,
       margin: 1,
-      spacing: 2
+      spacing: 2,
     });
 
     // Background

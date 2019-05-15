@@ -9,14 +9,15 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  create() {
+  getGameState() {
     this.gameState = store.getState().game.game;
+  }
+
+  create() {
+    this.getGameState();
     this.socket = store.getState().socket.socket;
 
     this.arrayOfGhost = ['blue', 'green', 'red'];
-    this.nextTurn = 50;
-    this.timeLeft = this.nextTurn;
-    this.switchCoolDown = 0;
     this.numberOfPlayers = this.gameState.players.length;
     // MAP
     this.map = this.make.tilemap({
@@ -48,6 +49,17 @@ class GameScene extends Phaser.Scene {
     });
 
     // SOCKET EVENTS
+    // TURN
+    this.socket.on('prepare turn', (turn) => {
+      store.dispatch.game.updateTurn(turn);
+      this.getGameState();
+    });
+    this.socket.on('start turn', (turn) => {
+      store.dispatch.game.updateTurn(turn);
+      this.getGameState();
+    });
+    this.socket.on('end turn', () => {});
+    this.socket.on('countdown', (time, status) => {});
 
     this.socket.on('player left', (p) => {
       console.log('player left');
@@ -62,8 +74,6 @@ class GameScene extends Phaser.Scene {
     // Looping through players to make them collide with tileset
     this.players.children.entries.forEach((player) => {
       this.physics.add.collider(player, this.groundLayer);
-      // Stopping movement for everyone else
-      player.isItMyTurn(this.playersTurn);
     });
 
     // // Property collide set in TILED on Tileset
@@ -93,63 +103,10 @@ class GameScene extends Phaser.Scene {
     });
   }
 
-  update(time) {
-    // Defining the keys used in the game
-    this.keys = {
-      player: {
-        left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown,
-        right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT).isDown,
-        jump: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER).isDown,
-        fire: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE).isDown,
-      },
-      crosshair: {
-        up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP).isDown,
-        down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN).isDown,
-      },
-    };
-
-    // Moving the player
-    /*    this.activePlayer.update(this.keys); */
-
+  update() {
     this.players.getChildren().forEach((p) => {
-      p.update(this.keys.player);
+      p.update();
     });
-
-    this.getTimeLeft(time);
-    this.displayTimer(time);
-  }
-
-  changeTurn() {
-    // Checking if we reached the end of the players
-    if (this.playersTurn < this.numberOfPlayers - 1) {
-      this.playersTurn += 1;
-    } else {
-      // Player 1 turn again
-      this.playersTurn = 0;
-    }
-
-    // Setting active player
-    this.activePlayer = this.players.children.entries[this.playersTurn];
-    this.cameras.main.startFollow(this.activePlayer);
-    this.players.children.entries.forEach((player) => {
-      player.isItMyTurn(this.playersTurn);
-      player.update(this.keys);
-    });
-  }
-
-  getTimeLeft(time) {
-    // Calculating time left of turn
-    this.timeLeft = this.nextTurn - Math.round(time / 1000);
-    if (this.timeLeft === 0) {
-      this.changeTurn();
-      // Setting the timer to next time it's ready for switch
-      this.nextTurn = Math.round(time / 1000) + 10;
-    }
-  }
-
-  displayTimer() {
-    // Displaying time on screen
-    this.timerText.setText(this.timeLeft);
   }
 }
 

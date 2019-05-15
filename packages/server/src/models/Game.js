@@ -23,7 +23,7 @@ class Game {
       timeLeft: this.settings.turnTime,
       hasShot: false,
       canMove: true,
-      status: 'countdown', // 'countdown', 'playing', 'paused
+      status: 'countdown', // 'countdown', 'playing', 'paused'
     };
   }
 
@@ -36,8 +36,13 @@ class Game {
     if (!this.turn.playerId) {
       this.turn.playerId = this.players[0].id;
     } else {
-      const alivePlayers = this.players.filter(p => p.alive);
-      this.turn.playerId = alivePlayers.map(p => p.id).indexOf(this.turn.playerId) + 1;
+      /* const alivePlayers = this.players.filter(p => p.alive); */
+      const currentPlayerIndex = this.players.map(p => p.id).indexOf(this.turn.playerId);
+      if (currentPlayerIndex === this.players.length - 1) {
+        this.turn.playerId = this.players[0].id;
+      } else {
+        this.turn.playerId = this.players[currentPlayerIndex + 1].id;
+      }
     }
 
     this.turn = {
