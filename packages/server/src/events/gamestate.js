@@ -22,6 +22,7 @@ export default (io, socket, dataStore) => {
   socket.on('start game', (id) => {
     const game = dataStore.findGame(id);
     if (game && game.host === socket.id) {
+      game.status = 'playing';
       io.to(`game ${game.id}`).emit('start game', game);
       game.startGame(countdownTick);
     }

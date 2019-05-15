@@ -32,6 +32,7 @@ export default (io, socket, dataStore) => {
   const handleLeave = () => {
     const gameByHost = dataStore.findGameByHost(socket.id);
     if (gameByHost) {
+      clearInterval(gameByHost.timer);
       dataStore.removeGame(gameByHost.id);
       // Notify players
       socket.to(`game ${gameByHost.id}`).emit('game deleted', gameByHost.players);

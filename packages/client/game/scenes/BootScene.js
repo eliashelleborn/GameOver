@@ -53,7 +53,7 @@ class BootScene extends Phaser.Scene {
     });
 
     // Map Images
-    this.load.tilemapTiledJSON('map', testing ? newMap : map);
+    this.load.tilemapTiledJSON('map', newMap);
     this.load.spritesheet('cliffs', cliffs, {
       frameWidth: 8,
       frameHeight: 8,

@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import Player from '../sprites/Player';
-import Crosshair from '../sprites/Crosshair';
 import store from '../../app/store';
 
 class GameScene extends Phaser.Scene {
@@ -12,38 +11,32 @@ class GameScene extends Phaser.Scene {
 
   create() {
     this.gameState = store.getState().game.game;
+    this.socket = store.getState().socket.socket;
 
-    // Start Values
-    this.turnDuration = 150;
     this.arrayOfGhost = ['blue', 'green', 'red'];
-    this.nextTurn = this.turnDuration;
-    this.switchCoolDown = 0;
+    this.nextTurn = 50;
     this.timeLeft = this.nextTurn;
+    this.switchCoolDown = 0;
     this.numberOfPlayers = this.gameState.players.length;
-    // // BACKGROUND
-    this.bg = this.add.tileSprite(800, 100, 2200, 1200, 'background');
-
     // MAP
     this.map = this.make.tilemap({
       key: 'map',
     });
 
-    this.groundTiles = this.map.addTilesetImage('inca');
-    this.groundLayer = this.map.createDynamicLayer('layer', this.groundTiles, 0, 0);
-
-    // World bounds
-    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+    this.groundTiles = this.map.addTilesetImage('cliffs');
+    this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
 
     // PLAYER
     // Creating number of players and adding them to group
+
     this.players = this.add.group();
-    this.gameState.players.forEach((p, i) => {
+    this.gameState.players.forEach((p) => {
       // Randomize Starting Position
-      const startX = Math.floor(Math.random() * this.map.widthInPixels);
-      const startY = Math.floor(Math.random() * this.map.heightInPixels);
+      const startX = 600;
+      const startY = this.map.heightInPixels - 750;
       const player = new Player({
         scene: this,
-        key: this.arrayOfGhost[i],
+        key: this.arrayOfGhost[0],
         x: startX,
         y: startY,
         info: {
@@ -54,13 +47,21 @@ class GameScene extends Phaser.Scene {
       this.players.add(player);
     });
 
+    // SOCKET EVENTS
+
+    this.socket.on('player left', (p) => {
+      console.log('player left');
+      /* const [player] = this.players.getChildren().filter(i => i.id === p.id);
+      player.die(); */
+    });
+
     // Making it Player Ones Turn
     this.playersTurn = this.gameState.players[0].id;
-    [this.activePlayer] = this.players.children.entries;
+    this.activePlayer = this.players.getFirst(true);
 
     // Looping through players to make them collide with tileset
     this.players.children.entries.forEach((player) => {
-      // this.physics.add.collider(player, this.groundLayer);
+      this.physics.add.collider(player, this.groundLayer);
       // Stopping movement for everyone else
       player.isItMyTurn(this.playersTurn);
     });
@@ -72,10 +73,13 @@ class GameScene extends Phaser.Scene {
 
     // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+    /* this.cameras.main.setViewport(0, 0, window.innerWidth, window.innerHeight); */
+    this.cameras.main.setZoom(1.2);
+
+    this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
     // Making camera following the player
     this.cameras.main.startFollow(this.activePlayer);
-    this.cameras.main.setZoom(1);
 
     // Creating a timer display
     this.timerText = this.make.text({
@@ -87,15 +91,6 @@ class GameScene extends Phaser.Scene {
         fill: '#D00',
       },
     });
-
-    // Creating the crosshair
-    this.crosshair = new Crosshair({
-      scene: this,
-      key: 'crosshair-s',
-      x: 100,
-      y: 100,
-    });
-    this.crosshair.startTurnPosition(this.activePlayer.x, this.activePlayer.y);
   }
 
   update(time) {
@@ -112,15 +107,14 @@ class GameScene extends Phaser.Scene {
         down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN).isDown,
       },
     };
-    //
 
     // Moving the player
-    this.activePlayer.update(this.keys.player);
+    /*    this.activePlayer.update(this.keys); */
 
-    // Moving the crosshair
-    this.crosshair.update(this.keys, this.activePlayer.x, this.activePlayer.y);
+    this.players.getChildren().forEach((p) => {
+      p.update(this.keys.player);
+    });
 
-    // Timer
     this.getTimeLeft(time);
     this.displayTimer(time);
   }
@@ -136,13 +130,11 @@ class GameScene extends Phaser.Scene {
 
     // Setting active player
     this.activePlayer = this.players.children.entries[this.playersTurn];
+    this.cameras.main.startFollow(this.activePlayer);
     this.players.children.entries.forEach((player) => {
       player.isItMyTurn(this.playersTurn);
       player.update(this.keys);
     });
-
-    // Setting crosshairs position
-    this.crosshair.startTurnPosition(this.activePlayer.x, this.activePlayer.y);
   }
 
   getTimeLeft(time) {
@@ -151,7 +143,7 @@ class GameScene extends Phaser.Scene {
     if (this.timeLeft === 0) {
       this.changeTurn();
       // Setting the timer to next time it's ready for switch
-      this.nextTurn = Math.round(time / 1000) + this.turnDuration;
+      this.nextTurn = Math.round(time / 1000) + 10;
     }
   }
 
