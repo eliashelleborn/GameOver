@@ -39,4 +39,11 @@ export default (socket, player) => {
       player.updateHealth(health);
     }
   });
+
+  // DEATH
+  socket.on('player dies', (playerId, alive) => {
+    if (playerId === player.id) {
+      console.log('dies in game');
+    }
+  });
 };

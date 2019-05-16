@@ -35,6 +35,13 @@ export default (io, socket, dataStore) => {
 
     player.updateHealth(healthChange);
     io.to(`game ${game.id}`).emit('player health update', socket.id, player.health);
+  });
 
-  })
+  // DEATH
+  socket.on('player dies', (id) => {
+    const game = dataStore.findGameByPlayer(socket.id);
+    const player = game.findPlayer(id);
+    player.die();
+    io.to(`game ${game.id}`).emit('player dies', socket.id, player.alive);
+  });
 };
