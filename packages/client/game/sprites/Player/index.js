@@ -19,12 +19,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     this.alive = true;
     this.canMove = true;
+    this.health = config.info.health;
     this.direction = 1;
     this.velocity = {
       x: 150,
       y: -400,
     };
-    this.health = 100;
     this.myTurn = false;
 
     this.animations = {
@@ -86,7 +86,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     // ===== ========== =====
 
     // FRICTION
-    console.log(this.body.velocity.x);
 
 
     // Weapon
@@ -140,7 +139,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   takeDamage(damage) {
-    this.health = this.health - damage;
+    // EMit something to server?
+    this.scene.socket.emit('player take damage', damage, this.id);
   }
 
   flyFromExplosion(explosion, damage) {

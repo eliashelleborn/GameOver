@@ -27,4 +27,15 @@ export default (io, socket, dataStore) => {
     const game = dataStore.findGameByPlayer(socket.id);
     socket.to(game.host).emit('player aim', socket.id, angle);
   });
+
+  // DAMAGE
+  socket.on('player take damage', (damage, id) => {
+    const game = dataStore.findGameByPlayer(socket.id);
+    const player = game.findPlayer(id);
+    player.takeDamage(damage);
+    console.log(player);
+    socket.to(game.host).emit('player take damage', socket.id);
+
+    // console.log(`${damage} to player with ${id}`)
+  })
 };
