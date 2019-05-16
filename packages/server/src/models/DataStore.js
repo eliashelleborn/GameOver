@@ -7,7 +7,7 @@ class DataStore {
   }
 
   createGame({ host, testing }) {
-    let id = makeID(4);
+    let id = 'AAAA'; // makeID(4);
     if (this.findGame(id)) {
       return this.createGame();
     }
