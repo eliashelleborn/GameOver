@@ -139,8 +139,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   takeDamage(damage) {
-    // EMit something to server?
-    this.scene.socket.emit('player take damage', damage, this.id);
+    this.scene.socket.emit('player health update', -damage, this.id);
   }
 
   flyFromExplosion(explosion, damage) {
@@ -157,6 +156,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
   }
 
+  updateHealth(health) {
+    this.health = health;
+    console.log(this);
+  }
   die() {
     this.scene.players.remove(this);
     // this.nameText.destroy();

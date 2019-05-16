@@ -4,8 +4,8 @@ class Player {
     this.name = name;
     this.health = 100;
   }
-  takeDamage(damage) {
-    this.health -= damage;
+  updateHealth(healthChange) {
+    this.health += healthChange;
   }
 }
 

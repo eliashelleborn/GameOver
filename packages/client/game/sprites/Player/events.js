@@ -32,4 +32,11 @@ export default (socket, player) => {
       player.controller.weapon.aim = angle;
     }
   });
+
+  // HEALTH
+  socket.on('player health update', (playerId, health) => {
+    if (playerId === player.id) {
+      player.updateHealth(health);
+    }
+  });
 };

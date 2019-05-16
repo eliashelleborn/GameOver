@@ -29,13 +29,12 @@ export default (io, socket, dataStore) => {
   });
 
   // DAMAGE
-  socket.on('player take damage', (damage, id) => {
+  socket.on('player health update', (healthChange, id) => {
     const game = dataStore.findGameByPlayer(socket.id);
     const player = game.findPlayer(id);
-    player.takeDamage(damage);
-    console.log(player);
-    socket.to(game.host).emit('player take damage', socket.id);
 
-    // console.log(`${damage} to player with ${id}`)
+    player.updateHealth(healthChange);
+    io.to(`game ${game.id}`).emit('player health update', socket.id, player.health);
+
   })
 };

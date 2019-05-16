@@ -62,7 +62,6 @@ class TestScene extends Phaser.Scene {
       });
       this.players.add(player);
     });
-    console.log(this.players)
     this.socket.on('player left', (p) => {
       // const [player] = this.players.getChildren().filter(i => i.id === p.id);
       // player.die();
