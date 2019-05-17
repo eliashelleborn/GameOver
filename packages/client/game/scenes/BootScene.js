@@ -38,9 +38,7 @@ class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    const {
-      testing
-    } = store.getState().game;
+    const { testing } = store.getState().game;
 
     // Collection of loading to do.
     const progress = this.add.graphics();
@@ -55,12 +53,12 @@ class BootScene extends Phaser.Scene {
     });
 
     // Map Images
-    this.load.tilemapTiledJSON('map', testing ? newMap : map);
+    this.load.tilemapTiledJSON('map', newMap);
     this.load.spritesheet('cliffs', cliffs, {
       frameWidth: 8,
       frameHeight: 8,
       margin: 1,
-      spacing: 2
+      spacing: 2,
     });
 
     // Background

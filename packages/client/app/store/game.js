@@ -21,6 +21,14 @@ const gameStore = {
     const i = state.game.players.indexOf(player);
     state.game.players.splice(i, 1);
   }),
+
+  updateTurn: action((state, turn) => {
+    state.game.turn = turn;
+  }),
+
+  setTimer: action((state, time) => {
+    state.game.timer = time;
+  }),
 };
 
 export default gameStore;

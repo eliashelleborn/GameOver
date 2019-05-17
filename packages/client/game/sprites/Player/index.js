@@ -67,33 +67,43 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update() {
-    if (!this.alive) {} else if (this.alive) {
+
+    if (this.alive) {
+
       // ===== CONTROLLER =====
-      // Run
-      if (this.canMove) {
-        this.run(this.velocity.x * this.controller.movement.direction);
-      }
-      // Jump
-      if (this.controller.movement.jump && this.body.onFloor()) {
-        this.jump();
-      }
-      // Shoot
-      if (this.controller.weapon.fire) {
-        this.startFire();
-      } else if (!this.controller.weapon.fire && this.startedFire) {
-        this.fire();
-      }
-      // ===== ========== =====
+      if (
+        this.id === this.scene.gameState.turn.playerId &&
+        this.scene.gameState.turn.status === 'playing'
+      ) {
 
-      // FRICTION
+        // Run
+        if (this.canMove) {
+          this.run(this.velocity.x * this.controller.movement.direction);
+        }
+        // Jump
+        if (this.controller.movement.jump && this.body.onFloor()) {
+          this.jump();
+        }
+        // Shoot
+        if (this.controller.weapon.fire) {
+          this.startFire();
+        } else if (!this.controller.weapon.fire && this.startedFire) {
+          this.fire();
+        }
+        // ===== ========== =====
 
-      // Weapon
-      if (this.weapon) {
-        this.weapon.update(this.x, this.y);
+        // FRICTION
+
+        // Weapon
+        if (this.weapon) {
+          this.weapon.update(this.x, this.y);
+        }
+
+
+
+        // Update crosshair position
+        this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
       }
-
-      // Update crosshair position
-      this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
     }
 
     // Flying variable

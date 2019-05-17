@@ -32,6 +32,7 @@ export default (io, socket, dataStore) => {
   const handleLeave = () => {
     const gameByHost = dataStore.findGameByHost(socket.id);
     if (gameByHost) {
+      clearInterval(gameByHost.timer);
       dataStore.removeGame(gameByHost.id);
       // Notify players
       socket.to(`game ${gameByHost.id}`).emit('game deleted', gameByHost.players);
@@ -59,14 +60,5 @@ export default (io, socket, dataStore) => {
 
   socket.on('disconnect', () => {
     handleLeave();
-  });
-
-  // START GAME
-  socket.on('start game', (id) => {
-    const game = dataStore.findGame(id);
-    if (game && game.host === socket.id) {
-      game.startGame();
-      io.to(`game ${game.id}`).emit('start game', game);
-    }
   });
 };

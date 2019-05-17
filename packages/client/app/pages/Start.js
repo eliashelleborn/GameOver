@@ -17,8 +17,8 @@ const Start = () => {
   const setGame = useActions(actions => actions.game.setGame);
 
   // Form
-  const [roomCode, setRoomCode] = useState('');
-  const [name, setName] = useState('');
+  const [roomCode, setRoomCode] = useState('AAAA');
+  const [name, setName] = useState('Tester');
 
   useEffect(() => {
     socket.on('join game', (game) => {
