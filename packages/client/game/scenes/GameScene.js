@@ -23,7 +23,7 @@ class GameScene extends Phaser.Scene {
     this.map = this.make.tilemap({
       key: 'map',
     });
-
+    this.bg = this.add.tileSprite(0, 0, this.map.widthInPixels * 2, this.map.heightInPixels * 2, 'background');
     // PLAYER
     // Creating number of players and adding them to group
 

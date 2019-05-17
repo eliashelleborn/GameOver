@@ -2,13 +2,13 @@ import Phaser from 'phaser';
 
 // Maps
 import map from '../assets/maps/map.json';
-import newMap from '../assets/maps/mapnew.json';
+import newMap from '../assets/maps/magic_cliffs.json';
 import testMap from '../assets/maps/test-map.json';
 import inca from '../assets/maps/inca_front.png';
 import cliffs from '../assets/maps/cliffs-tileset-extruded.png';
 
 // Backgrounds
-import background from '../assets/backgrounds/background.png';
+import background from '../assets/backgrounds/cliffs-backgroud.png';
 
 // Ghosts
 import blue from '../assets/sprites/ghost-blue.png';
@@ -38,7 +38,9 @@ class BootScene extends Phaser.Scene {
   }
 
   preload() {
-    const { testing } = store.getState().game;
+    const {
+      testing
+    } = store.getState().game;
 
     // Collection of loading to do.
     const progress = this.add.graphics();
