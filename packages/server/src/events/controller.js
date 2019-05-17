@@ -27,4 +27,20 @@ export default (io, socket, dataStore) => {
     const game = dataStore.findGameByPlayer(socket.id);
     socket.to(game.host).emit('player aim', socket.id, angle);
   });
+
+  // DAMAGE
+  socket.on('player health update', (healthChange, id) => {
+    const game = dataStore.findGameByPlayer(socket.id);
+    const player = game.findPlayer(id);
+    player.updateHealth(healthChange);
+    io.to(`game ${game.id}`).emit('player health update', player.id, player.health);
+  });
+
+  // DEATH
+  socket.on('player dies', (id) => {
+    const game = dataStore.findGameByPlayer(socket.id);
+    const player = game.findPlayer(id);
+    player.die();
+    io.to(`game ${game.id}`).emit('player dies', player.id, player.alive);
+  });
 };

@@ -19,12 +19,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     this.alive = true;
     this.canMove = true;
+    this.health = config.info.health;
     this.direction = 1;
     this.velocity = {
       x: 150,
       y: -450,
     };
-    this.health = 100;
     this.myTurn = false;
 
     this.animations = {
@@ -67,32 +67,43 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update() {
-    // ===== CONTROLLER =====
-    if (
-      this.id === this.scene.gameState.turn.playerId &&
-      this.scene.gameState.turn.status === 'playing'
-    ) {
-      // Run
-      if (this.canMove) {
-        this.run(this.velocity.x * this.controller.movement.direction);
-      }
-      // Jump
-      if (this.controller.movement.jump && this.body.onFloor()) {
-        this.jump();
-      }
-      // Shoot
-      if (this.controller.weapon.fire) {
-        this.startFire();
-      } else if (!this.controller.weapon.fire && this.startedFire) {
-        this.fire();
-      }
-    }
 
-    // ===== ========== =====
+    if (this.alive) {
 
-    // Weapon
-    if (this.weapon) {
-      this.weapon.update(this.x, this.y);
+      // ===== CONTROLLER =====
+      if (
+        this.id === this.scene.gameState.turn.playerId &&
+        this.scene.gameState.turn.status === 'playing'
+      ) {
+
+        // Run
+        if (this.canMove) {
+          this.run(this.velocity.x * this.controller.movement.direction);
+        }
+        // Jump
+        if (this.controller.movement.jump && this.body.onFloor()) {
+          this.jump();
+        }
+        // Shoot
+        if (this.controller.weapon.fire) {
+          this.startFire();
+        } else if (!this.controller.weapon.fire && this.startedFire) {
+          this.fire();
+        }
+        // ===== ========== =====
+
+        // FRICTION
+
+        // Weapon
+        if (this.weapon) {
+          this.weapon.update(this.x, this.y);
+        }
+
+
+
+        // Update crosshair position
+        this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
+      }
     }
 
     // Flying variable
@@ -107,9 +118,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.canMove = true;
       }
     }
-
-    // Update crosshair position
-    this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
   }
 
   run(vel) {
@@ -137,11 +145,16 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   fire() {
     this.startedFire = false;
-    this.weapon.fire(this.controller.movement.direction, this.controller.weapon.aim);
+    this.weapon.fire(
+      this.controller.movement.direction,
+      this.controller.weapon.aim
+    );
   }
 
   takeDamage(damage) {
-    this.health = this.health - damage;
+    if (this.alive) {
+      this.scene.socket.emit('player health update', -damage, this.id);
+    }
   }
 
   flyFromExplosion(explosion, damage) {
@@ -158,10 +171,19 @@ export default class Player extends Phaser.GameObjects.Sprite {
     }
   }
 
+  updateHealth(health) {
+    this.health = health;
+    if (health < 0) {
+      this.die();
+    }
+  }
   die() {
-    this.scene.players.remove(this);
-    // this.nameText.destroy();
+    this.scene.socket.emit('player dies', this.id);
 
-    // this.destroy();
+  }
+  updateAlive(lifeStatus) {
+    this.crosshair.destroy();
+    this.weapon.destroy();
+    this.alive = lifeStatus;
   }
 }
