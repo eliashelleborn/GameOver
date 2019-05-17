@@ -39,6 +39,7 @@ class TestScene extends Phaser.Scene {
         info: {
           id: p.id,
           name: p.name,
+          health: p.health,
         },
       });
       this.players.add(player);
@@ -56,14 +57,14 @@ class TestScene extends Phaser.Scene {
         info: {
           id: p.id,
           name: p.name,
+          health: p.health,
         },
       });
       this.players.add(player);
     });
-
     this.socket.on('player left', (p) => {
-      const [player] = this.players.getChildren().filter(i => i.id === p.id);
-      player.die();
+      // const [player] = this.players.getChildren().filter(i => i.id === p.id);
+      // player.die();
     });
 
     // Making it Player Ones Turn
