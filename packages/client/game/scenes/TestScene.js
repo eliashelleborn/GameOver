@@ -16,13 +16,11 @@ class TestScene extends Phaser.Scene {
     this.arrayOfGhost = ['blue', 'green', 'red'];
 
     this.numberOfPlayers = this.gameState.players.length;
+
     // MAP
     this.map = this.make.tilemap({
       key: 'map',
     });
-
-    this.groundTiles = this.map.addTilesetImage('cliffs');
-    this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
 
     // PLAYER
     // Creating number of players and adding them to group
@@ -71,13 +69,33 @@ class TestScene extends Phaser.Scene {
     this.playersTurn = this.gameState.players[0].id;
     this.activePlayer = this.players.getFirst(true);
 
-    // Making the group players collide with tileset
-    this.physics.add.collider(this.players, this.groundLayer);
+    // ===================================== \\
+    // ===== TILE LAYERS AND COLLISION ===== \\
+    // ===================================== \\
+
+    this.groundTiles = this.map.addTilesetImage('cliffs');
+    this.layers = this.add.group();
+
+    this.backLayer = this.map.createDynamicLayer('back', this.groundTiles, 0, 0);
+    this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
+    this.layers.add(this.groundLayer);
+    this.layers.add(this.backLayer);
+
+    // Add collision between players and layers
+    this.physics.add.collider(this.players, this.layers);
 
     // // Property collide set in TILED on Tileset
     this.groundLayer.setCollisionByProperty({
       collide: true,
     });
+    this.backLayer.setCollisionByProperty({
+      collide: true,
+    });
+
+
+    // ================== \\
+    // ===== CAMERA ===== \\
+    // ================== \\
 
     // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);

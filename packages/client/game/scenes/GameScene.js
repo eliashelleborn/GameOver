@@ -24,8 +24,15 @@ class GameScene extends Phaser.Scene {
       key: 'map',
     });
 
-    this.groundTiles = this.map.addTilesetImage('cliffs');
-    this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
+    // Background
+    this.bg = this.add.tileSprite(0, 0, this.map.widthInPixels * 2, this.map.heightInPixels * 2, 'background');
+
+    // Getting spawn points
+    this.spawnPoints = [];
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn1"));
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn2"));
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn3"));
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn4"));
 
     // PLAYER
     // Creating number of players and adding them to group
@@ -33,8 +40,9 @@ class GameScene extends Phaser.Scene {
     this.players = this.add.group();
     this.gameState.players.forEach((p) => {
       // Randomize Starting Position
-      const startX = 600;
-      const startY = this.map.heightInPixels - 750;
+
+      const startX = this.spawnPoints[3].x;
+      const startY = this.spawnPoints[3].y;
       const player = new Player({
         scene: this,
         key: this.arrayOfGhost[0],
@@ -73,20 +81,40 @@ class GameScene extends Phaser.Scene {
     this.playersTurn = this.gameState.players[0].id;
     this.activePlayer = this.players.getFirst(true);
 
-    // Looping through players to make them collide with tileset
-    this.players.children.entries.forEach((player) => {
-      this.physics.add.collider(player, this.groundLayer);
-    });
+    // ===================================== \\
+    // ===== TILE LAYERS AND COLLISION ===== \\
+    // ===================================== \\
+
+    this.groundTiles = this.map.addTilesetImage('cliffs');
+    this.layers = this.add.group();
+
+    this.backLayer = this.map.createDynamicLayer('back', this.groundTiles, 0, 0);
+    this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
+    this.topLayer = this.map.createDynamicLayer('top', this.groundTiles, 0, 0);
+    this.layers.add(this.groundLayer);
+    this.layers.add(this.backLayer);
+    this.layers.add(this.topLayer);
+
+    // Add collision between players and layers
+    this.physics.add.collider(this.players, this.layers);
 
     // // Property collide set in TILED on Tileset
     this.groundLayer.setCollisionByProperty({
       collide: true,
     });
+    this.backLayer.setCollisionByProperty({
+      collide: true,
+    });
+    this.topLayer.setCollisionByProperty({
+      collide: true,
+    });
+
+
 
     // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     /* this.cameras.main.setViewport(0, 0, window.innerWidth, window.innerHeight); */
-    this.cameras.main.setZoom(1.2);
+    this.cameras.main.setZoom(1.5);
 
     this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 

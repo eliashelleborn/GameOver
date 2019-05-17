@@ -20,16 +20,21 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.scene.physics.add.collider(this, this.scene.players, (a, b) => this.hitPlayer(a, b));
 
     // Getting all hit tiles and changing values to -1
+
+
     const hitTiles = this.scene.map.getTilesWithinShape(
       new Phaser.Geom.Circle(
         this.x,
         this.y,
         (this.width / 2) * this.scale,
-      ),
-    );
+      ));
+
     hitTiles.forEach((tile) => {
-      this.scene.map.putTileAt(-1, tile.x, tile.y);
+      this.scene.groundLayer.putTileAt(-1, tile.x, tile.y);
+      this.scene.backLayer.putTileAt(-1, tile.x, tile.y);
+      this.scene.topLayer.putTileAt(-1, tile.x, tile.y);
     });
+
 
     // Timing destroy with end of animation
     setTimeout(() => this.explode(this.scene), 650);
