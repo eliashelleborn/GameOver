@@ -32,7 +32,8 @@ class GameScene extends Phaser.Scene {
     this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn1"));
     this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn2"));
     this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn3"));
-    console.log(this.spawnPoints);
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn4"));
+
     // PLAYER
     // Creating number of players and adding them to group
 
@@ -40,8 +41,8 @@ class GameScene extends Phaser.Scene {
     this.gameState.players.forEach((p) => {
       // Randomize Starting Position
 
-      const startX = this.spawnPoints[1].x;
-      const startY = this.spawnPoints[1].y;
+      const startX = this.spawnPoints[3].x;
+      const startY = this.spawnPoints[3].y;
       const player = new Player({
         scene: this,
         key: this.arrayOfGhost[0],
@@ -90,9 +91,9 @@ class GameScene extends Phaser.Scene {
     this.backLayer = this.map.createDynamicLayer('back', this.groundTiles, 0, 0);
     this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
     this.topLayer = this.map.createDynamicLayer('top', this.groundTiles, 0, 0);
-    this.layers.add(this.topLayer);
     this.layers.add(this.groundLayer);
     this.layers.add(this.backLayer);
+    this.layers.add(this.topLayer);
 
     // Add collision between players and layers
     this.physics.add.collider(this.players, this.layers);
@@ -102,6 +103,9 @@ class GameScene extends Phaser.Scene {
       collide: true,
     });
     this.backLayer.setCollisionByProperty({
+      collide: true,
+    });
+    this.topLayer.setCollisionByProperty({
       collide: true,
     });
 
