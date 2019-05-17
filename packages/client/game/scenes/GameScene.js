@@ -131,6 +131,7 @@ class GameScene extends Phaser.Scene {
         fill: '#D00',
       },
     });
+
   }
 
   update() {
