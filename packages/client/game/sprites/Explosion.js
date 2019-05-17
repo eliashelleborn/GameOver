@@ -32,6 +32,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     hitTiles.forEach((tile) => {
       this.scene.groundLayer.putTileAt(-1, tile.x, tile.y);
       this.scene.backLayer.putTileAt(-1, tile.x, tile.y);
+      this.scene.topLayer.putTileAt(-1, tile.x, tile.y);
     });
 
 

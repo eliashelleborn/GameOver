@@ -23,15 +23,25 @@ class GameScene extends Phaser.Scene {
     this.map = this.make.tilemap({
       key: 'map',
     });
+
+    // Background
     this.bg = this.add.tileSprite(0, 0, this.map.widthInPixels * 2, this.map.heightInPixels * 2, 'background');
+
+    // Getting spawn points
+    this.spawnPoints = [];
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn1"));
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn2"));
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn3"));
+    console.log(this.spawnPoints);
     // PLAYER
     // Creating number of players and adding them to group
 
     this.players = this.add.group();
     this.gameState.players.forEach((p) => {
       // Randomize Starting Position
-      const startX = 600;
-      const startY = this.map.heightInPixels - 750;
+
+      const startX = this.spawnPoints[1].x;
+      const startY = this.spawnPoints[1].y;
       const player = new Player({
         scene: this,
         key: this.arrayOfGhost[0],
@@ -79,6 +89,8 @@ class GameScene extends Phaser.Scene {
 
     this.backLayer = this.map.createDynamicLayer('back', this.groundTiles, 0, 0);
     this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
+    this.topLayer = this.map.createDynamicLayer('top', this.groundTiles, 0, 0);
+    this.layers.add(this.topLayer);
     this.layers.add(this.groundLayer);
     this.layers.add(this.backLayer);
 
@@ -93,10 +105,12 @@ class GameScene extends Phaser.Scene {
       collide: true,
     });
 
+
+
     // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     /* this.cameras.main.setViewport(0, 0, window.innerWidth, window.innerHeight); */
-    this.cameras.main.setZoom(1.2);
+    this.cameras.main.setZoom(1.5);
 
     this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
 
