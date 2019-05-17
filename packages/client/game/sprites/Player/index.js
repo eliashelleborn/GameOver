@@ -12,7 +12,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.scene = config.scene;
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
-    this.scene.physics.add.collider(this.body, this.scene.groundLayer);
+    this.scene.physics.add.collider(this.body, this.scene.layers);
     this.body.setBounce(0.3);
     this.body.setCollideWorldBounds(true);
     this.body.setFrictionX(1000);
@@ -22,7 +22,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.direction = 1;
     this.velocity = {
       x: 150,
-      y: -400,
+      y: -450,
     };
     this.health = 100;
     this.myTurn = false;
@@ -69,8 +69,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
   update() {
     // ===== CONTROLLER =====
     if (
-      this.id === this.scene.gameState.turn.playerId
-      && this.scene.gameState.turn.status === 'playing'
+      this.id === this.scene.gameState.turn.playerId &&
+      this.scene.gameState.turn.status === 'playing'
     ) {
       // Run
       if (this.canMove) {
