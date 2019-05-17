@@ -96,6 +96,7 @@ class GameScene extends Phaser.Scene {
       y: 100,
     });
     this.crosshair.startTurnPosition(this.activePlayer.x, this.activePlayer.y);
+
   }
 
   update(time) {
