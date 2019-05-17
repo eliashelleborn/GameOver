@@ -24,9 +24,6 @@ class GameScene extends Phaser.Scene {
       key: 'map',
     });
 
-    this.groundTiles = this.map.addTilesetImage('cliffs');
-    this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
-
     // PLAYER
     // Creating number of players and adding them to group
 
@@ -73,13 +70,26 @@ class GameScene extends Phaser.Scene {
     this.playersTurn = this.gameState.players[0].id;
     this.activePlayer = this.players.getFirst(true);
 
-    // Looping through players to make them collide with tileset
-    this.players.children.entries.forEach((player) => {
-      this.physics.add.collider(player, this.groundLayer);
-    });
+    // ===================================== \\
+    // ===== TILE LAYERS AND COLLISION ===== \\
+    // ===================================== \\
+
+    this.groundTiles = this.map.addTilesetImage('cliffs');
+    this.layers = this.add.group();
+
+    this.backLayer = this.map.createDynamicLayer('back', this.groundTiles, 0, 0);
+    this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
+    this.layers.add(this.groundLayer);
+    this.layers.add(this.backLayer);
+
+    // Add collision between players and layers
+    this.physics.add.collider(this.players, this.layers);
 
     // // Property collide set in TILED on Tileset
     this.groundLayer.setCollisionByProperty({
+      collide: true,
+    });
+    this.backLayer.setCollisionByProperty({
       collide: true,
     });
 
