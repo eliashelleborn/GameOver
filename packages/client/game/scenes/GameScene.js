@@ -19,7 +19,12 @@ class GameScene extends Phaser.Scene {
 
     this.arrayOfGhost = ['blue', 'green', 'red'];
     this.numberOfPlayers = this.gameState.players.length;
-    // MAP
+
+    // =============================================== \\
+    // ===== MAP, BACKGROUND AND SPAWNING POINTS ===== \\
+    // =============================================== \\
+
+    // Map
     this.map = this.make.tilemap({
       key: 'map',
     });
@@ -33,21 +38,29 @@ class GameScene extends Phaser.Scene {
     this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn2"));
     this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn3"));
     this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn4"));
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn5"));
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn6"));
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn7"));
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn8"));
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn9"));
+    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn10"));
 
-    // PLAYER
-    // Creating number of players and adding them to group
+    // =================== \\
+    // ===== PLAYERS ===== \\
+    // =================== \\
 
+    // Creating number of players and adding them to a group
     this.players = this.add.group();
     this.gameState.players.forEach((p) => {
-      // Randomize Starting Position
+      // Randomize Spawn Position
+      const randomNumber = Phaser.Math.Between(0, this.spawnPoints.length - 1)
+      const spawnPoint = this.spawnPoints[randomNumber];
 
-      const startX = this.spawnPoints[3].x;
-      const startY = this.spawnPoints[3].y;
       const player = new Player({
         scene: this,
         key: this.arrayOfGhost[0],
-        x: startX,
-        y: startY,
+        x: spawnPoint.x,
+        y: spawnPoint.y,
         info: {
           id: p.id,
           name: p.name,
@@ -88,6 +101,7 @@ class GameScene extends Phaser.Scene {
     this.groundTiles = this.map.addTilesetImage('cliffs');
     this.layers = this.add.group();
 
+    // Getting layers from Tile map
     this.backLayer = this.map.createDynamicLayer('back', this.groundTiles, 0, 0);
     this.groundLayer = this.map.createDynamicLayer('cliffs', this.groundTiles, 0, 0);
     this.topLayer = this.map.createDynamicLayer('top', this.groundTiles, 0, 0);

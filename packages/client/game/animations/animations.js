@@ -10,7 +10,7 @@ export default function makeAnimations(scene) {
   });
 
   scene.anims.create({
-    key: 'blue-standRight',
+    key: 'blue-standLeft',
     frames: [{
       key: 'blue',
       frame: 4,
@@ -29,7 +29,7 @@ export default function makeAnimations(scene) {
   });
 
   scene.anims.create({
-    key: 'blue-standLeft',
+    key: 'blue-standRight',
     frames: [{
       key: 'blue',
       frame: 1,
@@ -48,7 +48,7 @@ export default function makeAnimations(scene) {
   });
 
   scene.anims.create({
-    key: 'green-standRight',
+    key: 'green-standLeft',
     frames: [{
       key: 'green',
       frame: 4,
@@ -67,7 +67,7 @@ export default function makeAnimations(scene) {
   });
 
   scene.anims.create({
-    key: 'green-standLeft',
+    key: 'green-standRight',
     frames: [{
       key: 'green',
       frame: 1,
@@ -85,7 +85,7 @@ export default function makeAnimations(scene) {
   });
 
   scene.anims.create({
-    key: 'red-standRight',
+    key: 'red-standLeft',
     frames: [{
       key: 'red',
       frame: 4,
@@ -104,7 +104,7 @@ export default function makeAnimations(scene) {
   });
 
   scene.anims.create({
-    key: 'red-standLeft',
+    key: 'red-standRight',
     frames: [{
       key: 'red',
       frame: 1,

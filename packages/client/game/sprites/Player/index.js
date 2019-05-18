@@ -17,6 +17,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.body.setCollideWorldBounds(true);
     this.body.setFrictionX(1000);
 
+    this.faceDirection = 'right';
     this.alive = true;
     this.canMove = true;
     this.health = config.info.health;
@@ -106,6 +107,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
       }
     }
 
+
+
     // Flying variable
     if (!this.canMove) {
       if (this.body.velocity.x > 0) {
@@ -123,14 +126,17 @@ export default class Player extends Phaser.GameObjects.Sprite {
   run(vel) {
     this.body.setVelocityX(vel);
     if (vel < 0) {
+      this.faceDirection = 'left';
       this.anims.play(this.animations.left, true);
     } else if (vel > 0) {
+      this.faceDirection = 'right';
       this.anims.play(this.animations.right, true);
-    } else if (this.direction === 1) {
+    } else if (this.faceDirection === 'left') {
       this.anims.play(this.animations.standLeft);
     } else {
       this.anims.play(this.animations.standRight);
     }
+
   }
 
   jump() {
