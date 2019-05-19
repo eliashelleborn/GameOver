@@ -172,17 +172,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   flyFromExplosion(explosion, damage) {
-    this.canMove = false;
-    if (this.y < explosion.y) {
-      this.body.setVelocityY(-(damage * 15));
-    } else {
-      this.body.setVelocityY(damage * 15);
-    }
-    if (this.x < explosion.x) {
-      this.body.setVelocityX(-(damage * 15));
-    } else {
-      this.body.setVelocityX(damage * 15);
-    }
+    const angle = Phaser.Math.Angle.Between(explosion.x, explosion.y, this.x, this.y);
+    const dx = Math.cos(angle);
+    const dy = Math.sin(angle);
+    this.body.setVelocityY(damage * 10 * dy);
+    this.body.setVelocityX(damage * 10 * dx);
   }
 
   updateHealth(health) {

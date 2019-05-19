@@ -52,7 +52,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
     if (!this.hasHurt) {
       player.takeDamage(updatedDamage);
-      setTimeout(player.flyFromExplosion(explosion, updatedDamage), 100);
+      player.flyFromExplosion(explosion, updatedDamage)
       this.hasHurt = true;
     }
   }
