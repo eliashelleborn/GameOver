@@ -70,8 +70,14 @@ export default class Player extends Phaser.GameObjects.Sprite {
   update() {
 
     if (this.alive) {
+      // ===== CHECK AIM DIRECTION ===== \\
+      if (this.controller.weapon.aim > 1.5 && this.controller.weapon.aim < 4.7) {
+        this.faceDirection = 'left';
+      } else {
+        this.faceDirection = 'right';
+      }
 
-      // ===== CONTROLLER =====
+      // ===== CONTROLLER ===== \\
       if (
         this.id === this.scene.gameState.turn.playerId &&
         this.scene.gameState.turn.status === 'playing'
@@ -136,6 +142,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
     } else {
       this.anims.play(this.animations.standRight);
     }
+
+
 
   }
 
