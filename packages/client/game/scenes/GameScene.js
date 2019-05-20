@@ -80,10 +80,15 @@ class GameScene extends Phaser.Scene {
     const updateTurn = (turn) => {
       store.dispatch.game.updateTurn(turn);
       this.getGameState();
-    }
+    };
 
     this.socket.on('prepare turn', (turn) => {
       updateTurn(turn);
+      // Set active player
+      const [player] = this.players.getChildren().filter(i => i.id === this.gameState.turn.playerId);
+      this.activePlayer = player;
+      // Making camera following the player
+      this.cameras.main.startFollow(this.activePlayer);
     });
     this.socket.on('start turn', (turn) => {
       updateTurn(turn);
@@ -103,10 +108,6 @@ class GameScene extends Phaser.Scene {
       /* const [player] = this.players.getChildren().filter(i => i.id === p.id);
       player.die(); */
     });
-
-    // Making it Player Ones Turn
-    this.playersTurn = this.gameState.players[0].id;
-    this.activePlayer = this.players.getFirst(true);
 
     // ===================================== \\
     // ===== TILE LAYERS AND COLLISION ===== \\
@@ -143,9 +144,6 @@ class GameScene extends Phaser.Scene {
     this.cameras.main.setZoom(1.5);
 
     this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-
-    // Making camera following the player
-    this.cameras.main.startFollow(this.activePlayer);
 
     // Creating a timer display
     this.timerText = this.make.text({
