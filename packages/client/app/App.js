@@ -10,6 +10,7 @@ import theme from './style/theme';
 import Start from './pages/Start';
 import Game from './pages/Game';
 import TestGame from './pages/TestGame';
+import Background from './components/Background';
 
 const App = () => {
   const connect = useActions(actions => actions.socket.connect);
@@ -23,17 +24,10 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Fragment>
         <GlobalStyle />
-        {/*
-        <small>
-          {'Socket ID: '}
-          {socket && <b>{socket.id}</b>}
-        </small> */}
+
+        <Background />
 
         <Router>
-          {/*   <div>
-            <Link to="/">Home</Link>
-          </div> */}
-
           {socket && (
             <Fragment>
               <Route exact path="/" component={Start} />

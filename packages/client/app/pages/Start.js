@@ -2,12 +2,78 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { useStore, useActions } from 'easy-peasy';
+import Logo from '../components/Logo';
 
 const StyledStart = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
   padding: 2rem;
-  input {
-    display: block;
-    margin-bottom: 0.5rem;
+  padding-top: 5rem;
+
+  button {
+    width: 100%;
+    max-width: 350px;
+    height: 55px;
+    background-color: #283044;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    transition: .2s ease;
+
+    &:hover {
+      background-color: #4F5566;
+    }
+  }
+
+  form {
+    max-width: 350px;
+    margin-top: 5rem;
+
+    input {
+      outline: 0;
+      width: 100%
+      max-width: 350px;
+      height: 55px;
+      padding: 1rem;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+
+      &::placeholder {
+        color: #848484;
+        font-weight: bold;
+      }
+    }
+  }
+`;
+
+const OrDivider = styled.div`
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #283044;
+  padding: 0.7rem 0;
+  font-size: 18px;
+  font-weight: bold;
+
+  span {
+    flex: 1;
+    height: 2px;
+    background-color: #283044;
+
+    &:first-child {
+      margin-right: 1rem;
+    }
+    &:last-child {
+      margin-left: 1rem;
+    }
   }
 `;
 
@@ -39,38 +105,44 @@ const Start = () => {
 
   return (
     <StyledStart>
-      <h1>Start</h1>
+      <Logo width="450px" />
+
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          joinGame();
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Room Code"
+          value={roomCode.toUpperCase()}
+          onChange={({ target }) => setRoomCode(target.value)}
+          minLength={4}
+          maxLength={4}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={({ target }) => setName(target.value)}
+          minLength={3}
+          maxLength={15}
+          required
+        />
+        <button type="submit">JOIN</button>
+      </form>
+
+      <OrDivider>
+        <span />
+        OR
+        <span />
+      </OrDivider>
 
       <button type="button" onClick={hostGame}>
-        Host Game
+        HOST GAME
       </button>
-      <hr />
-      <div>
-        <label htmlFor="roomCode">
-          Room Code
-          <input
-            type="text"
-            name="roomCode"
-            id="roomCode"
-            placeholder="4-letter code"
-            value={roomCode}
-            onChange={({ target }) => setRoomCode(target.value)}
-          />
-        </label>
-        <label htmlFor="name">
-          Name
-          <input
-            type="text"
-            name="name"
-            id="name"
-            value={name}
-            onChange={({ target }) => setName(target.value)}
-          />
-        </label>
-        <button type="button" onClick={joinGame}>
-          Join
-        </button>
-      </div>
     </StyledStart>
   );
 };
