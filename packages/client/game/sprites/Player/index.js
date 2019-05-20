@@ -86,7 +86,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }
       },
     });
-    console.log(this.nameText);
   }
 
   update() {

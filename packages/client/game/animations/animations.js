@@ -150,4 +150,16 @@ export default function makeAnimations(scene) {
     frameRate: 10,
     repeat: -1,
   });
+
+  // THRUST BAR
+
+  scene.anims.create({
+    key: 'thrust-bar',
+    frames: scene.anims.generateFrameNumbers('thrust-bar', {
+      start: 0,
+      end: 25,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
 }

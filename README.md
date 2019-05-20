@@ -59,3 +59,4 @@ Magic Cliffs Environment - [ansimuz](https://itch.io/profile/ansimuz)
 - [#25 Feature / Handle shooting in turns logic](https://github.com/eliasjohansson/GameOver/pull/25)
 - [#26 Feature / In-Game thrust bar for shooting](https://github.com/eliasjohansson/GameOver/pull/26)
 - [#27 Fix / Minor graphic upgrades; scroll and depth](https://github.com/eliasjohansson/GameOver/pull/27)
+
