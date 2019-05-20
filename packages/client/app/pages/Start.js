@@ -17,7 +17,7 @@ const StyledStart = styled.div`
     width: 100%;
     max-width: 350px;
     height: 55px;
-    background-color: #283044;
+    background-color: #364872;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -26,7 +26,7 @@ const StyledStart = styled.div`
     transition: .2s ease;
 
     &:hover {
-      background-color: #4F5566;
+      background-color: #5A698B;
     }
   }
 
@@ -58,7 +58,7 @@ const OrDivider = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #283044;
+  color: #364872;
   padding: 0.7rem 0;
   font-size: 18px;
   font-weight: bold;
@@ -66,7 +66,7 @@ const OrDivider = styled.div`
   span {
     flex: 1;
     height: 2px;
-    background-color: #283044;
+    background-color: #364872;
 
     &:first-child {
       margin-right: 1rem;
@@ -90,6 +90,10 @@ const Start = () => {
     socket.on('join game', (game) => {
       setGame(game);
       setRedirectPath(game.id);
+    });
+
+    socket.on('join game failed', () => {
+      console.log('join game failed');
     });
   }, []);
 
