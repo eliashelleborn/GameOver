@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import Projectile from './Projectile';
+import ThrustBar from './ThrustBar';
 
 export default class Weapon extends Phaser.GameObjects.Sprite {
   constructor(config) {
@@ -9,24 +10,33 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     this.scene.add.existing(this);
     this.thrust = 0;
     this.maxThrust = 2000;
+    this.thrustBar = new ThrustBar({
+      scene: this.scene,
+      x: this.x,
+      y: this.y,
+      key: 'thrust-bar',
+    });
+
+
   }
 
   update(x, y) {
     this.x = x;
     this.y = y;
+    this.thrustBar.update(this.x, this.y, this.thrust, this.maxThrust);
   }
 
   addThrust() {
     if (this.thrust < this.maxThrust) {
       this.thrust += 10;
     }
+
   }
 
   fire(direction, angle) {
     // Calculation to get dx, dy, the dynamic values to get x and y velocity in projectil
     const dx = Math.cos(angle);
     const dy = Math.sin(angle);
-
 
     this.projectile = new Projectile({
       scene: this.scene,
