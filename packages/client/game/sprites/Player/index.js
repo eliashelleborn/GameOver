@@ -176,7 +176,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     const dx = Math.cos(angle);
     const dy = Math.sin(angle);
     this.canMove = false;
-    console.log('dx: ', dx, 'dy: ', dy, 'damage: ', damage);
     this.body.setVelocityY(damage * 13 * dy);
     this.body.setVelocityX(damage * 13 * dx);
   }
