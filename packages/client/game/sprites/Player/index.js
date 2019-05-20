@@ -77,7 +77,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         fontSize: '14px',
         fill: '#FFF',
         fontFamily: 'Arial',
-        backgroundColor: '#606060',
+        backgroundColor: '#606060 ',
         shadow: {
           offsetX: 1,
           offsetY: 1,

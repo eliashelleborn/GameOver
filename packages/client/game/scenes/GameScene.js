@@ -135,17 +135,6 @@ class GameScene extends Phaser.Scene {
     // Making camera following the player
     this.cameras.main.startFollow(this.activePlayer);
 
-    // Creating a timer display
-    this.timerText = this.make.text({
-      x: 2, // this.activePlayer.x,
-      y: 2, // this.activePlayer.y - 50,
-      text: 'Timer',
-      style: {
-        fontSize: '32px',
-        fill: '#D00',
-      },
-    });
-
   }
 
   update() {
