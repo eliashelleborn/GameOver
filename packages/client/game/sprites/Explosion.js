@@ -21,13 +21,9 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
     // Getting all hit tiles and changing values to -1
 
-
     const hitTiles = this.scene.map.getTilesWithinShape(
-      new Phaser.Geom.Circle(
-        this.x,
-        this.y,
-        (this.width / 2) * this.scale,
-      ));
+      new Phaser.Geom.Circle(this.x, this.y, (this.width / 2) * this.scale),
+    );
 
     hitTiles.forEach((tile) => {
       this.scene.groundLayer.putTileAt(-1, tile.x, tile.y);
@@ -35,13 +31,13 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
       this.scene.topLayer.putTileAt(-1, tile.x, tile.y);
     });
 
-
     // Timing destroy with end of animation
     setTimeout(() => this.explode(this.scene), 650);
   }
 
   explode(scene) {
     scene.cameras.main.startFollow(scene.activePlayer);
+    this.scene.socket.emit('resume turn', this.scene.gameState.id);
     this.destroy();
   }
 
