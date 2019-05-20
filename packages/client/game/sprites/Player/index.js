@@ -86,7 +86,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }
       },
     });
-    console.log(this.nameText);
   }
 
   update() {
@@ -100,8 +99,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
       // ===== CONTROLLER ===== \\
       if (
-        this.id === this.scene.gameState.turn.playerId
-        && this.scene.gameState.turn.status === 'playing'
+        this.id === this.scene.gameState.turn.playerId &&
+        this.scene.gameState.turn.status === 'playing'
       ) {
         // Run
         if (this.canMove) {
