@@ -28,6 +28,9 @@ import crosshair from '../assets/sprites/crosshair.png';
 // Explosion
 import explosion from '../assets/sprites/explosion.png';
 
+// Thrust Bar
+import thrustBar from '../assets/sprites/thrust-bar.png';
+
 import store from '../../app/store';
 
 class BootScene extends Phaser.Scene {
@@ -104,6 +107,12 @@ class BootScene extends Phaser.Scene {
       frameWidth: 34,
       frameHeight: 32,
     });
+
+    // Thrust Bar
+    this.load.spritesheet('thrust-bar', thrustBar, {
+      frameWidth: 50,
+      frameHeight: 10,
+    })
   }
 }
 
