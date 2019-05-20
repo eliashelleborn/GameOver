@@ -53,7 +53,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       key: 'crosshair',
       x: this.x,
       y: this.y,
-    });
+    }).setDepth(1);
 
     // ===== WEAPON =====
     this.weapon = new Weapon({
@@ -100,8 +100,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
       // ===== CONTROLLER ===== \\
       if (
-        this.id === this.scene.gameState.turn.playerId
-        && this.scene.gameState.turn.status === 'playing'
+        this.id === this.scene.gameState.turn.playerId &&
+        this.scene.gameState.turn.status === 'playing'
       ) {
         // Run
         if (this.canMove) {

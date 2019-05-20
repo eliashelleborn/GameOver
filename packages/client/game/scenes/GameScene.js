@@ -30,13 +30,20 @@ class GameScene extends Phaser.Scene {
     });
 
     // Background
-    this.bg = this.add.tileSprite(
+    this.bgSky = this.add.tileSprite(
       0,
       0,
       this.map.widthInPixels * 2,
       this.map.heightInPixels * 2,
-      'background',
-    );
+      'background-sky',
+    ).setScrollFactor(0.2, 0.5);
+    this.bgSea = this.add.tileSprite(
+      0,
+      0,
+      this.map.widthInPixels * 2,
+      this.map.heightInPixels * 2,
+      'background-sea',
+    ).setScrollFactor(0.5, 0.5);
 
     // Getting spawn points
     this.spawnPoints = [];

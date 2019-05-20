@@ -8,7 +8,8 @@ import inca from '../assets/maps/inca_front.png';
 import cliffs from '../assets/maps/cliffs-tileset-extruded.png';
 
 // Backgrounds
-import background from '../assets/backgrounds/cliffs-backgroud.png';
+import backgroundSky from '../assets/backgrounds/backgroud-sky.png';
+import backgroundSea from '../assets/backgrounds/backgroud-sea.png';
 
 // Ghosts
 import blue from '../assets/sprites/ghost-blue.png';
@@ -64,7 +65,8 @@ class BootScene extends Phaser.Scene {
     });
 
     // Background
-    this.load.image('background', background);
+    this.load.image('background-sky', backgroundSky);
+    this.load.image('background-sea', backgroundSea);
 
     // Sprites
     this.load.spritesheet('blue', blue, {
