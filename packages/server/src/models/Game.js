@@ -4,12 +4,12 @@ class Game {
   constructor(id, host, testing) {
     this.id = id;
     this.host = host;
-    this.status = testing ? 'test' : 'lobby'; // 'lobby' || 'playing' || 'test'
+    this.status = testing ? 'test' : 'lobby'; // 'lobby', 'playing', 'test'
     this.players = [];
     this.testing = testing;
 
     this.settings = {
-      turnTime: 50,
+      turnTime: 20,
     };
 
     this.timer = null;
@@ -27,11 +27,47 @@ class Game {
     };
   }
 
+  // Pause & resume turn
+  pauseTurn(reason) {
+    if (reason === 'shot') {
+      this.turn.hasShot = true;
+    }
+    if (this.turn.status === 'playing') {
+      clearInterval(this.timer);
+      this.turn.status = 'paused';
+      this.turn.canMove = false;
+    }
+  }
+
+  resumeTurn(tickEvent) {
+    if (this.turn.status !== 'playing') {
+      this.turn.status = 'playing';
+      this.turn.canMove = true;
+
+      if (this.turn.hasShot) {
+        this.turn.timeLeft = this.turn.timeLeft <= 5 ? this.turn.timeLeft : 5;
+      }
+
+      console.log(this.turn.timeLeft);
+
+      this.timer = setInterval(() => {
+        tickEvent(this);
+        if (this.turn.timeLeft === 0) {
+          clearInterval(this.timer);
+          this.endTurn(tickEvent);
+        }
+        this.turn.timeLeft -= 1;
+      }, 1000);
+    }
+  }
+
+  // Initiate game
   startGame(tickEvent) {
     this.status = 'playing';
     this.nextTurnCountdown(tickEvent);
   }
 
+  // Set info about upcoming turn
   prepareNextTurn() {
     if (!this.turn.playerId) {
       this.turn.playerId = this.players[0].id;
@@ -52,6 +88,7 @@ class Game {
     };
   }
 
+  // Start countdown
   nextTurnCountdown(tickEvent) {
     this.turn.status = 'countdown';
     this.countdown = this.countdownTime;
@@ -62,29 +99,24 @@ class Game {
       tickEvent(this);
       if (this.countdown === 0) {
         clearInterval(this.timer);
-        this.turn.status = 'playing';
-        this.nextTurn(tickEvent);
+        this.startTurn(tickEvent);
       }
       this.countdown -= 1;
     }, 1000);
   }
 
-  nextTurn(tickEvent) {
+  // Set status to playing and start timer
+  startTurn(tickEvent) {
     this.turn.timeLeft = this.settings.turnTime;
-    this.timer = setInterval(() => {
-      tickEvent(this);
-      if (this.turn.timeLeft === 0) {
-        clearInterval(this.timer);
-        this.endTurn(tickEvent);
-      }
-      this.turn.timeLeft -= 1;
-    }, 1000);
+    this.resumeTurn(tickEvent);
   }
 
+  // Go back to the start of the turn cycle
   endTurn(tickEvent) {
     this.nextTurnCountdown(tickEvent);
   }
 
+  // Handle players
   addPlayer(id, name) {
     const player = new Player(id, name);
     this.players.push(player);
