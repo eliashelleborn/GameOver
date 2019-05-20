@@ -17,6 +17,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.body.setCollideWorldBounds(true);
     this.body.setFrictionX(1000);
 
+
     this.faceDirection = 'right';
     this.alive = true;
     this.canMove = true;
@@ -64,7 +65,28 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     // Initiate Controller event listeners
     controllerEvents(this.scene.socket, this);
-    this.body.setImmovable(false);
+
+
+
+    // Name tag
+    this.nameText = this.scene.make.text({
+      x: this.x - 25,
+      y: this.y - 35,
+      text: this.name,
+      style: {
+        fontSize: '14px',
+        fill: '#FFF',
+        fontFamily: 'Arial',
+        backgroundColor: '#606060 ',
+        shadow: {
+          offsetX: 1,
+          offsetY: 1,
+          color: '#000',
+          fill: true
+        }
+      },
+    });
+    console.log(this.nameText);
   }
 
   update() {
@@ -106,7 +128,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
           this.weapon.update(this.x, this.y);
         }
 
-
+        // Update name tag position
+        this.nameText.x = this.x - this.nameText.width / 2;
+        this.nameText.y = this.y - 35;
 
         // Update crosshair position
         this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
