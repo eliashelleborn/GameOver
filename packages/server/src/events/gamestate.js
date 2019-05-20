@@ -34,7 +34,6 @@ export default (io, socket, dataStore) => {
   socket.on('resume turn', (id) => {
     const game = dataStore.findGame(id);
     if (game && game.host === socket.id) {
-      console.log('resume turn');
       game.resumeTurn(countdownTick);
       io.to(`game ${game.id}`).emit('resume turn', game.turn);
     }

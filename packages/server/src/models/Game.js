@@ -48,8 +48,6 @@ class Game {
         this.turn.timeLeft = this.turn.timeLeft <= 5 ? this.turn.timeLeft : 5;
       }
 
-      console.log(this.turn.timeLeft);
-
       this.timer = setInterval(() => {
         tickEvent(this);
         if (this.turn.timeLeft === 0) {

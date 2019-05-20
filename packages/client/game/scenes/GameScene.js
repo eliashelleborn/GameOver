@@ -85,7 +85,9 @@ class GameScene extends Phaser.Scene {
     this.socket.on('prepare turn', (turn) => {
       updateTurn(turn);
       // Set active player
-      const [player] = this.players.getChildren().filter(i => i.id === this.gameState.turn.playerId);
+      const [player] = this.players
+        .getChildren()
+        .filter(i => i.id === this.gameState.turn.playerId);
       this.activePlayer = player;
       // Making camera following the player
       this.cameras.main.startFollow(this.activePlayer);
