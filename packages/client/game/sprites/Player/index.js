@@ -90,7 +90,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update() {
-
     if (this.alive) {
       // ===== CHECK AIM DIRECTION ===== \\
       if (this.controller.weapon.aim > 1.5 && this.controller.weapon.aim < 4.7) {
@@ -101,10 +100,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
       // ===== CONTROLLER ===== \\
       if (
-        this.id === this.scene.gameState.turn.playerId &&
-        this.scene.gameState.turn.status === 'playing'
+        this.id === this.scene.gameState.turn.playerId
+        && this.scene.gameState.turn.status === 'playing'
       ) {
-
         // Run
         if (this.canMove) {
           this.run(this.velocity.x * this.controller.movement.direction);
@@ -114,7 +112,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
           this.jump();
         }
         // Shoot
-        if (this.controller.weapon.fire) {
+        if (this.controller.weapon.fire && !this.scene.gameState.turn.hasShot) {
           this.startFire();
         } else if (!this.controller.weapon.fire && this.startedFire) {
           this.fire();
@@ -136,8 +134,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
       }
     }
-
-
 
     // Flying variable
     if (!this.canMove) {
@@ -166,9 +162,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     } else {
       this.anims.play(this.animations.standRight);
     }
-
-
-
   }
 
   jump() {
@@ -183,10 +176,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   fire() {
     this.startedFire = false;
-    this.weapon.fire(
-      this.controller.movement.direction,
-      this.controller.weapon.aim
-    );
+    this.weapon.fire(this.controller.movement.direction, this.controller.weapon.aim);
+    this.scene.socket.emit('pause turn', this.scene.gameState.id, 'shot');
   }
 
   takeDamage(damage) {
@@ -210,10 +201,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
       this.die();
     }
   }
+
   die() {
     this.scene.socket.emit('player dies', this.id);
-
   }
+
   updateAlive(lifeStatus) {
     this.crosshair.destroy();
     this.weapon.destroy();
