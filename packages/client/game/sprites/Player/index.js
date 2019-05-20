@@ -102,7 +102,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         // FRICTION
 
         // Weapon
-        if (this.weapon) {
+        if (this.weapon && this.canMove) {
           this.weapon.update(this.x, this.y);
         }
 
@@ -175,8 +175,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
     const angle = Phaser.Math.Angle.Between(explosion.x, explosion.y, this.x, this.y);
     const dx = Math.cos(angle);
     const dy = Math.sin(angle);
-    this.body.setVelocityY(damage * 10 * dy);
-    this.body.setVelocityX(damage * 10 * dx);
+    this.canMove = false;
+    console.log('dx: ', dx, 'dy: ', dy, 'damage: ', damage);
+    this.body.setVelocityY(damage * 13 * dy);
+    this.body.setVelocityX(damage * 13 * dx);
   }
 
   updateHealth(health) {
