@@ -17,6 +17,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.body.setCollideWorldBounds(true);
     this.body.setFrictionX(1000);
 
+
     this.faceDirection = 'right';
     this.alive = true;
     this.canMove = true;
@@ -64,7 +65,28 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     // Initiate Controller event listeners
     controllerEvents(this.scene.socket, this);
-    this.body.setImmovable(false);
+
+
+
+    // Name tag
+    this.nameText = this.scene.make.text({
+      x: this.x - 25,
+      y: this.y - 35,
+      text: this.name,
+      style: {
+        fontSize: '14px',
+        fill: '#FFF',
+        fontFamily: 'Arial',
+        backgroundColor: '#606060 ',
+        shadow: {
+          offsetX: 1,
+          offsetY: 1,
+          color: '#000',
+          fill: true
+        }
+      },
+    });
+    console.log(this.nameText);
   }
 
   update() {
@@ -100,9 +122,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
         // FRICTION
 
         // Weapon
-        if (this.weapon) {
+        if (this.weapon && this.canMove) {
           this.weapon.update(this.x, this.y);
         }
+
+        // Update name tag position
+        this.nameText.x = this.x - this.nameText.width / 2;
+        this.nameText.y = this.y - 35;
 
         // Update crosshair position
         this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
@@ -161,17 +187,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   flyFromExplosion(explosion, damage) {
+    const angle = Phaser.Math.Angle.Between(explosion.x, explosion.y, this.x, this.y);
+    const dx = Math.cos(angle);
+    const dy = Math.sin(angle);
     this.canMove = false;
-    if (this.y < explosion.y) {
-      this.body.setVelocityY(-(damage * 15));
-    } else {
-      this.body.setVelocityY(damage * 15);
-    }
-    if (this.x < explosion.x) {
-      this.body.setVelocityX(-(damage * 15));
-    } else {
-      this.body.setVelocityX(damage * 15);
-    }
+    this.body.setVelocityY(damage * 13 * dy);
+    this.body.setVelocityX(damage * 13 * dx);
   }
 
   updateHealth(health) {
