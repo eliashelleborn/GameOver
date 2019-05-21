@@ -2,8 +2,8 @@ import { makeID } from '../utils/helpers';
 import Game from './Game';
 
 class DataStore {
-  constructor(io) {
-    this.io = io;
+  constructor(/* io */) {
+    /*    this.io = io; */
     this.games = [];
   }
 

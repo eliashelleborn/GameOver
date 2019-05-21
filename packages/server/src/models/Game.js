@@ -1,8 +1,7 @@
 import Player from './Player';
 
 class Game {
-  constructor(id, host, testing, io) {
-    this.io = io;
+  constructor(id, host, testing) {
     this.id = id;
     this.host = host;
     this.status = testing ? 'test' : 'lobby'; // 'lobby', 'playing', 'test', 'ended'
@@ -124,7 +123,6 @@ class Game {
     console.log('end game');
     this.status = 'ended';
     if (this.timer) clearInterval(this.timer);
-    this.io.to(`game ${this.id}`).emit('end game', this);
   }
 
   // Handle players
