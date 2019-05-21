@@ -18,6 +18,12 @@ export default (io, socket, dataStore) => {
         io.to(`game ${game.id}`).emit('end turn');
       }
 
+      const alivePlayers = game.players.filter(p => p.alive);
+      if (alivePlayers.length <= 1) {
+        game.endGame();
+        io.to(`game ${game.id}`).emit('end game', game);
+      }
+
       io.to(`game ${game.id}`).emit('countdown', game.turn.timeLeft, game.turn.status);
     }
   };

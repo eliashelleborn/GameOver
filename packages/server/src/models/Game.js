@@ -111,12 +111,7 @@ class Game {
 
   // Go back to the start of the turn cycle
   endTurn(tickEvent) {
-    const alivePlayers = this.players.filter(p => p.alive);
-    if (alivePlayers.length <= 1) {
-      this.endGame();
-    } else {
-      this.nextTurnCountdown(tickEvent);
-    }
+    this.nextTurnCountdown(tickEvent);
   }
 
   endGame() {
