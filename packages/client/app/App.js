@@ -10,6 +10,7 @@ import theme from './style/theme';
 import Start from './pages/Start';
 import Game from './pages/Game';
 import TestGame from './pages/TestGame';
+import Controller from './pages/Game/Controller';
 
 const App = () => {
   const connect = useActions(actions => actions.socket.connect);
@@ -39,6 +40,7 @@ const App = () => {
               <Route exact path="/" component={Start} />
               <Route path="/game/:id" component={Game} />
               <Route path="/testing" component={TestGame} />
+              <Route path="/controller" component={Controller} />
             </Fragment>
           )}
         </Router>
