@@ -4,9 +4,8 @@ import testingEvents from './testing';
 import controllerEvents from './controller';
 import gamestateEvents from './gamestate';
 
-const dataStore = new DataStore();
-
 export default (io) => {
+  const dataStore = new DataStore(io);
   io.on('connection', (socket) => {
     lobbyEvents(io, socket, dataStore);
     controllerEvents(io, socket, dataStore);

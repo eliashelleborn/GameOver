@@ -2,7 +2,8 @@ import { makeID } from '../utils/helpers';
 import Game from './Game';
 
 class DataStore {
-  constructor() {
+  constructor(io) {
+    this.io = io;
     this.games = [];
   }
 
@@ -14,7 +15,7 @@ class DataStore {
 
     if (testing) id = 'test';
 
-    const game = new Game(id, host, testing || false);
+    const game = new Game(id, host, testing || false, this.io);
     this.games.push(game);
 
     return game;

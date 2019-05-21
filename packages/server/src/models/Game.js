@@ -1,10 +1,11 @@
 import Player from './Player';
 
 class Game {
-  constructor(id, host, testing) {
+  constructor(id, host, testing, io) {
+    this.io = io;
     this.id = id;
     this.host = host;
-    this.status = testing ? 'test' : 'lobby'; // 'lobby', 'playing', 'test'
+    this.status = testing ? 'test' : 'lobby'; // 'lobby', 'playing', 'test', 'ended'
     this.players = [];
     this.testing = testing;
 
@@ -111,7 +112,19 @@ class Game {
 
   // Go back to the start of the turn cycle
   endTurn(tickEvent) {
-    this.nextTurnCountdown(tickEvent);
+    const alivePlayers = this.players.filter(p => p.alive);
+    if (alivePlayers.length <= 1) {
+      this.endGame();
+    } else {
+      this.nextTurnCountdown(tickEvent);
+    }
+  }
+
+  endGame() {
+    console.log('end game');
+    this.status = 'ended';
+    if (this.timer) clearInterval(this.timer);
+    this.io.to(`game ${this.id}`).emit('end game', this);
   }
 
   // Handle players
