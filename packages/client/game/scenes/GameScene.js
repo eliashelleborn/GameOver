@@ -30,20 +30,12 @@ class GameScene extends Phaser.Scene {
     });
 
     // Background
-    this.bgSky = this.add.tileSprite(
-      0,
-      0,
-      this.map.widthInPixels * 2,
-      this.map.heightInPixels * 2,
-      'background-sky',
-    ).setScrollFactor(0.2, 0.5);
-    this.bgSea = this.add.tileSprite(
-      0,
-      0,
-      this.map.widthInPixels * 2,
-      this.map.heightInPixels * 2,
-      'background-sea',
-    ).setScrollFactor(0.5, 0.5);
+    this.bgSky = this.add
+      .tileSprite(0, 0, this.map.widthInPixels * 2, this.map.heightInPixels * 2, 'background-sky')
+      .setScrollFactor(0.2, 0.5);
+    this.bgSea = this.add
+      .tileSprite(0, 0, this.map.widthInPixels * 2, this.map.heightInPixels * 2, 'background-sea')
+      .setScrollFactor(0.5, 0.5);
 
     // Getting spawn points
     this.spawnPoints = [];
@@ -67,7 +59,7 @@ class GameScene extends Phaser.Scene {
     this.gameState.players.forEach((p) => {
       // Randomize Spawn Position
       const randomNumber = Phaser.Math.Between(0, this.spawnPoints.length - 1);
-      const spawnPoint = this.spawnPoints[randomNumber];
+      const spawnPoint = this.spawnPoints[0];
 
       const player = new Player({
         scene: this,
@@ -95,7 +87,12 @@ class GameScene extends Phaser.Scene {
       const [player] = this.players
         .getChildren()
         .filter(i => i.id === this.gameState.turn.playerId);
+      // Hide crosshair for previous player
+      if (this.activePlayer) this.activePlayer.crosshair.visible = false;
+      // Set new activePlayer
       this.activePlayer = player;
+      // Show crosshair for new activePlayer
+      this.activePlayer.crosshair.visible = true;
       // Making camera following the player
       this.cameras.main.startFollow(this.activePlayer);
     });
