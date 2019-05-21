@@ -91,6 +91,7 @@ const StyledArrowContainer = styled.div`
   justify-content: space-around;
 `;
 const Controller = () => {
+  const [health, setHealth] = useState(100);
   const { socket } = useStore(state => state.socket);
   const [stickAngle, setStickAngle] = useState(0);
   const [keys, setKeys] = useState({
@@ -122,6 +123,15 @@ const Controller = () => {
       stopMove();
     }
   }, [keys]);
+
+  useEffect(() => {
+    socket.on('player health update', (id, updatedHealth) => {
+      if (socket.id === id) {
+        setHealth(updatedHealth);
+      }
+    });
+    return () => socket.removeAllListeners();
+  }, []);
 
   const keyDown = e => {
     if (e.key === 'ArrowLeft') {
@@ -160,7 +170,7 @@ const Controller = () => {
       <section>
         <div>
           <h1>TIMER</h1>
-          <h1>HEALTHBAR</h1>
+          <h1>HEALTH: {health}</h1>
         </div>
         <StyledArrowContainer>
           <StyledLeftButton
