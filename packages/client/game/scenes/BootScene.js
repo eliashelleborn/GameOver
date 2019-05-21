@@ -8,7 +8,8 @@ import inca from '../assets/maps/inca_front.png';
 import cliffs from '../assets/maps/cliffs-tileset-extruded.png';
 
 // Backgrounds
-import background from '../assets/backgrounds/cliffs-backgroud.png';
+import backgroundSky from '../assets/backgrounds/backgroud-sky.png';
+import backgroundSea from '../assets/backgrounds/backgroud-sea.png';
 
 // Ghosts
 import blue from '../assets/sprites/ghost-blue.png';
@@ -27,6 +28,9 @@ import crosshair from '../assets/sprites/crosshair.png';
 
 // Explosion
 import explosion from '../assets/sprites/explosion.png';
+
+// Thrust Bar
+import thrustBar from '../assets/sprites/thrust-bar.png';
 
 import store from '../../app/store';
 
@@ -64,7 +68,8 @@ class BootScene extends Phaser.Scene {
     });
 
     // Background
-    this.load.image('background', background);
+    this.load.image('background-sky', backgroundSky);
+    this.load.image('background-sea', backgroundSea);
 
     // Sprites
     this.load.spritesheet('blue', blue, {
@@ -104,6 +109,12 @@ class BootScene extends Phaser.Scene {
       frameWidth: 34,
       frameHeight: 32,
     });
+
+    // Thrust Bar
+    this.load.spritesheet('thrust-bar', thrustBar, {
+      frameWidth: 50,
+      frameHeight: 10,
+    })
   }
 }
 

@@ -37,6 +37,10 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     // Moving the projectile
     this.body.setVelocityX(config.force * config.dx);
     this.body.setVelocityY(config.force * -config.dy);
+
+    if (this.x > this.scene.map.widthInPixels || this.y > this.scene.map.heightInPixels) {
+      this.outOfBounds();
+    }
   }
 
   hitGround() {
@@ -47,6 +51,11 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
       key: 'explosion',
       damage: this.damage,
     });
+    this.destroy();
+  }
+  outOfBounds() {
+    scene.cameras.main.startFollow(scene.activePlayer);
+    this.scene.socket.emit('resume turn', this.scene.gameState.id);
     this.destroy();
   }
 }

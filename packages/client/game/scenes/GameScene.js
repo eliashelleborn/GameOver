@@ -30,20 +30,25 @@ class GameScene extends Phaser.Scene {
     });
 
     // Background
-    this.bg = this.add.tileSprite(0, 0, this.map.widthInPixels * 2, this.map.heightInPixels * 2, 'background');
+    this.bgSky = this.add
+      .tileSprite(0, 0, this.map.widthInPixels * 2, this.map.heightInPixels * 2, 'background-sky')
+      .setScrollFactor(0.2, 0.5);
+    this.bgSea = this.add
+      .tileSprite(0, 0, this.map.widthInPixels * 2, this.map.heightInPixels * 2, 'background-sea')
+      .setScrollFactor(0.5, 0.5);
 
     // Getting spawn points
     this.spawnPoints = [];
-    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn1"));
-    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn2"));
-    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn3"));
-    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn4"));
-    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn5"));
-    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn6"));
-    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn7"));
-    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn8"));
-    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn9"));
-    this.spawnPoints.push(this.map.findObject("start", obj => obj.name === "spawn10"));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn1'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn2'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn3'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn4'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn5'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn6'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn7'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn8'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn9'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn10'));
 
     // =================== \\
     // ===== PLAYERS ===== \\
@@ -53,8 +58,8 @@ class GameScene extends Phaser.Scene {
     this.players = this.add.group();
     this.gameState.players.forEach((p) => {
       // Randomize Spawn Position
-      const randomNumber = Phaser.Math.Between(0, this.spawnPoints.length - 1)
-      const spawnPoint = this.spawnPoints[randomNumber];
+      const randomNumber = Phaser.Math.Between(0, this.spawnPoints.length - 1);
+      const spawnPoint = this.spawnPoints[0];
 
       const player = new Player({
         scene: this,
@@ -71,28 +76,44 @@ class GameScene extends Phaser.Scene {
 
     // SOCKET EVENTS
     // TURN
-    this.socket.on('prepare turn', (turn) => {
+    const updateTurn = (turn) => {
       store.dispatch.game.updateTurn(turn);
       this.getGameState();
+    };
+
+    this.socket.on('prepare turn', (turn) => {
+      updateTurn(turn);
+      // Set active player
+      const [player] = this.players
+        .getChildren()
+        .filter(i => i.id === this.gameState.turn.playerId);
+      // Hide crosshair for previous player
+      if (this.activePlayer) this.activePlayer.crosshair.visible = false;
+      // Set new activePlayer
+      this.activePlayer = player;
+      // Show crosshair for new activePlayer
+      this.activePlayer.crosshair.visible = true;
+      // Making camera following the player
+      this.cameras.main.startFollow(this.activePlayer);
     });
     this.socket.on('start turn', (turn) => {
-      store.dispatch.game.updateTurn(turn);
-      this.getGameState();
+      updateTurn(turn);
     });
     this.socket.on('end turn', () => {});
     this.socket.on('countdown', (time, status) => {
       store.dispatch.game.setTimer(time);
     });
-
+    this.socket.on('resume turn', (turn) => {
+      updateTurn(turn);
+    });
+    this.socket.on('pause turn', (turn) => {
+      updateTurn(turn);
+    });
     this.socket.on('player left', (p) => {
       console.log('player left');
       /* const [player] = this.players.getChildren().filter(i => i.id === p.id);
       player.die(); */
     });
-
-    // Making it Player Ones Turn
-    this.playersTurn = this.gameState.players[0].id;
-    this.activePlayer = this.players.getFirst(true);
 
     // ===================================== \\
     // ===== TILE LAYERS AND COLLISION ===== \\
@@ -123,17 +144,12 @@ class GameScene extends Phaser.Scene {
       collide: true,
     });
 
-
-
     // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
     /* this.cameras.main.setViewport(0, 0, window.innerWidth, window.innerHeight); */
     this.cameras.main.setZoom(1.5);
 
     this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-
-    // Making camera following the player
-    this.cameras.main.startFollow(this.activePlayer);
 
     // Creating a timer display
     this.timerText = this.make.text({
@@ -145,7 +161,6 @@ class GameScene extends Phaser.Scene {
         fill: '#D00',
       },
     });
-
   }
 
   update() {

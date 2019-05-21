@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/index.js",
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "scripts": {
-    "start": "nodemon --exec babel-node src/index.js",
+    "dev": "nodemon --exec babel-node src/index.js",
     "debug": "babe-node debug src/index.js",
     "build": "babel src -d build"
   },

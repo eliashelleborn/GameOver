@@ -4,9 +4,12 @@
   "description": "Made by: * Elias Johansson - [@eliasjohansson](https://github.com/eliasjohansson) * Per Baltzar - [@perbaltzar](https://github.com/perbaltzar)",
   "main": "index.js",
   "scripts": {
-    "start": "lerna run start --parallel",
-    "server:start": "cd packages/server && npm run start",
-    "client:start": "cd packages/client && npm run start"
+    "dev": "lerna run dev --parallel",
+    "server:dev": "cd packages/server && npm run start",
+    "client:dev": "cd packages/client && npm run start",
+    "server:build": "cd packages/server && npm run build",
+    "bootstrap": "lerna bootstrap",
+    "postinstall": "npm run bootstrap && npm run server:build"
   },
   "repository": {
     "type": "git",
