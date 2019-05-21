@@ -12,12 +12,13 @@ const StyledStart = styled.div`
   align-items: center;
   padding: 2rem;
   padding-top: 5rem;
+  overflow-y: scroll;
 
   button {
     width: 100%;
     max-width: 350px;
     height: 55px;
-    background-color: #364872;
+    background-color:  ${({ theme }) => theme.colorPrimary};
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -26,7 +27,7 @@ const StyledStart = styled.div`
     transition: .2s ease;
 
     &:hover {
-      background-color: #5A698B;
+      background-color:  ${({ theme }) => theme.colorPrimaryHover};
     }
   }
 
@@ -48,6 +49,22 @@ const StyledStart = styled.div`
         color: #848484;
         font-weight: bold;
       }
+    }
+  }
+
+  @media screen and (max-height: 500px) {
+    padding: 1rem;
+    justify-content: center;
+
+    form {
+      margin-top: 0;
+    }
+
+    svg {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+      width: 100px;
     }
   }
 `;

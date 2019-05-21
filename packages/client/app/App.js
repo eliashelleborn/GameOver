@@ -11,6 +11,7 @@ import Start from './pages/Start';
 import Game from './pages/Game';
 import TestGame from './pages/TestGame';
 import Background from './components/Background';
+import Lobby from './pages/Game/Lobby';
 
 const App = () => {
   const connect = useActions(actions => actions.socket.connect);
@@ -31,6 +32,7 @@ const App = () => {
           {socket && (
             <Fragment>
               <Route exact path="/" component={Start} />
+              <Route path="/lobby" component={Lobby} />
               <Route path="/game/:id" component={Game} />
               <Route path="/testing" component={TestGame} />
             </Fragment>
