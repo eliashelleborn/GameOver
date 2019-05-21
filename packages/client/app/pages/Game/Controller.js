@@ -37,10 +37,9 @@ const Controller = () => {
   const [stickAngle, setStickAngle] = useState(0);
   const [keys, setKeys] = useState({
     left: false,
-    right: false,
+    right: false
   });
-
-  const startMove = (dir) => {
+  const startMove = dir => {
     socket.emit('player start move', dir);
   };
 
@@ -66,7 +65,7 @@ const Controller = () => {
     }
   }, [keys]);
 
-  const keyDown = (e) => {
+  const keyDown = e => {
     if (e.key === 'ArrowLeft') {
       setKeys({ ...keys, left: true });
       startMove(-1);
@@ -84,7 +83,7 @@ const Controller = () => {
     }
   };
 
-  const keyUp = (e) => {
+  const keyUp = e => {
     if (e.key === 'ArrowLeft') {
       setKeys({ ...keys, left: false });
     }
@@ -110,7 +109,7 @@ const Controller = () => {
           position: { top: '50%', left: '50%' },
           size: 150,
           color: 'red',
-          restJoystick: false,
+          restJoystick: false
         }}
         onMove={(evt, data) => {
           const angle = Math.round(data.angle.radian * 100) / 100;
@@ -126,23 +125,37 @@ const Controller = () => {
         onKeyUp={keyUp}
         onMouseDown={startShoot}
         onMouseUp={releaseShoot}
+        onTouchStart={startShoot}
+        onTouchEnd={releaseShoot}
       >
         <span role="img" aria-label="shoot">
           ☄️
         </span>
       </button>
-      <button type="button" onMouseDown={jump}>
+      <button type="button" onMouseDown={jump} onTouchStart={jump}>
         <span role="img" aria-label="jump">
           🖕
         </span>
       </button>
       <div>
-        <button type="button" onMouseDown={() => startMove(-1)} onMouseUp={stopMove}>
+        <button
+          type="button"
+          onMouseDown={() => startMove(-1)}
+          onMouseUp={stopMove}
+          onTouchStart={() => startMove(-1)}
+          onTouchEnd={stopMove}
+        >
           <span role="img" aria-label="move left">
             👈
           </span>
         </button>
-        <button type="button" onMouseDown={() => startMove(1)} onMouseUp={stopMove}>
+        <button
+          type="button"
+          onMouseDown={() => startMove(1)}
+          onMouseUp={stopMove}
+          onTouchStart={() => startMove(1)}
+          onTouchEnd={stopMove}
+        >
           <span role="img" aria-label="move right">
             👉
           </span>
