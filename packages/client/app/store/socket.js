@@ -9,7 +9,7 @@ const socketStore = {
   }),
 
   connect: thunk(async (actions) => {
-    const socket = io(process.env.API_URL);
+    const socket = io(process.env.API_URI);
 
     await new Promise((resolve) => {
       socket.on('connect', () => {

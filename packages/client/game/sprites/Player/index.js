@@ -17,7 +17,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.body.setCollideWorldBounds(true);
     this.body.setFrictionX(1000);
 
-
     this.faceDirection = 'right';
     this.alive = true;
     this.canMove = true;
@@ -54,6 +53,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       x: this.x,
       y: this.y,
     }).setDepth(1);
+    this.crosshair.visible = false;
 
     // ===== WEAPON =====
     this.weapon = new Weapon({
@@ -65,8 +65,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
     // Initiate Controller event listeners
     controllerEvents(this.scene.socket, this);
-
-
 
     // Name tag
     this.nameText = this.scene.make.text({
@@ -82,8 +80,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
           offsetX: 1,
           offsetY: 1,
           color: '#000',
-          fill: true
-        }
+          fill: true,
+        },
       },
     });
   }
@@ -99,8 +97,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
       // ===== CONTROLLER ===== \\
       if (
-        this.id === this.scene.gameState.turn.playerId &&
-        this.scene.gameState.turn.status === 'playing'
+        this.id === this.scene.gameState.turn.playerId
+        && this.scene.gameState.turn.status === 'playing'
       ) {
         // Run
         if (this.canMove) {
@@ -131,6 +129,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         // Update crosshair position
         this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
+        // Show crosshair on active player
       }
     }
 
