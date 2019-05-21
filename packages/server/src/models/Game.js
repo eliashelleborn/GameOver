@@ -115,9 +115,8 @@ class Game {
   }
 
   endGame() {
-    console.log('end game');
     this.status = 'ended';
-    if (this.timer) clearInterval(this.timer);
+    this.pauseTurn();
   }
 
   // Handle players
