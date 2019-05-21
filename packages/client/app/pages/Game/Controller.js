@@ -3,25 +3,32 @@ import styled from 'styled-components';
 import { useStore } from 'easy-peasy';
 import Nipple from 'react-nipple';
 
+import arrow from '../../images/arrow.png';
+import bazooka from '../../images/bazooka.png';
+import crosshair from '../../images/crosshair.png';
+
 const StyledController = styled.div`
+  color: white;
+  background: #262626;
+  border: 30px solid #888888
   height: 100vh;
   width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 
   button {
-    padding: 1rem;
-    margin: 5px;
-    font-size: 2rem;
     cursor: pointer;
     outline: none;
-    border: none;
 
     &:active {
       background-color: rgba(0, 0, 0, 0.05);
     }
+  }
+  section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-flow: column;
   }
 `;
 
@@ -30,17 +37,67 @@ const StyledNipple = styled(Nipple)`
   width: 150px;
 
   position: relative;
+  .back {
+    opacity: 0.8 !important;
+  }
+  .front {
+    background: url(${crosshair}) !important;
+    background-size: cover !important;
+    opacity: 1 !important;
+  }
 `;
 
+const StyledShootButton = styled.button`
+  img {
+    transform: scale(2);
+  }
+  border-radius: 50%;
+  background: #ef5a39;
+  border: 4px solid #531b1b;
+  width: 150px;
+  height: 150px;
+`;
+const StyledJumpButton = styled.button`
+  color: white;
+  font-size: 30px;
+  border-radius: 50%;
+  border: 4px solid #20366d;
+  background: #305dff;
+  width: 150px;
+  height: 150px;
+  margin-top: auto;
+  margin-bottom: 50px;
+  justify-self: flex-end;
+`;
+const StyledLeftButton = styled.button`
+  width: 50%;
+  height: 100%;
+  img {
+    transform: scale(2) rotate(180deg);
+  }
+`;
+const StyledRightButton = styled.button`
+  width: 50%;
+  height: 100%;
+  img {
+    transform: scale(2);
+  }
+`;
+
+const StyledArrowContainer = styled.div`
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: space-around;
+`;
 const Controller = () => {
   const { socket } = useStore(state => state.socket);
   const [stickAngle, setStickAngle] = useState(0);
   const [keys, setKeys] = useState({
     left: false,
-    right: false,
+    right: false
   });
-
-  const startMove = (dir) => {
+  const startMove = dir => {
     socket.emit('player start move', dir);
   };
 
@@ -66,7 +123,7 @@ const Controller = () => {
     }
   }, [keys]);
 
-  const keyDown = (e) => {
+  const keyDown = e => {
     if (e.key === 'ArrowLeft') {
       setKeys({ ...keys, left: true });
       startMove(-1);
@@ -84,7 +141,7 @@ const Controller = () => {
     }
   };
 
-  const keyUp = (e) => {
+  const keyUp = e => {
     if (e.key === 'ArrowLeft') {
       setKeys({ ...keys, left: false });
     }
@@ -100,54 +157,68 @@ const Controller = () => {
 
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
-      <h2>
-        Angle:
-        {stickAngle}
-      </h2>
-      <StyledNipple
-        options={{
-          mode: 'static',
-          position: { top: '50%', left: '50%' },
-          size: 150,
-          color: 'red',
-          restJoystick: false,
-        }}
-        onMove={(evt, data) => {
-          const angle = Math.round(data.angle.radian * 100) / 100;
-          if (data.distance === 75 && angle !== stickAngle) {
-            setStickAngle(angle);
-            socket.emit('player aim', angle);
-          }
-        }}
-      />
-      <button
-        type="button"
-        onKeyDown={keyDown}
-        onKeyUp={keyUp}
-        onMouseDown={startShoot}
-        onMouseUp={releaseShoot}
-      >
-        <span role="img" aria-label="shoot">
-          ☄️
-        </span>
-      </button>
-      <button type="button" onMouseDown={jump}>
-        <span role="img" aria-label="jump">
-          🖕
-        </span>
-      </button>
-      <div>
-        <button type="button" onMouseDown={() => startMove(-1)} onMouseUp={stopMove}>
-          <span role="img" aria-label="move left">
-            👈
+      <section>
+        <div>
+          <h1>TIMER</h1>
+          <h1>HEALTHBAR</h1>
+        </div>
+        <StyledArrowContainer>
+          <StyledLeftButton
+            type="button"
+            onMouseDown={() => startMove(-1)}
+            onMouseUp={stopMove}
+            onTouchStart={() => startMove(-1)}
+            onTouchEnd={stopMove}
+          >
+            <img src={arrow} />
+          </StyledLeftButton>
+          <StyledRightButton
+            type="button"
+            onMouseDown={() => startMove(1)}
+            onMouseUp={stopMove}
+            onTouchStart={() => startMove(1)}
+            onTouchEnd={stopMove}
+          >
+            <img src={arrow} />
+          </StyledRightButton>
+        </StyledArrowContainer>
+      </section>
+      <section>
+        <StyledShootButton
+          type="button"
+          onKeyDown={keyDown}
+          onKeyUp={keyUp}
+          onMouseDown={startShoot}
+          onMouseUp={releaseShoot}
+          onTouchStart={startShoot}
+          onTouchEnd={releaseShoot}
+        >
+          <img src={bazooka} />
+        </StyledShootButton>
+        <StyledNipple
+          options={{
+            mode: 'static',
+            position: { top: '50%', left: '50%' },
+            size: 150,
+            color: '#FFCD55',
+            restJoystick: false
+          }}
+          onMove={(evt, data) => {
+            const angle = Math.round(data.angle.radian * 100) / 100;
+            if (data.distance === 75 && angle !== stickAngle) {
+              setStickAngle(angle);
+              socket.emit('player aim', angle);
+            }
+          }}
+        />
+      </section>
+      <section>
+        <StyledJumpButton type="button" onMouseDown={jump} onTouchStart={jump}>
+          <span role="img" aria-label="jump">
+            JUMP
           </span>
-        </button>
-        <button type="button" onMouseDown={() => startMove(1)} onMouseUp={stopMove}>
-          <span role="img" aria-label="move right">
-            👉
-          </span>
-        </button>
-      </div>
+        </StyledJumpButton>
+      </section>
     </StyledController>
   );
 };
