@@ -53,7 +53,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       key: 'crosshair',
       x: this.x,
       y: this.y,
-    });
+    }).setDepth(1);
 
     // ===== WEAPON =====
     this.weapon = new Weapon({
