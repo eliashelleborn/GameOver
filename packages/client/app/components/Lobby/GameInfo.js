@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const StyledGameInfo = styled.div`
   width: 250px;
@@ -27,12 +28,18 @@ const StyledGameInfo = styled.div`
   }
 `;
 
-const GameInfo = props => (
+const GameInfo = ({ startGame }) => (
   <StyledGameInfo>
     <h2>Game Info</h2>
 
-    <button type="button">START GAME</button>
+    <button type="button" onClick={startGame}>
+      START GAME
+    </button>
   </StyledGameInfo>
 );
+
+GameInfo.propTypes = {
+  startGame: PropTypes.func.isRequired,
+};
 
 export default GameInfo;
