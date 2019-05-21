@@ -8,7 +8,6 @@ class Player {
 
   updateHealth(healthChange) {
     this.health += healthChange;
-    console.log(this.health);
   }
 
   die() {

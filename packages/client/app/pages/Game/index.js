@@ -56,7 +56,7 @@ const Game = ({ match }) => {
   return (
     <div>
       {game.status === 'lobby' && <Lobby game={game} />}
-      {game.status === 'playing' && (game.host === socket.id ? <GameScreen /> : <Controller />)}
+      {game.status !== 'lobby' && (game.host === socket.id ? <GameScreen /> : <Controller />)}
     </div>
   );
 };

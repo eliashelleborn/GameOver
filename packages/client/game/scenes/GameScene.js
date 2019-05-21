@@ -116,8 +116,8 @@ class GameScene extends Phaser.Scene {
     });
 
     this.socket.on('end game', (game) => {
-      console.log('end game');
-      console.table(game);
+      store.dispatch.game.setGame(game);
+      this.getGameState();
     });
 
     // ===================================== \\
