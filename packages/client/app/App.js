@@ -10,6 +10,8 @@ import theme from './style/theme';
 import Start from './pages/Start';
 import Game from './pages/Game';
 import TestGame from './pages/TestGame';
+import Background from './components/Background';
+import Lobby from './pages/Game/Lobby';
 import Controller from './pages/Game/Controller';
 
 const App = () => {
@@ -24,20 +26,14 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <Fragment>
         <GlobalStyle />
-        {/*
-        <small>
-          {'Socket ID: '}
-          {socket && <b>{socket.id}</b>}
-        </small> */}
+
+        <Background />
 
         <Router>
-          {/*   <div>
-            <Link to="/">Home</Link>
-          </div> */}
-
           {socket && (
             <Fragment>
               <Route exact path="/" component={Start} />
+              <Route path="/lobby" component={Lobby} />
               <Route path="/game/:id" component={Game} />
               <Route path="/testing" component={TestGame} />
               <Route path="/controller" component={Controller} />
