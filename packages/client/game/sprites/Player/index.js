@@ -118,20 +118,19 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         // FRICTION
 
-        // Weapon
-        if (this.weapon && this.canMove) {
-          this.weapon.update(this.x, this.y);
-        }
-
-        // Update name tag position
-        this.nameText.x = this.x - this.nameText.width / 2;
-        this.nameText.y = this.y - 35;
 
         // Update crosshair position
         this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
         // Show crosshair on active player
       }
     }
+    // Weapon
+    if (this.weapon) {
+      this.weapon.update(this.x, this.y);
+    }
+    // Update name tag position
+    this.nameText.x = this.x - this.nameText.width / 2;
+    this.nameText.y = this.y - 35;
 
     // Flying variable
     if (!this.canMove) {
