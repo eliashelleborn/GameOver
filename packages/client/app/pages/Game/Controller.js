@@ -1,99 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useStore } from 'easy-peasy';
-import Nipple from 'react-nipple';
 
-import arrow from '../../images/arrow.png';
-import bazooka from '../../images/bazooka.png';
-import crosshair from '../../images/crosshair.png';
-import bg from '../../images/BG.png';
+import { Aim, Move } from '../../components/Controller/Joysticks';
+import { Shoot, Jump } from '../../components/Controller/ActionButtons';
+import CPlayerInfo from '../../components/Controller/PlayerInfo';
+
+const PlayerInfo = styled(CPlayerInfo)``;
+const ActionButtons = styled.div`
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 7.5rem;
+`;
 
 const StyledController = styled.div`
-  color: white;
-  background: #262626;
-  border: 30px solid #888888
-  height: 100vh;
-  width: 100vw;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-
-  button {
-    cursor: pointer;
-    outline: none;
-
-    &:active {
-      background-color: rgba(0, 0, 0, 0.05);
-    }
-  }
-  section {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-flow: column;
-  }
-`;
-
-const StyledNipple = styled(Nipple)`
-  height: 150px;
-  width: 150px;
-
-  position: relative;
-  .back {
-    opacity: 0.8 !important;
-  }
-  .front {
-    background: url(${crosshair}) !important;
-    background-size: cover !important;
-    opacity: 1 !important;
-  }
-`;
-
-const StyledShootButton = styled.button`
-  img {
-    transform: scale(2);
-  }
-  border-radius: 50%;
-  background: #ef5a39;
-  border: 4px solid #531b1b;
-  width: 120px;
-  height: 120px;
-`;
-const StyledJumpButton = styled.button`
-  color: white;
-  font-size: 30px;
-  border-radius: 50%;
-  border: 4px solid #20366d;
-  background: #305dff;
-  width: 150px;
-  height: 150px;
-  margin-top: auto;
-  margin-bottom: 50px;
-  justify-self: flex-end;
-`;
-const StyledLeftButton = styled.button`
-  width: 50%;
+  background: #fff;
   height: 100%;
-  img {
-    transform: scale(2) rotate(180deg);
-  }
-`;
-const StyledRightButton = styled.button`
-  width: 50%;
-  height: 100%;
-  img {
-    transform: scale(2);
-  }
-`;
-
-const StyledArrowContainer = styled.div`
   width: 100%;
-  height: 100px;
-  display: flex;
-  justify-content: space-around;
+  padding: 1rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto 1fr auto;
+
+  ${Aim} {
+    grid-row: 2 / 3;
+    align-self: end;
+    margin-bottom: 1rem;
+  }
+
+  ${Move} {
+    grid-row: 4 / 5;
+    margin-top: 1rem;
+  }
+
+  ${PlayerInfo} {
+    grid-row: 5 / 6;
+  }
+`;
+
+const Hamburger = styled.div`
+  margin-left: auto;
+  grid-row: 1 / 2
+  height: 55px;
+  width: 55px;
+  background-color: grey;
 `;
 
 const Controller = () => {
-  const [isFull, setIsFull] = useState(false);
   const [health, setHealth] = useState(100);
   const { socket } = useStore(state => state.socket);
   const [stickAngle, setStickAngle] = useState(0);
@@ -121,10 +74,6 @@ const Controller = () => {
     socket.emit('player release shoot');
   };
 
-  const toggleFullScreen = () => {
-    setIsFull(!isFull);
-    console.log(isFull);
-  };
   useEffect(() => {
     if (!keys.left && !keys.right) {
       stopMove();
@@ -174,71 +123,55 @@ const Controller = () => {
 
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
-      <section>
-        <div>
-          <h1>TIMER</h1>
-          <h1>
-            HEALTH:
-            {health}
-          </h1>
-        </div>
-        <StyledArrowContainer>
-          <StyledLeftButton
-            type="button"
-            onMouseDown={() => startMove(-1)}
-            onMouseUp={stopMove}
-            onTouchStart={() => startMove(-1)}
-            onTouchEnd={stopMove}
-          >
-            <img src={arrow} />
-          </StyledLeftButton>
-          <StyledRightButton
-            type="button"
-            onMouseDown={() => startMove(1)}
-            onMouseUp={stopMove}
-            onTouchStart={() => startMove(1)}
-            onTouchEnd={stopMove}
-          >
-            <img src={arrow} />
-          </StyledRightButton>
-        </StyledArrowContainer>
-      </section>
-      <section>
-        <StyledShootButton
-          type="button"
+      <Hamburger />
+
+      {/* ===== Controls ===== */}
+      <Aim
+        options={{
+          mode: 'static',
+          position: { top: '50%', left: '50%' },
+          size: 200,
+          color: '#FFCD55',
+          restJoystick: false,
+        }}
+        onMove={(evt, data) => {
+          const angle = Math.round(data.angle.radian * 100) / 100;
+          if (data.distance === 100 && angle !== stickAngle) {
+            setStickAngle(angle);
+            socket.emit('player aim', angle);
+          }
+        }}
+      />
+      <ActionButtons>
+        <Shoot
           onKeyDown={keyDown}
           onKeyUp={keyUp}
           onMouseDown={startShoot}
           onMouseUp={releaseShoot}
           onTouchStart={startShoot}
           onTouchEnd={releaseShoot}
-        >
-          <img src={bazooka} />
-        </StyledShootButton>
-        <StyledNipple
-          options={{
-            mode: 'static',
-            position: { top: '50%', left: '50%' },
-            size: 150,
-            color: '#FFCD55',
-            restJoystick: false,
-          }}
-          onMove={(evt, data) => {
-            const angle = Math.round(data.angle.radian * 100) / 100;
-            if (data.distance === 75 && angle !== stickAngle) {
-              setStickAngle(angle);
-              socket.emit('player aim', angle);
-            }
-          }}
         />
-      </section>
-      <section>
-        <StyledJumpButton type="button" onMouseDown={jump} onTouchStart={jump}>
-          <span role="img" aria-label="jump">
-            JUMP
-          </span>
-        </StyledJumpButton>
-      </section>
+        <Jump onMouseDown={jump} onTouchStart={jump} />
+      </ActionButtons>
+      <Move
+        options={{
+          mode: 'static',
+          position: { top: '50%', left: '50%' },
+          size: 200,
+          color: '#364872',
+          lockX: true,
+        }}
+        onPlain={(e, data) => {
+          const dir = data.direction.x === 'right' ? 1 : -1;
+          startMove(dir);
+        }}
+        onEnd={() => {
+          stopMove();
+        }}
+      />
+      {/* ===== / Controls ===== */}
+
+      <PlayerInfo player={{ name: 'Placeholder' }} health={health} />
     </StyledController>
   );
 };
