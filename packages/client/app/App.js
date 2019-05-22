@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import Div100vh from 'react-div-100vh';
 
 import { useStore, useActions } from 'easy-peasy';
 import GlobalStyle from './style/GlobalStyle';
@@ -25,7 +26,7 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Fragment>
+      <Div100vh>
         <GlobalStyle />
 
         <Background />
@@ -42,7 +43,7 @@ const App = () => {
             </Fragment>
           )}
         </Router>
-      </Fragment>
+      </Div100vh>
     </ThemeProvider>
   );
 };

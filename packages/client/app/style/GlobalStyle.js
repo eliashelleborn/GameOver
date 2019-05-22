@@ -8,6 +8,9 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Lato', sans-serif;
+    width: 100vw;
+    position: fixed;
+    overflow: hidden;
   }
 
   h1, h2, h3, h4, h5 {
