@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { animated, useSpring } from 'react-spring';
 
-const StyledEndGame = styled.div`
+const StyledEndGame = styled(animated.div)`
   position: absolute;
   width: 100%;
   height: 100%;
@@ -29,10 +30,11 @@ const StyledEndGame = styled.div`
   }
 `;
 
-const EndGame = ({ game }) => {
+const EndGame = ({ visible, game }) => {
   const [winner] = game.players.filter(p => p.alive);
+  const spring = useSpring({ opacity: visible ? 1 : 0 });
   return (
-    <StyledEndGame>
+    <StyledEndGame style={spring}>
       <h1>
         Game Ended!
         <br />

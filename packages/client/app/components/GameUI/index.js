@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useStore } from 'easy-peasy';
 import Timer from './Timer';
@@ -20,7 +20,13 @@ const StyledGameUI = styled.div`
 
 const GameUI = (props) => {
   const { game } = useStore(state => state.game);
-  /* const game = {
+  /*   const [status, setStatus] = useState('playing');
+  const game = {
+    timer: 0,
+    status,
+    turn: {
+      status: 'playing',
+    },
     players: [
       {
         id: '1',
@@ -36,9 +42,12 @@ const GameUI = (props) => {
   }; */
   return (
     <StyledGameUI>
+      {/*     <button type="button" onClick={() => setStatus('ended')}>
+        End game
+      </button> */}
       <div>
         {game.turn.status === 'playing' && <Timer time={game.timer} />}
-        {game.status === 'ended' && <EndGame game={game} />}
+        <EndGame visible={game.status === 'ended'} game={game} />
       </div>
     </StyledGameUI>
   );
