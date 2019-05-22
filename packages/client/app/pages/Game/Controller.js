@@ -55,8 +55,8 @@ const StyledShootButton = styled.button`
   border-radius: 50%;
   background: #ef5a39;
   border: 4px solid #531b1b;
-  width: 150px;
-  height: 150px;
+  width: 120px;
+  height: 120px;
 `;
 const StyledJumpButton = styled.button`
   color: white;
@@ -126,30 +126,30 @@ const StyledPopup = styled.div`
 const Controller = () => {
   const [isFull, setIsFull] = useState(false);
   const [health, setHealth] = useState(100);
-  // const { socket } = useStore(state => state.socket);
+  const { socket } = useStore(state => state.socket);
   const [stickAngle, setStickAngle] = useState(0);
   const [keys, setKeys] = useState({
     left: false,
     right: false,
   });
   const startMove = (dir) => {
-    // socket.emit('player start move', dir);
+    socket.emit('player start move', dir);
   };
 
   const stopMove = () => {
-    // socket.emit('player stop move');
+    socket.emit('player stop move');
   };
 
   const jump = () => {
-    // socket.emit('player jump');
+    socket.emit('player jump');
   };
 
   const startShoot = () => {
-    // socket.emit('player start shoot');
+    socket.emit('player start shoot');
   };
 
   const releaseShoot = () => {
-    // socket.emit('player release shoot');
+    socket.emit('player release shoot');
   };
 
   const toggleFullScreen = () => {
@@ -162,14 +162,14 @@ const Controller = () => {
     }
   }, [keys]);
 
-  // useEffect(() => {
-  // socket.on('player health update', (id, updatedHealth) => {
-  // if (socket.id === id) {
-  // setHealth(updatedHealth);
-  // }
-  // });
-  // return () => socket.removeAllListeners();
-  // }, []);
+  useEffect(() => {
+    socket.on('player health update', (id, updatedHealth) => {
+      if (socket.id === id) {
+        setHealth(updatedHealth);
+      }
+    });
+    return () => socket.removeAllListeners();
+  }, []);
 
   const keyDown = (e) => {
     if (e.key === 'ArrowLeft') {
