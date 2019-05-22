@@ -2,7 +2,7 @@ class Player {
   constructor(id, name) {
     this.id = id; // Socket ID
     this.name = name;
-    this.health = 0;
+    this.health = 100;
     this.alive = true;
   }
 

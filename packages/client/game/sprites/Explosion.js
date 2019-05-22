@@ -13,7 +13,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
     // Setting damage and correlating Scale
     this.damage = config.damage;
-    this.scale = 5 * (config.damage / 100);
+    this.scale = 6 * (config.damage / 100);
     this.setScale(this.scale);
 
     // Collider to players
@@ -43,12 +43,15 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
   hitPlayer(explosion, player) {
     // Calculating the damage
+    console.log('=====SHOT=====');
+    console.log(player);
     const distance = Phaser.Math.Distance.Between(player.x, player.y, explosion.x, explosion.y);
-    const updatedDamage = Math.round(this.damage - distance);
-
+    const updatedDamage = Math.round(this.damage - (distance / this.scale));
+    console.log(updatedDamage);
     if (!this.hasHurt) {
+      console.log('inside');
       player.takeDamage(updatedDamage);
-      player.flyFromExplosion(explosion, updatedDamage)
+      player.flyFromExplosion(explosion, updatedDamage);
       this.hasHurt = true;
     }
   }

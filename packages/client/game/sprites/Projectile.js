@@ -12,6 +12,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
       config.direction,
       config.dx,
       config.dy,
+      config.damage,
     );
     // Adding Projectile to scene
     this.scene = config.scene;
@@ -25,12 +26,11 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.scene.cameras.main.startFollow(this);
 
     // Adding Collision
-    this.scene.physics.add.collider(this, this.scene.players, () => this.hitGround());
+    // this.scene.physics.add.collider(this, this.scene.players, () => this.hitGround());
     this.scene.physics.add.collider(this, this.scene.layers, () => this.hitGround());
 
     // Adding the amount of damage
     this.damage = config.damage;
-
     // Changing gravity
     this.body.setGravity(0, 0);
 
@@ -43,17 +43,21 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.mapHeight = this.scene.map.heightInPixels;
 
     this.isInBounds = true;
+    this.canExplode = true;
   }
 
   hitGround() {
-    this.explosion = new Explosion({
-      scene: this.scene,
-      x: this.x,
-      y: this.y,
-      key: 'explosion',
-      damage: this.damage,
-    });
-    this.destroy();
+    if (this.canExplode) {
+      this.canExplode = false;
+      this.explosion = new Explosion({
+        scene: this.scene,
+        x: this.x,
+        y: this.y,
+        key: 'explosion',
+        damage: this.damage,
+      });
+      this.destroy();
+    }
   }
 
   update() {
