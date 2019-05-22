@@ -44,6 +44,10 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
     this.isInBounds = true;
     this.canExplode = true;
+
+    // Fixing fireing poisition
+    this.x = config.x + (5 * config.direction);
+    this.y = config.y - 10;
   }
 
   hitGround() {
