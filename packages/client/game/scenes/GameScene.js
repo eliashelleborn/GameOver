@@ -49,6 +49,8 @@ class GameScene extends Phaser.Scene {
     this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn8'));
     this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn9'));
     this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn10'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn11'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn12'));
 
     // =================== \\
     // ===== PLAYERS ===== \\
