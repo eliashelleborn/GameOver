@@ -38,9 +38,11 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.body.setVelocityX(config.force * config.dx);
     this.body.setVelocityY(config.force * -config.dy);
 
-    if (this.x > this.scene.map.widthInPixels || this.y > this.scene.map.heightInPixels) {
-      this.outOfBounds();
-    }
+    // Map size
+    this.mapWidth = this.scene.map.widthInPixels;
+    this.mapHeight = this.scene.map.heightInPixels;
+
+    this.isInBounds = true;
   }
 
   hitGround() {
@@ -53,8 +55,20 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     });
     this.destroy();
   }
+
+  update() {
+    if (this.x > this.mapWidth
+      || this.y > this.mapHeight
+      || this.x < 0) {
+      if (this.isInBounds) {
+        this.isInBounds = false;
+        this.outOfBounds();
+      }
+    }
+  }
+
   outOfBounds() {
-    scene.cameras.main.startFollow(scene.activePlayer);
+    this.scene.cameras.main.startFollow(this.scene.activePlayer);
     this.scene.socket.emit('resume turn', this.scene.gameState.id);
     this.destroy();
   }
