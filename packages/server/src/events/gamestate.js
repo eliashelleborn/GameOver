@@ -18,10 +18,17 @@ export default (io, socket, dataStore) => {
         io.to(`game ${game.id}`).emit('end turn');
       }
 
+      // If only one player is left, end game
       const alivePlayers = game.players.filter(p => p.alive);
       if (alivePlayers.length <= 1) {
         game.endGame();
         io.to(`game ${game.id}`).emit('end game', game);
+      }
+
+      // If active player dies mid-turn, set time left to 0
+      const [activePlayer] = game.players.filter(p => p.id === game.turn.playerId);
+      if (!activePlayer.alive) {
+        game.turn.timeLeft = 0;
       }
 
       io.to(`game ${game.id}`).emit('countdown', game.turn.timeLeft, game.turn.status);
