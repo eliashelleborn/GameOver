@@ -28,6 +28,7 @@
     "react-full-screen": "^0.2.4",
     "react-nipple": "^1.0.1",
     "react-router-dom": "^5.0.0",
+    "react-spring": "^8.0.20",
     "socket.io-client": "^2.2.0",
     "styled-components": "^4.2.0",
     "styled-modern-normalize": "^0.2.0"

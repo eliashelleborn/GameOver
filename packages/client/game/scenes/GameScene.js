@@ -115,6 +115,11 @@ class GameScene extends Phaser.Scene {
       player.die(); */
     });
 
+    this.socket.on('end game', (game) => {
+      store.dispatch.game.setGame(game);
+      this.getGameState();
+    });
+
     // ===================================== \\
     // ===== TILE LAYERS AND COLLISION ===== \\
     // ===================================== \\

@@ -4,7 +4,7 @@ class Game {
   constructor(id, host, testing) {
     this.id = id;
     this.host = host;
-    this.status = testing ? 'test' : 'lobby'; // 'lobby', 'playing', 'test'
+    this.status = testing ? 'test' : 'lobby'; // 'lobby', 'playing', 'test', 'ended'
     this.players = [];
     this.testing = testing;
 
@@ -70,12 +70,12 @@ class Game {
     if (!this.turn.playerId) {
       this.turn.playerId = this.players[0].id;
     } else {
-      /* const alivePlayers = this.players.filter(p => p.alive); */
-      const currentPlayerIndex = this.players.map(p => p.id).indexOf(this.turn.playerId);
-      if (currentPlayerIndex === this.players.length - 1) {
-        this.turn.playerId = this.players[0].id;
+      const alivePlayers = this.players.filter(p => p.alive || p.id === this.turn.playerId);
+      const currentPlayerIndex = alivePlayers.map(p => p.id).indexOf(this.turn.playerId);
+      if (currentPlayerIndex === alivePlayers.length - 1) {
+        this.turn.playerId = alivePlayers[0].id;
       } else {
-        this.turn.playerId = this.players[currentPlayerIndex + 1].id;
+        this.turn.playerId = alivePlayers[currentPlayerIndex + 1].id;
       }
     }
 
@@ -112,6 +112,11 @@ class Game {
   // Go back to the start of the turn cycle
   endTurn(tickEvent) {
     this.nextTurnCountdown(tickEvent);
+  }
+
+  endGame() {
+    this.status = 'ended';
+    this.pauseTurn();
   }
 
   // Handle players
