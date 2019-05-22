@@ -33,6 +33,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       right: `${config.key}-right`,
       standLeft: `${config.key}-standLeft`,
       standRight: `${config.key}-standRight`,
+      dead: `${config.key}-dead`,
     };
 
     this.controller = {
@@ -123,6 +124,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
         this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
         // Show crosshair on active player
       }
+    } else {
+      this.anims.play(this.animations.dead, true);
     }
     // Weapon
     if (this.weapon) {
@@ -201,6 +204,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   die() {
     this.scene.socket.emit('player dies', this.id);
+    // this.scene.physics.world.disable(this);
+    this.disableBody();
+    this.y -= 55;
   }
 
   updateAlive(lifeStatus) {

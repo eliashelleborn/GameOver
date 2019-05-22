@@ -37,6 +37,16 @@ export default function makeAnimations(scene) {
     frameRate: 20,
   });
 
+  scene.anims.create({
+    key: 'blue-dead',
+    frames: scene.anims.generateFrameNumbers('blue', {
+      start: 6,
+      end: 7,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
   // GHOST ANIMATION GREEN
   scene.anims.create({
     key: 'green-right',
