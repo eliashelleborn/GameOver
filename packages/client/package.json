@@ -25,7 +25,6 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-full-screen": "^0.2.4",
     "react-nipple": "^1.0.1",
     "react-router-dom": "^5.0.0",
     "react-spring": "^8.0.20",
