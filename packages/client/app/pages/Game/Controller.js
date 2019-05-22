@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useStore } from 'easy-peasy';
 import Nipple from 'react-nipple';
-import Fullscreen from 'react-full-screen';
+
 import arrow from '../../images/arrow.png';
 import bazooka from '../../images/bazooka.png';
 import crosshair from '../../images/crosshair.png';
