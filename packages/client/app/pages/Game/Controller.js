@@ -91,38 +91,7 @@ const StyledArrowContainer = styled.div`
   display: flex;
   justify-content: space-around;
 `;
-const StyledPopup = styled.div`
-  z-index: 1000;
-  @import url('https://fonts.googleapis.com/css?family=Lato:400,700|Trade+Winds&display=swap');
 
-  font-family: 'Lato', sans-serif;
-
-  position: absolute;
-  background: url(${bg});
-  background-position: center;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-flow: column;
-  p {
-    color: #364872;
-  }
-  button {
-    width: 100%;
-    max-width: 350px;
-    height: 55px;
-    background-color: #364872;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    &:hover {
-      background-color: #5a698b;
-    }
-  }
-`;
 const Controller = () => {
   const [isFull, setIsFull] = useState(false);
   const [health, setHealth] = useState(100);
@@ -204,81 +173,73 @@ const Controller = () => {
   };
 
   return (
-    <div>
-      <StyledPopup>
-        <p>The controller can only be used in fullscreen</p>
-        <button onClick={toggleFullScreen}>Go Fullscreen</button>
-      </StyledPopup>
-      <Fullscreen enabled={isFull}>
-        <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
-          <section>
-            <div>
-              <h1>TIMER</h1>
-              <h1>
-                HEALTH:
-                {health}
-              </h1>
-            </div>
-            <StyledArrowContainer>
-              <StyledLeftButton
-                type="button"
-                onMouseDown={() => startMove(-1)}
-                onMouseUp={stopMove}
-                onTouchStart={() => startMove(-1)}
-                onTouchEnd={stopMove}
-              >
-                <img src={arrow} />
-              </StyledLeftButton>
-              <StyledRightButton
-                type="button"
-                onMouseDown={() => startMove(1)}
-                onMouseUp={stopMove}
-                onTouchStart={() => startMove(1)}
-                onTouchEnd={stopMove}
-              >
-                <img src={arrow} />
-              </StyledRightButton>
-            </StyledArrowContainer>
-          </section>
-          <section>
-            <StyledShootButton
-              type="button"
-              onKeyDown={keyDown}
-              onKeyUp={keyUp}
-              onMouseDown={startShoot}
-              onMouseUp={releaseShoot}
-              onTouchStart={startShoot}
-              onTouchEnd={releaseShoot}
-            >
-              <img src={bazooka} />
-            </StyledShootButton>
-            <StyledNipple
-              options={{
-                mode: 'static',
-                position: { top: '50%', left: '50%' },
-                size: 150,
-                color: '#FFCD55',
-                restJoystick: false,
-              }}
-              onMove={(evt, data) => {
-                const angle = Math.round(data.angle.radian * 100) / 100;
-                if (data.distance === 75 && angle !== stickAngle) {
-                  setStickAngle(angle);
-                  socket.emit('player aim', angle);
-                }
-              }}
-            />
-          </section>
-          <section>
-            <StyledJumpButton type="button" onMouseDown={jump} onTouchStart={jump}>
-              <span role="img" aria-label="jump">
-                JUMP
-              </span>
-            </StyledJumpButton>
-          </section>
-        </StyledController>
-      </Fullscreen>
-    </div>
+    <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
+      <section>
+        <div>
+          <h1>TIMER</h1>
+          <h1>
+            HEALTH:
+            {health}
+          </h1>
+        </div>
+        <StyledArrowContainer>
+          <StyledLeftButton
+            type="button"
+            onMouseDown={() => startMove(-1)}
+            onMouseUp={stopMove}
+            onTouchStart={() => startMove(-1)}
+            onTouchEnd={stopMove}
+          >
+            <img src={arrow} />
+          </StyledLeftButton>
+          <StyledRightButton
+            type="button"
+            onMouseDown={() => startMove(1)}
+            onMouseUp={stopMove}
+            onTouchStart={() => startMove(1)}
+            onTouchEnd={stopMove}
+          >
+            <img src={arrow} />
+          </StyledRightButton>
+        </StyledArrowContainer>
+      </section>
+      <section>
+        <StyledShootButton
+          type="button"
+          onKeyDown={keyDown}
+          onKeyUp={keyUp}
+          onMouseDown={startShoot}
+          onMouseUp={releaseShoot}
+          onTouchStart={startShoot}
+          onTouchEnd={releaseShoot}
+        >
+          <img src={bazooka} />
+        </StyledShootButton>
+        <StyledNipple
+          options={{
+            mode: 'static',
+            position: { top: '50%', left: '50%' },
+            size: 150,
+            color: '#FFCD55',
+            restJoystick: false,
+          }}
+          onMove={(evt, data) => {
+            const angle = Math.round(data.angle.radian * 100) / 100;
+            if (data.distance === 75 && angle !== stickAngle) {
+              setStickAngle(angle);
+              socket.emit('player aim', angle);
+            }
+          }}
+        />
+      </section>
+      <section>
+        <StyledJumpButton type="button" onMouseDown={jump} onTouchStart={jump}>
+          <span role="img" aria-label="jump">
+            JUMP
+          </span>
+        </StyledJumpButton>
+      </section>
+    </StyledController>
   );
 };
 
