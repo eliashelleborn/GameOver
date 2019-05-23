@@ -13,13 +13,22 @@ const Button = styled.button`
   align-items: center;
   color: white;
   border: none;
-  outline: 0;
+  outline: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+
+  img {
+    pointer-events: none;
+  }
 `;
 
 // Shoot
 const StyledShoot = styled(Button)`
   background-color: ${({ theme }) => theme.colorSecondary};
+  &:active {
+    background-color: ${({ theme }) => theme.colorSecondaryHover};
+  }
   img {
     margin-top: -5px;
   }
@@ -34,6 +43,9 @@ export const Shoot = props => (
 // Jump
 const StyledJump = styled(Button)`
   background-color: ${({ theme }) => theme.colorPrimary};
+  &:active {
+    background-color: ${({ theme }) => theme.colorPrimaryHover};
+  }
 `;
 
 export const Jump = props => (

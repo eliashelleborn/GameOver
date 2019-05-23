@@ -19,6 +19,7 @@ import GameUI from './components/GameUI';
 const App = () => {
   const connect = useActions(actions => actions.socket.connect);
   const socket = useStore(state => state.socket.socket);
+  const game = useStore(state => state.game.game);
 
   useEffect(() => {
     connect();
@@ -29,7 +30,8 @@ const App = () => {
       <Div100vh>
         <GlobalStyle />
 
-        <Background />
+        {!game && <Background />}
+        {game && game.status !== 'playing' && <Background />}
 
         <Router>
           {socket && (

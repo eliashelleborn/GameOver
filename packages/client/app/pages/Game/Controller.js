@@ -8,10 +8,10 @@ import CPlayerInfo from '../../components/Controller/PlayerInfo';
 
 const PlayerInfo = styled(CPlayerInfo)``;
 const ActionButtons = styled.div`
-  margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 7.5rem;
+  column-gap: 10rem;
+  margin: 0 auto;
 `;
 
 const StyledController = styled.div`
@@ -20,31 +20,70 @@ const StyledController = styled.div`
   width: 100%;
   padding: 1rem;
   display: grid;
-  grid-template-rows: auto 1fr auto 1fr auto;
+  grid-template-rows: 1fr auto;
 
-  ${Aim} {
-    grid-row: 2 / 3;
-    align-self: end;
-    margin-bottom: 1rem;
-  }
-
-  ${Move} {
-    grid-row: 4 / 5;
-    margin-top: 1rem;
+  * {
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
   }
 
   ${PlayerInfo} {
-    grid-row: 5 / 6;
+    grid-row: 2 / 3;
+    margin-top: 1rem;
+  }
+
+  @media screen and (orientation: landscape) and (max-height: 500px) {
+    grid-template-rows: auto 1fr;
+    ${PlayerInfo} {
+      grid-row: 1 / 2;
+      grid-column: 1 / 2;
+      margin-top: 0rem;
+    }
   }
 `;
 
-const Hamburger = styled.div`
+const Controls = styled.div`
+  grid-row: 1 / 2
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+   @media screen and (orientation: landscape) and (max-height: 500px) {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    grid-row: 2 / 3;
+
+    ${Aim} {
+      margin: 0;
+      order: 2;
+    }
+
+    ${Move} {
+      margin: 0;
+      order: 1;
+    }
+
+    ${ActionButtons} {
+      margin: 0;
+      order: 3;
+      column-gap: 4rem;
+    }
+  }
+`;
+
+/* const Hamburger = styled.div`
   margin-left: auto;
   grid-row: 1 / 2
+  grid-column: 1 / 2;
   height: 55px;
   width: 55px;
   background-color: grey;
-`;
+`; */
 
 const Controller = () => {
   const [health, setHealth] = useState(100);
@@ -123,52 +162,55 @@ const Controller = () => {
 
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
-      <Hamburger />
+      {/*       <Hamburger /> */}
 
       {/* ===== Controls ===== */}
-      <Aim
-        options={{
-          mode: 'static',
-          position: { top: '50%', left: '50%' },
-          size: 200,
-          color: '#FFCD55',
-          restJoystick: false,
-        }}
-        onMove={(evt, data) => {
-          const angle = Math.round(data.angle.radian * 100) / 100;
-          if (data.distance === 100 && angle !== stickAngle) {
-            setStickAngle(angle);
-            socket.emit('player aim', angle);
-          }
-        }}
-      />
-      <ActionButtons>
-        <Shoot
-          onKeyDown={keyDown}
-          onKeyUp={keyUp}
-          onMouseDown={startShoot}
-          onMouseUp={releaseShoot}
-          onTouchStart={startShoot}
-          onTouchEnd={releaseShoot}
+      <Controls>
+        <Aim
+          options={{
+            mode: 'static',
+            position: { top: '50%', left: '50%' },
+            size: 200,
+            color: '#FFCD55',
+            restJoystick: false,
+          }}
+          onMove={(evt, data) => {
+            const angle = Math.round(data.angle.radian * 100) / 100;
+            if (data.distance === 100 && angle !== stickAngle) {
+              setStickAngle(angle);
+              socket.emit('player aim', angle);
+            }
+          }}
         />
-        <Jump onMouseDown={jump} onTouchStart={jump} />
-      </ActionButtons>
-      <Move
-        options={{
-          mode: 'static',
-          position: { top: '50%', left: '50%' },
-          size: 200,
-          color: '#364872',
-          lockX: true,
-        }}
-        onPlain={(e, data) => {
-          const dir = data.direction.x === 'right' ? 1 : -1;
-          startMove(dir);
-        }}
-        onEnd={() => {
-          stopMove();
-        }}
-      />
+        <ActionButtons>
+          <Shoot
+            onKeyDown={keyDown}
+            onKeyUp={keyUp}
+            onMouseDown={startShoot}
+            onMouseUp={releaseShoot}
+            onTouchStart={startShoot}
+            onTouchEnd={releaseShoot}
+          />
+          <Jump onMouseDown={jump} onTouchStart={jump} />
+        </ActionButtons>
+        <Move
+          options={{
+            mode: 'static',
+            position: { top: '50%', left: '50%' },
+            size: 200,
+            color: '#364872',
+            lockX: true,
+            multitouch: true,
+          }}
+          onPlain={(e, data) => {
+            const dir = data.direction.x === 'right' ? 1 : -1;
+            startMove(dir);
+          }}
+          onEnd={() => {
+            stopMove();
+          }}
+        />
+      </Controls>
       {/* ===== / Controls ===== */}
 
       <PlayerInfo player={{ name: 'Placeholder' }} health={health} />

@@ -10,10 +10,22 @@ const StyledPlayerInfo = styled.div`
   > div {
     display: flex;
   }
+
+  @media screen and (orientation: landscape) and (max-height: 500px) {
+    display: inline-block;
+    width: auto;
+    h3 {
+      display: none;
+    }
+    > div {
+    }
+  }
 `;
 
 const Health = styled.div`
   position: relative;
+  /* max-width: 400px; */
+  margin-right: auto;
   height: 55px;
   flex: 1;
   margin-right: 0.5rem;
@@ -45,6 +57,13 @@ const Health = styled.div`
     background-color: #4a954a;
     border-radius: 5px;
   }
+
+  @media screen and (orientation: landscape) and (max-height: 500px) {
+    display: inline-block;
+    align-self: start;
+    margin-right: 0;
+    margin-left: 0.5rem;
+  }
 `;
 
 const Button = styled.button`
@@ -55,10 +74,14 @@ const Button = styled.button`
   background-color: ${({ theme }) => theme.colorPrimary};
   color: white;
   border-radius: 5px;
+
+  @media screen and (orientation: landscape) and (max-height: 500px) {
+    order: -1;
+  }
 `;
 
-const PlayerInfo = ({ player, health }) => (
-  <StyledPlayerInfo>
+const PlayerInfo = ({ player, health, className }) => (
+  <StyledPlayerInfo className={className}>
     <h3>{player.name}</h3>
     <div>
       <Health health={health}>
@@ -67,7 +90,7 @@ const PlayerInfo = ({ player, health }) => (
           /100
         </span>
       </Health>
-      <Button>P</Button>
+      <Button>M</Button>
     </div>
   </StyledPlayerInfo>
 );
