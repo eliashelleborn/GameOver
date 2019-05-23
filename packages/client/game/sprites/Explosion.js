@@ -47,7 +47,10 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     if (!this.hasHurt.includes(player)) {
       // Calculating the damage
       const distance = Phaser.Math.Distance.Between(player.x, player.y, explosion.x, explosion.y);
-      const updatedDamage = Math.round(this.damage - (distance / this.scale));
+      let updatedDamage = Math.round(this.damage - (distance / this.scale));
+      if (updatedDamage < 1) {
+        updatedDamage = 1;
+      }
       player.takeDamage(updatedDamage);
       player.flyFromExplosion(explosion, updatedDamage);
       this.hasHurt.push(player);
