@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
+import Div100vh from 'react-div-100vh';
 
 import { useStore, useActions } from 'easy-peasy';
 import GlobalStyle from './style/GlobalStyle';
@@ -18,6 +19,7 @@ import GameUI from './components/GameUI';
 const App = () => {
   const connect = useActions(actions => actions.socket.connect);
   const socket = useStore(state => state.socket.socket);
+  const game = useStore(state => state.game.game);
 
   useEffect(() => {
     connect();
@@ -25,10 +27,11 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Fragment>
+      <Div100vh>
         <GlobalStyle />
 
-        <Background />
+        {!game && <Background />}
+        {game && game.status !== 'playing' && <Background />}
 
         <Router>
           {socket && (
@@ -42,7 +45,7 @@ const App = () => {
             </Fragment>
           )}
         </Router>
-      </Fragment>
+      </Div100vh>
     </ThemeProvider>
   );
 };
