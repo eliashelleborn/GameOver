@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.4.4",
-    "@rehooks/window-size": "^1.0.2",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "easy-peasy": "^2.1.6",
     "phaser": "^3.16.2",
