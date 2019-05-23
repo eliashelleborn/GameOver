@@ -41,9 +41,9 @@ export default function makeAnimations(scene) {
     key: 'blue-dead',
     frames: scene.anims.generateFrameNumbers('blue', {
       start: 6,
-      end: 7,
+      end: 11,
     }),
-    frameRate: 10,
+    frameRate: 7,
     repeat: -1,
   });
 
