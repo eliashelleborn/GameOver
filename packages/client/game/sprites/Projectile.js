@@ -13,11 +13,17 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
       config.dx,
       config.dy,
       config.damage,
+      config.angle,
     );
     // Adding Projectile to scene
     this.scene = config.scene;
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
+    this.body.setSize(12, 12);
+
+    // Rotation
+    this.rotation = -config.angle;
+    this.body.angularVelocity = (150 - (config.force / 10)) * config.direction;
 
     // Defining animation
     this.anims.play(config.key);
@@ -65,6 +71,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
   }
 
   update() {
+    // console.log('projectile:', this.rotation);
     if (this.x > this.mapWidth
       || this.y > this.mapHeight
       || this.x < 0) {

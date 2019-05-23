@@ -88,6 +88,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update() {
+    // console.log('player : ', this.controller.weapon.aim);
     if (this.alive) {
       // ===== CHECK AIM DIRECTION ===== \\
       if (this.controller.weapon.aim > 1.5 && this.controller.weapon.aim < 4.7) {
@@ -176,7 +177,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   fire() {
     this.startedFire = false;
-    this.weapon.fire(this.controller.movement.direction, this.controller.weapon.aim);
+    this.weapon.fire(this.faceDirection === 'left' ? -1 : 1, this.controller.weapon.aim);
     this.scene.socket.emit('pause turn', this.scene.gameState.id, 'shot');
   }
 

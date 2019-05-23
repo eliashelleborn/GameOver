@@ -49,7 +49,9 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
       dy,
       damage: this.damage,
       direction,
+      angle,
     });
+
     this.thrust = 0;
   }
 }
