@@ -49,6 +49,8 @@ class GameScene extends Phaser.Scene {
     this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn8'));
     this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn9'));
     this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn10'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn11'));
+    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn12'));
 
     // =================== \\
     // ===== PLAYERS ===== \\
@@ -59,7 +61,7 @@ class GameScene extends Phaser.Scene {
     this.gameState.players.forEach((p) => {
       // Randomize Spawn Position
       const randomNumber = Phaser.Math.Between(0, this.spawnPoints.length - 1);
-      const spawnPoint = this.spawnPoints[randomNumber];
+      const spawnPoint = this.spawnPoints[3];
 
       const player = new Player({
         scene: this,

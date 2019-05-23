@@ -10,7 +10,9 @@ export default class ThrustBar extends Phaser.GameObjects.Sprite {
     this.y = config.y;
     this.anims.play(config.key);
     this.anims.pause();
+    this.setScale(1.2);
   }
+
   update(x, y, thrust, maxThrust) {
     this.x = x;
     this.y = y - 45;

@@ -1,10 +1,7 @@
 import Phaser from 'phaser';
 
 // Maps
-import map from '../assets/maps/map.json';
 import newMap from '../assets/maps/magic_cliffs.json';
-import testMap from '../assets/maps/test-map.json';
-import inca from '../assets/maps/inca_front.png';
 import cliffs from '../assets/maps/cliffs-tileset-extruded.png';
 
 // Backgrounds
@@ -43,7 +40,7 @@ class BootScene extends Phaser.Scene {
 
   preload() {
     const {
-      testing
+      testing,
     } = store.getState().game;
 
     // Collection of loading to do.
@@ -114,7 +111,7 @@ class BootScene extends Phaser.Scene {
     this.load.spritesheet('thrust-bar', thrustBar, {
       frameWidth: 50,
       frameHeight: 10,
-    })
+    });
   }
 }
 

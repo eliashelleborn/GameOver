@@ -12,11 +12,18 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
       config.direction,
       config.dx,
       config.dy,
+      config.damage,
+      config.angle,
     );
     // Adding Projectile to scene
     this.scene = config.scene;
     this.scene.physics.world.enable(this);
     this.scene.add.existing(this);
+    this.body.setSize(12, 12);
+
+    // Rotation
+    this.rotation = -config.angle;
+    this.body.angularVelocity = (150 - (config.force / 10)) * config.direction;
 
     // Defining animation
     this.anims.play(config.key);
@@ -30,7 +37,6 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
     // Adding the amount of damage
     this.damage = config.damage;
-
     // Changing gravity
     this.body.setGravity(0, 0);
 
@@ -38,23 +44,46 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.body.setVelocityX(config.force * config.dx);
     this.body.setVelocityY(config.force * -config.dy);
 
-    if (this.x > this.scene.map.widthInPixels || this.y > this.scene.map.heightInPixels) {
-      this.outOfBounds();
-    }
+    // Map size
+    this.mapWidth = this.scene.map.widthInPixels;
+    this.mapHeight = this.scene.map.heightInPixels;
+
+    this.isInBounds = true;
+    this.canExplode = true;
+
+    // Fixing fireing poisition
+    this.x = config.x + (5 * config.direction);
+    this.y = config.y - 10;
   }
 
   hitGround() {
-    this.explosion = new Explosion({
-      scene: this.scene,
-      x: this.x,
-      y: this.y,
-      key: 'explosion',
-      damage: this.damage,
-    });
-    this.destroy();
+    if (this.canExplode) {
+      this.canExplode = false;
+      this.explosion = new Explosion({
+        scene: this.scene,
+        x: this.x,
+        y: this.y,
+        key: 'explosion',
+        damage: this.damage,
+      });
+      this.destroy();
+    }
   }
+
+  update() {
+    // console.log('projectile:', this.rotation);
+    if (this.x > this.mapWidth
+      || this.y > this.mapHeight
+      || this.x < 0) {
+      if (this.isInBounds) {
+        this.isInBounds = false;
+        this.outOfBounds();
+      }
+    }
+  }
+
   outOfBounds() {
-    scene.cameras.main.startFollow(scene.activePlayer);
+    this.scene.cameras.main.startFollow(this.scene.activePlayer);
     this.scene.socket.emit('resume turn', this.scene.gameState.id);
     this.destroy();
   }

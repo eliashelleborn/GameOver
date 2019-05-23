@@ -33,6 +33,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       right: `${config.key}-right`,
       standLeft: `${config.key}-standLeft`,
       standRight: `${config.key}-standRight`,
+      dead: `${config.key}-dead`,
     };
 
     this.controller = {
@@ -87,6 +88,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update() {
+    // console.log('player : ', this.controller.weapon.aim);
     if (this.alive) {
       // ===== CHECK AIM DIRECTION ===== \\
       if (this.controller.weapon.aim > 1.5 && this.controller.weapon.aim < 4.7) {
@@ -118,20 +120,21 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         // FRICTION
 
-        // Weapon
-        if (this.weapon && this.canMove) {
-          this.weapon.update(this.x, this.y);
-        }
-
-        // Update name tag position
-        this.nameText.x = this.x - this.nameText.width / 2;
-        this.nameText.y = this.y - 35;
 
         // Update crosshair position
         this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
         // Show crosshair on active player
       }
+    } else {
+      this.anims.play(this.animations.dead, true);
     }
+    // Weapon
+    if (this.weapon) {
+      this.weapon.update(this.x, this.y);
+    }
+    // Update name tag position
+    this.nameText.x = this.x - this.nameText.width / 2;
+    this.nameText.y = this.y - 35;
 
     // Flying variable
     if (!this.canMove) {
@@ -174,7 +177,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   fire() {
     this.startedFire = false;
-    this.weapon.fire(this.controller.movement.direction, this.controller.weapon.aim);
+    this.weapon.fire(this.faceDirection === 'left' ? -1 : 1, this.controller.weapon.aim);
     this.scene.socket.emit('pause turn', this.scene.gameState.id, 'shot');
   }
 
@@ -202,6 +205,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   die() {
     this.scene.socket.emit('player dies', this.id);
+    // this.scene.physics.world.disable(this);
+    this.disableBody();
+    this.y -= 55;
   }
 
   updateAlive(lifeStatus) {
