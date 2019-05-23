@@ -9,7 +9,7 @@ class Game {
     this.testing = testing;
 
     this.settings = {
-      turnTime: 20,
+      turnTime: 35,
     };
 
     this.timer = null;

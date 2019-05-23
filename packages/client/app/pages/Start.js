@@ -1,7 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, {
+  useEffect,
+  useState,
+} from 'react';
+import {
+  Redirect,
+} from 'react-router-dom';
 import styled from 'styled-components';
-import { useStore, useActions } from 'easy-peasy';
+import {
+  useStore,
+  useActions,
+} from 'easy-peasy';
 import Logo from '../components/Logo';
 
 const StyledStart = styled.div`
@@ -101,7 +109,7 @@ const Start = () => {
 
   // Form
   const [roomCode, setRoomCode] = useState('AAAA');
-  const [name, setName] = useState('Tester');
+  const [name, setName] = useState('');
 
   useEffect(() => {
     socket.on('join game', (game) => {
@@ -119,52 +127,89 @@ const Start = () => {
   };
 
   const joinGame = () => {
-    socket.emit('join game', { id: roomCode, name });
+    socket.emit('join game', {
+      id: roomCode,
+      name,
+    });
   };
 
-  if (redirectPath) return <Redirect to={`/game/${redirectPath}`} />;
+  if (redirectPath) {return <Redirect to = {
+    `/game/${redirectPath}`
+  }
+  />;}
 
   return (
-    <StyledStart>
-      <Logo width="450px" />
+<
+    StyledStart >
+    <
+    Logo width = "450px" / >
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          joinGame();
-        }}
-      >
-        <input
-          type="text"
-          placeholder="Room Code"
-          value={roomCode.toUpperCase()}
-          onChange={({ target }) => setRoomCode(target.value)}
-          minLength={4}
-          maxLength={4}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={({ target }) => setName(target.value)}
-          minLength={3}
-          maxLength={15}
-          required
-        />
-        <button type="submit">JOIN</button>
-      </form>
+    <
+    form onSubmit = {
+      (e) => {
+        e.preventDefault();
+        joinGame();
+      }
+    } >
+    <
+    input type = "text"
+    placeholder = "Room Code"
+    value = {
+      roomCode.toUpperCase()
+    }
+    onChange = {
+      ({
+        target
+      }) => setRoomCode(target.value)
+    }
+    minLength = {
+      4
+    }
+    maxLength = {
+      4
+    }
+    required /
+    >
+    <
+    input type = "text"
+    placeholder = "Name"
+    value = {
+      name
+    }
+    onChange = {
+      ({
+        target
+      }) => setName(target.value)
+    }
+    minLength = {
+      3
+    }
+    maxLength = {
+      15
+    }
+    required /
+    >
+    <
+    button type = "submit" > JOIN < /button> <
+    /form>
 
-      <OrDivider>
-        <span />
-        OR
-        <span />
-      </OrDivider>
+    <
+    OrDivider >
+    <
+    span / >
+    OR <
+    span / >
+    <
+    /OrDivider>
 
-      <button type="button" onClick={hostGame}>
-        HOST GAME
-      </button>
-    </StyledStart>
+    <
+    button type = "button"
+    onClick = {
+      hostGame
+    } >
+    HOST GAME <
+    /button> <
+    /StyledStart>
   );
 };
 
