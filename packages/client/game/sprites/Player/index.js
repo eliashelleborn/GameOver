@@ -131,7 +131,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
         }
         if (this.controller.weapon.fire && this.startFire) {
           this.controller.weapon.fire = false;
-          this.fire();
+          this.startedFire = false;
+          this.weapon.thrust = 0;
         }
       }
     } else {
@@ -223,12 +224,5 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.crosshair.destroy();
     this.weapon.destroy();
     this.alive = lifeStatus;
-  }
-
-  handleEndTurn() {
-    this.canMove = false;
-    this.controller.movement.direction = 0;
-    this.run(0);
-    this.controller.weapon.fire = false;
   }
 }
