@@ -48,7 +48,7 @@
                 {
                  "height":0,
                  "id":1,
-                 "name":"spawn1",
+                 "name":"spawn",
                  "point":true,
                  "properties":[
                         {
@@ -66,7 +66,7 @@
                 {
                  "height":0,
                  "id":2,
-                 "name":"spawn2",
+                 "name":"spawn",
                  "point":true,
                  "properties":[
                         {
@@ -84,7 +84,7 @@
                 {
                  "height":0,
                  "id":3,
-                 "name":"spawn3",
+                 "name":"spawn",
                  "point":true,
                  "rotation":0,
                  "type":"",
@@ -108,7 +108,7 @@
                 {
                  "height":0,
                  "id":10,
-                 "name":"spawn4",
+                 "name":"spawn",
                  "point":true,
                  "rotation":0,
                  "type":"",
@@ -120,7 +120,7 @@
                 {
                  "height":0,
                  "id":11,
-                 "name":"spawn5",
+                 "name":"spawn",
                  "point":true,
                  "rotation":0,
                  "type":"",
@@ -132,7 +132,7 @@
                 {
                  "height":0,
                  "id":12,
-                 "name":"spawn6",
+                 "name":"spawn",
                  "point":true,
                  "rotation":0,
                  "type":"",
@@ -156,7 +156,7 @@
                 {
                  "height":0,
                  "id":15,
-                 "name":"spawn7",
+                 "name":"spawn",
                  "point":true,
                  "rotation":0,
                  "type":"",
@@ -168,7 +168,7 @@
                 {
                  "height":0,
                  "id":16,
-                 "name":"spawn8",
+                 "name":"spawn",
                  "point":true,
                  "rotation":0,
                  "type":"",
@@ -180,7 +180,7 @@
                 {
                  "height":0,
                  "id":17,
-                 "name":"spawn9",
+                 "name":"spawn",
                  "point":true,
                  "rotation":0,
                  "type":"",
@@ -192,7 +192,7 @@
                 {
                  "height":0,
                  "id":18,
-                 "name":"spawn10",
+                 "name":"spawn",
                  "point":true,
                  "rotation":0,
                  "type":"",
@@ -204,7 +204,7 @@
                 {
                  "height":0,
                  "id":19,
-                 "name":"spawn11",
+                 "name":"spawn",
                  "point":true,
                  "rotation":0,
                  "type":"",
@@ -216,7 +216,7 @@
                 {
                  "height":0,
                  "id":22,
-                 "name":"spawn12",
+                 "name":"spawn",
                  "point":true,
                  "rotation":0,
                  "type":"",
