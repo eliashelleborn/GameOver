@@ -31,18 +31,17 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.health = config.info.health;
     this.direction = 1;
     this.velocity = {
-      x: 150,
-      y: -450,
+      x: 100,
+      y: -350,
     };
     this.myTurn = false;
     this.animations = {
-      left: `${config.key}-left`,
-      right: `${config.key}-right`,
-      standLeft: `${config.key}-standLeft`,
-      standRight: `${config.key}-standRight`,
-      dead: `${config.key}-dead`,
+      left: `${config.info.color}-left`,
+      right: `${config.info.color}-right`,
+      standLeft: `${config.info.color}-standLeft`,
+      standRight: `${config.info.color}-standRight`,
+      dead: `${config.info.color}-dead`,
     };
-
     this.controller = {
       movement: {
         direction: 0, // 0 = idle     -1 = left       +1 = right
@@ -53,6 +52,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
         aim: 0,
       },
     };
+    this.anims.play(this.animations.standLeft);
 
     // ===== CROSSHAIR =====
     this.crosshair = new Crosshair({
