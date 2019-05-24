@@ -4,6 +4,16 @@ class Player {
     this.name = name;
     this.health = 100;
     this.alive = true;
+    this.color = 'blue';
+    this.inventory = [{
+      type: 'Bazooka',
+      ammo: 10,
+    },
+    {
+      type: 'GrenadeLauncher',
+      ammo: 10,
+    },
+    ];
   }
 
   updateHealth(healthChange) {

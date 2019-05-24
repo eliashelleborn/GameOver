@@ -71,6 +71,8 @@ class GameScene extends Phaser.Scene {
         info: {
           id: p.id,
           name: p.name,
+          color: p.color,
+          inventory: p.inventory,
         },
       });
       this.players.add(player);

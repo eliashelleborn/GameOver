@@ -134,9 +134,9 @@ export default function makeAnimations(scene) {
 
   // BULLET
   scene.anims.create({
-    key: 'bullet',
+    key: 'missile',
     frames: [{
-      key: 'bullet',
+      key: 'missile',
       frame: 0,
     }],
   });
