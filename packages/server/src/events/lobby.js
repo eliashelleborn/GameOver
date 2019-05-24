@@ -16,7 +16,7 @@ export default (io, socket, dataStore) => {
   socket.on('join game', ({ id, name }) => {
     const game = dataStore.findGame(id);
 
-    if (game) {
+    if (game && game.status === 'lobby') {
       const newPlayer = game.addPlayer(socket.id, name);
 
       socket.join(`game ${game.id}`);
