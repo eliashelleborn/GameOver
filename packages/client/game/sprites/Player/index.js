@@ -16,6 +16,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.body.setBounce(0.3);
     this.body.setCollideWorldBounds(true);
     this.body.setFrictionX(1000);
+    this.body.setDragX(100);
 
     this.faceDirection = 'right';
     this.alive = true;
@@ -120,10 +121,18 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
         // FRICTION
 
-
         // Update crosshair position
         this.crosshair.update(this.x, this.y, this.controller.weapon.aim);
         // Show crosshair on active player
+      } else {
+        if (this.controller.movement.direction !== 0) {
+          this.controller.movement.direction = 0;
+          this.run(this.velocity.x * this.controller.movement.direction);
+        }
+        if (this.controller.weapon.fire && this.startFire) {
+          this.controller.weapon.fire = false;
+          this.fire();
+        }
       }
     } else {
       this.anims.play(this.animations.dead, true);
@@ -214,5 +223,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.crosshair.destroy();
     this.weapon.destroy();
     this.alive = lifeStatus;
+  }
+
+  handleEndTurn() {
+    this.canMove = false;
+    this.controller.movement.direction = 0;
+    this.run(0);
+    this.controller.weapon.fire = false;
   }
 }
