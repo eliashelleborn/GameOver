@@ -4,6 +4,7 @@ class Player {
     this.name = name;
     this.health = 100;
     this.alive = true;
+    this.connected = true;
   }
 
   updateHealth(healthChange) {
