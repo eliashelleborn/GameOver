@@ -1,8 +1,9 @@
 import Phaser from 'phaser';
-import Weapon from '../Weapon';
 
 import controllerEvents from './events';
 import Crosshair from '../Crosshair';
+import Bazooka from '../Weapons/Bazooka';
+import GrenadeLauncher from '../Weapons/GrenadeLauncher';
 
 export default class Player extends Phaser.GameObjects.Sprite {
   constructor(config) {
@@ -18,6 +19,12 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.body.setFrictionX(1000);
     this.body.setDragX(100);
 
+    this.availableWeapons = {
+      Bazooka,
+      GrenadeLauncher,
+    };
+
+    this.inventory = config.info.inventory;
     this.faceDirection = 'right';
     this.alive = true;
     this.canMove = true;
@@ -55,9 +62,9 @@ export default class Player extends Phaser.GameObjects.Sprite {
       y: this.y,
     }).setDepth(1);
     this.crosshair.visible = false;
-
+    // console.log(this.inventory[0].type);
     // ===== WEAPON =====
-    this.weapon = new Weapon({
+    this.weapon = new this.availableWeapons[this.inventory[0].type]({
       scene: this.scene,
       key: 'bazooka',
       x: this.x,

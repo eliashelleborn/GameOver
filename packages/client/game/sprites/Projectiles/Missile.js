@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import Explosion from './Explosion';
+import Explosion from '../Explosion';
 
 export default class Projectile extends Phaser.GameObjects.Sprite {
   constructor(config) {
@@ -37,8 +37,6 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
     // Adding the amount of damage
     this.damage = config.damage;
-    // Changing gravity
-    this.body.setGravity(0, 0);
 
     // Moving the projectile
     this.body.setVelocityX(config.force * config.dx);

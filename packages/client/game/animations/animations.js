@@ -134,9 +134,9 @@ export default function makeAnimations(scene) {
 
   // BULLET
   scene.anims.create({
-    key: 'bullet',
+    key: 'missile',
     frames: [{
-      key: 'bullet',
+      key: 'missile',
       frame: 0,
     }],
   });
@@ -146,6 +146,14 @@ export default function makeAnimations(scene) {
     key: 'bazooka',
     frames: [{
       key: 'bazooka',
+      frame: 0,
+    }],
+  });
+  // GRENADE
+  scene.anims.create({
+    key: 'grenade',
+    frames: [{
+      key: 'grenade',
       frame: 0,
     }],
   });

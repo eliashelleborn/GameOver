@@ -39,18 +39,10 @@ class GameScene extends Phaser.Scene {
 
     // Getting spawn points
     this.spawnPoints = [];
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn1'));
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn2'));
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn3'));
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn4'));
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn5'));
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn6'));
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn7'));
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn8'));
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn9'));
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn10'));
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn11'));
-    this.spawnPoints.push(this.map.findObject('start', obj => obj.name === 'spawn12'));
+    // this.map.fin;
+    this.map.findObject('start', (obj) => {
+      this.spawnPoints.push(obj);
+    });
 
     // =================== \\
     // ===== PLAYERS ===== \\
@@ -70,6 +62,8 @@ class GameScene extends Phaser.Scene {
           id: p.id,
           name: p.name,
           color: p.color,
+
+          inventory: p.inventory,
         },
       });
       this.players.add(player);
