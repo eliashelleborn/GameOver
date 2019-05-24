@@ -61,7 +61,7 @@ class GameScene extends Phaser.Scene {
     this.gameState.players.forEach((p) => {
       // Randomize Spawn Position
       const randomNumber = Phaser.Math.Between(0, this.spawnPoints.length - 1);
-      const spawnPoint = this.spawnPoints[1];
+      const spawnPoint = this.spawnPoints[randomNumber];
 
       const player = new Player({
         scene: this,
