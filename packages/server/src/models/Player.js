@@ -4,6 +4,7 @@ class Player {
     this.name = name;
     this.health = 100;
     this.alive = true;
+    this.connected = true;
     this.color = 'blue'; // Blue, Green, Red
   }
 
