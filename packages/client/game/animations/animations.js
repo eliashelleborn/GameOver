@@ -149,6 +149,14 @@ export default function makeAnimations(scene) {
       frame: 0,
     }],
   });
+  // GRENADE
+  scene.anims.create({
+    key: 'grenade',
+    frames: [{
+      key: 'grenade',
+      frame: 0,
+    }],
+  });
 
   // EXPLOSION
   scene.anims.create({
