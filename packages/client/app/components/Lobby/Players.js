@@ -43,14 +43,15 @@ const Player = styled.div`
     height: 45px;
   }
 `;
-
 const Players = ({ players }) => (
   <StyledPlayers>
-    <h2>Players</h2>
+    <h2> Players </h2>
+
     <div>
       {players.map(player => (
         <Player>
           <h3>{player.name}</h3>
+
           <img src={blueGhost} alt="" />
         </Player>
       ))}

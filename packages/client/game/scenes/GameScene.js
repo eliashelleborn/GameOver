@@ -62,15 +62,14 @@ class GameScene extends Phaser.Scene {
       // Randomize Spawn Position
       const randomNumber = Phaser.Math.Between(0, this.spawnPoints.length - 1);
       const spawnPoint = this.spawnPoints[randomNumber];
-
       const player = new Player({
         scene: this,
-        key: this.arrayOfGhost[0],
         x: spawnPoint.x,
         y: spawnPoint.y,
         info: {
           id: p.id,
           name: p.name,
+          color: p.color,
         },
       });
       this.players.add(player);
@@ -157,17 +156,6 @@ class GameScene extends Phaser.Scene {
     this.cameras.main.setZoom(1.5);
 
     this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-
-    // Creating a timer display
-    this.timerText = this.make.text({
-      x: 2, // this.activePlayer.x,
-      y: 2, // this.activePlayer.y - 50,
-      text: 'Timer',
-      style: {
-        fontSize: '32px',
-        fill: '#D00',
-      },
-    });
   }
 
   update() {
