@@ -16,7 +16,7 @@ export default (io, socket, dataStore) => {
   socket.on('join game', ({ id, name }) => {
     const game = dataStore.findGame(id);
 
-    if (game) {
+    if (game && game.status === 'lobby') {
       const newPlayer = game.addPlayer(socket.id, name);
 
       socket.join(`game ${game.id}`);
@@ -40,7 +40,7 @@ export default (io, socket, dataStore) => {
       socket.leave(`game ${gameByHost.id}`);
       // Make all other players leave room
       gameByHost.players.forEach((p) => {
-        if (p.id !== socket.id) {
+        if (p.id !== socket.id && p.connected) {
           io.sockets.sockets[p.id].leave(`game ${gameByHost.id}`);
         }
       });
@@ -48,9 +48,17 @@ export default (io, socket, dataStore) => {
 
     const gameByPlayer = dataStore.findGameByPlayer(socket.id);
     if (gameByPlayer) {
-      const removedPlayer = gameByPlayer.removePlayer(socket.id);
-      socket.to(`game ${gameByPlayer.id}`).emit('player left', removedPlayer);
+      // const removedPlayer = gameByPlayer.removePlayer(socket.id);
+      const disconnectedPlayer = gameByPlayer.findPlayer(socket.id);
+      socket.to(`game ${gameByPlayer.id}`).emit('player left', disconnectedPlayer);
       socket.leave(`game ${gameByPlayer.id}`);
+      disconnectedPlayer.die();
+      disconnectedPlayer.connected = false;
+      io.to(`game ${gameByPlayer.id}`).emit(
+        'player dies',
+        disconnectedPlayer.id,
+        disconnectedPlayer.alive,
+      );
     }
   };
 
