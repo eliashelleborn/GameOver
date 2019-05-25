@@ -145,8 +145,8 @@ export default function makeSpriteAnimations(scene) {
 
   // GHOST ANIMATION YELLOW
   scene.anims.create({
-    key: 'purple-right',
-    frames: scene.anims.generateFrameNumbers('purple', {
+    key: 'yellow-right',
+    frames: scene.anims.generateFrameNumbers('yellow', {
       end: 2,
     }),
     frameRate: 10,
@@ -154,17 +154,17 @@ export default function makeSpriteAnimations(scene) {
   });
 
   scene.anims.create({
-    key: 'purple-standLeft',
+    key: 'yellow-standLeft',
     frames: [{
-      key: 'purple',
+      key: 'yellow',
       frame: 4,
     }],
     frameRate: 20,
   });
 
   scene.anims.create({
-    key: 'purple-left',
-    frames: scene.anims.generateFrameNumbers('purple', {
+    key: 'yellow-left',
+    frames: scene.anims.generateFrameNumbers('yellow', {
       start: 3,
       end: 5,
     }),
@@ -173,17 +173,17 @@ export default function makeSpriteAnimations(scene) {
   });
 
   scene.anims.create({
-    key: 'purple-standRight',
+    key: 'yellow-standRight',
     frames: [{
-      key: 'purple',
+      key: 'yellow',
       frame: 1,
     }],
     frameRate: 20,
   });
 
   scene.anims.create({
-    key: 'purple-dead',
-    frames: scene.anims.generateFrameNumbers('purple', {
+    key: 'yellow-dead',
+    frames: scene.anims.generateFrameNumbers('yellow', {
       start: 6,
       end: 11,
     }),

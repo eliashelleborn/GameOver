@@ -79,12 +79,10 @@ class BootScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
-
     this.load.spritesheet('green', green, {
       frameWidth: 32,
       frameHeight: 32,
     });
-
     this.load.spritesheet('red', red, {
       frameWidth: 32,
       frameHeight: 32,

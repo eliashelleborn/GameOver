@@ -15,7 +15,12 @@ class Player {
     ];
 
     this.connected = true;
-    this.color = 'blue'; // Blue, Green, Red
+    this.colors = [
+      'blue', 'green', 'red', 'purple', 'yellow', 'darkblue',
+    ];
+    this.color = this.colors[
+      Math.floor(Math.random() * this.colors.length)
+    ]; // blue, green, red, purple, yellow, darkblue
   }
 
   updateHealth(healthChange) {
