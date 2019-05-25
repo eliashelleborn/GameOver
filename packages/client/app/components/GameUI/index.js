@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useStore } from 'easy-peasy';
-import Timer from './Timer';
+import TurnTimer from './TurnTimer';
 import EndGame from './EndGame';
 
 const StyledGameUI = styled.div`
@@ -10,7 +10,7 @@ const StyledGameUI = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  padding: 2rem;
+  padding: 1rem;
   > div {
     position: relative;
     width: 100%
@@ -19,12 +19,14 @@ const StyledGameUI = styled.div`
 `;
 
 const GameUI = (props) => {
-  const { game } = useStore(state => state.game);
-  /*   const [status, setStatus] = useState('playing');
+  /* const { game } = useStore(state => state.game); */
+
+  const [status, setStatus] = useState('playing');
   const game = {
     timer: 0,
     status,
     turn: {
+      playerId: '1',
       status: 'playing',
     },
     players: [
@@ -39,14 +41,15 @@ const GameUI = (props) => {
         alive: false,
       },
     ],
-  }; */
+  };
+  const [activePlayer] = game.players.filter(p => p.id === game.turn.playerId);
   return (
     <StyledGameUI>
       {/*     <button type="button" onClick={() => setStatus('ended')}>
         End game
       </button> */}
       <div>
-        {game.turn.status === 'playing' && <Timer time={game.timer} />}
+        {game.turn.status === 'playing' && <TurnTimer time={game.timer} player={activePlayer} />}
         <EndGame visible={game.status === 'ended'} game={game} />
       </div>
     </StyledGameUI>
