@@ -3,6 +3,25 @@ import { action } from 'easy-peasy';
 
 const gameStore = {
   game: null,
+  /*  {    timer: 5,
+    status: 'playing',
+    turn: {
+      playerId: '1',
+      status: 'countdown',
+    },
+    players: [
+      {
+        id: '1',
+        name: 'Sven',
+        alive: true,
+      },
+      {
+        id: '2',
+        name: 'Greger',
+        alive: false,
+      },
+    ],
+  }, */
   testing: false,
 
   enableTesting: action((state) => {
