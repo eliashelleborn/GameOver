@@ -13,8 +13,9 @@ const Timer = styled.h2`
   font-family: 'Share Tech Mono', monospace;
   font-size: 78px;
   font-weight: normal;
-  color: #fff;
   margin: 0;
+
+  color: ${({ time }) => (time > 5 ? '#fff' : '#DB4C40')};
 `;
 
 const PlayerName = styled.h3`
@@ -23,18 +24,21 @@ const PlayerName = styled.h3`
   font-weight: normal;
   color: #fff;
   margin: 0;
-  margin-top: -0.5rem;
+  margin-top: -5px;
 `;
 
-const TurnTimer = ({ time, player, status }) => (
+const TurnTimer = ({ time, player }) => (
   <StyledTurnTimer>
-    <Timer>{`${time}s`}</Timer>
+    <Timer time={time}>{`${time}s`}</Timer>
     <PlayerName>{player.name}</PlayerName>
   </StyledTurnTimer>
 );
 
 TurnTimer.propTypes = {
   time: PropTypes.number,
+  player: PropTypes.shape({
+    name: PropTypes.string,
+  }).isRequired,
 };
 
 TurnTimer.defaultProps = {

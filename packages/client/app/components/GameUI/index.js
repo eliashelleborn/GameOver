@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useStore } from 'easy-peasy';
 import TurnTimer from './TurnTimer';
@@ -23,7 +23,7 @@ const GameUI = (props) => {
 
   const [status, setStatus] = useState('playing');
   const game = {
-    timer: 0,
+    timer: 5,
     status,
     turn: {
       playerId: '1',
@@ -42,6 +42,7 @@ const GameUI = (props) => {
       },
     ],
   };
+
   const [activePlayer] = game.players.filter(p => p.id === game.turn.playerId);
   return (
     <StyledGameUI>
