@@ -2,22 +2,19 @@
 import { action } from 'easy-peasy';
 
 const gameStore = {
-  game: null,
-  /*  {    timer: 5,
-    status: 'playing',
-    turn: {
+  game: null, /* {    timer: 5,    status: 'playing',    turn: {
       playerId: '1',
-      status: 'countdown',
+      status: 'playing',
     },
     players: [
       {
         id: '1',
-        name: 'Sven',
+        name: 'Elias',
         alive: true,
       },
       {
         id: '2',
-        name: 'Greger',
+        name: 'Per',
         alive: false,
       },
     ],

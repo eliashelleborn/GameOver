@@ -26,7 +26,7 @@ const StyledNextTurnCountdown = styled(animated.div)`
   }
 
   h2 {
-    font-size: 72px;
+    font-size: 80px;
     margin: 0;
     font-weight: normal;
   }

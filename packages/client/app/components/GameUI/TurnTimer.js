@@ -14,17 +14,19 @@ const Timer = styled.h2`
   font-size: 78px;
   font-weight: normal;
   margin: 0;
+  text-shadow: rgba(0, 0, 0, 0.3) 1px 0 10px;
 
   color: ${({ time }) => (time > 5 ? '#fff' : '#DB4C40')};
 `;
 
 const PlayerName = styled.h3`
   font-family: 'Trade Winds', cursive;
-  font-size: 29px;
+  font-size: 35px;
   font-weight: normal;
+  text-shadow: rgba(0, 0, 0, 0.3) 1px 0 10px;
   color: #fff;
   margin: 0;
-  margin-top: -5px;
+  margin-top: 0px;
 `;
 
 const TurnTimer = ({ time, player }) => (
