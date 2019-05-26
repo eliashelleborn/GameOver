@@ -12,9 +12,15 @@ import backgroundSea from '../assets/backgrounds/backgroud-sea.png';
 import blue from '../assets/sprites/ghost-blue.png';
 import green from '../assets/sprites/ghost-green.png';
 import red from '../assets/sprites/ghost-red.png';
+import yellow from '../assets/sprites/ghost-yellow.png';
+import purple from '../assets/sprites/ghost-purple.png';
+import darkblue from '../assets/sprites/ghost-darkblue.png';
+import turquoise from '../assets/sprites/ghost-turquoise.png';
+import grey from '../assets/sprites/ghost-grey.png';
 
 // Animations
-import makeAnimations from '../animations/animations';
+import makeSpriteAnimations from '../animations/sprites';
+import makeWeaponsAnimations from '../animations/weapons';
 
 // Weapons
 import missile from '../assets/sprites/bullet.png';
@@ -50,7 +56,8 @@ class BootScene extends Phaser.Scene {
     // Register a load complete event to launch the title screen when all files are loaded
     this.load.on('complete', () => {
       // prepare all animations, defined in a separate file
-      makeAnimations(this);
+      makeSpriteAnimations(this);
+      makeWeaponsAnimations(this);
       progress.destroy();
 
       this.scene.start(testing ? 'TestScene' : 'GameScene');
@@ -74,13 +81,31 @@ class BootScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
-
     this.load.spritesheet('green', green, {
       frameWidth: 32,
       frameHeight: 32,
     });
-
     this.load.spritesheet('red', red, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('yellow', yellow, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('purple', purple, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('darkblue', darkblue, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('turquoise', turquoise, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('grey', grey, {
       frameWidth: 32,
       frameHeight: 32,
     });
