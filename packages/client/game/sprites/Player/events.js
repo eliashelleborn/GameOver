@@ -47,4 +47,11 @@ export default (socket, player) => {
       player.updateAlive(lifeStatus);
     }
   });
+
+  // CHANGE WEAPON
+  socket.on('player select inventory item', (playerId, weaponNumber) => {
+    if (playerId === player.id) {
+      player.changeWeapon(weaponNumber);
+    }
+  });
 };

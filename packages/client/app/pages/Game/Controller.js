@@ -113,6 +113,11 @@ const Controller = () => {
     socket.emit('player release shoot');
   };
 
+  const changeInventory = () => {
+    const number = 1;
+    socket.emit('player select inventory item', number);
+  };
+
   useEffect(() => {
     if (!keys.left && !keys.right) {
       stopMove();
@@ -207,6 +212,7 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
+          <Shoot onMouseDown={() => changeInventory()} onTouchStart={() => changeInventory()} />
 
           <Jump onMouseDown={jump} onTouchStart={jump} />
         </ActionButtons>
