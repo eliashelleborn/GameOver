@@ -53,10 +53,7 @@ const Health = styled.div`
     top: 0;
     left: 0;
     height: 100%;
-    width: ${({ health }) => `
-$ {
-  health <= 100 ? health : 100
-} % `};
+    width: ${({ health }) => `${health <= 100 ? health : 100} % `};
     background-color: #4a954a;
     border-radius: 5px;
   }
