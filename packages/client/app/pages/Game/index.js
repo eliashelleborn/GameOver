@@ -60,10 +60,10 @@ const Game = ({ match }) => {
   if (!game && !isLoading) return <Redirect to="/" />;
 
   return (
-    <div>
+    <React.Fragment>
       {game.status === 'lobby' && <Lobby game={game} />}
       {game.status !== 'lobby' && (game.host === socket.id ? <GameScreen /> : <Controller />)}
-    </div>
+    </React.Fragment>
   );
 };
 

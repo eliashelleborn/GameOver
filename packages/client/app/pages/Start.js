@@ -103,7 +103,7 @@ const Start = () => {
   const setGame = useActions(actions => actions.game.setGame);
 
   // Form
-  const [roomCode, setRoomCode] = useState('AAAA');
+  const [roomCode, setRoomCode] = useState('');
   const [name, setName] = useState('');
 
   useEffect(() => {

@@ -2,13 +2,12 @@ import { makeID } from '../utils/helpers';
 import Game from './Game';
 
 class DataStore {
-  constructor(/* io */) {
-    /*    this.io = io; */
+  constructor() {
     this.games = [];
   }
 
   createGame({ host, testing }) {
-    let id = 'AAAA'; // makeID(4);
+    let id = makeID(4);
     if (this.findGame(id)) {
       return this.createGame();
     }
