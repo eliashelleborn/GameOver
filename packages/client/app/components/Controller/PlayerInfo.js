@@ -53,7 +53,10 @@ const Health = styled.div`
     top: 0;
     left: 0;
     height: 100%;
-    width: ${({ health }) => `${health <= 100 ? health : 100}%`};
+    width: ${({ health }) => `
+$ {
+  health <= 100 ? health : 100
+} % `};
     background-color: #4a954a;
     border-radius: 5px;
   }
@@ -80,7 +83,9 @@ const Button = styled.button`
   }
 `;
 
-const PlayerInfo = ({ player, health, className }) => (
+const PlayerInfo = ({
+  player, health, className, selectInInventory,
+}) => (
   <StyledPlayerInfo className={className}>
     <h3>{player.name}</h3>
     <div>
@@ -90,7 +95,8 @@ const PlayerInfo = ({ player, health, className }) => (
           /100
         </span>
       </Health>
-      <Button>M</Button>
+
+      <Button onClick={selectInInventory}> M </Button>
     </div>
   </StyledPlayerInfo>
 );
