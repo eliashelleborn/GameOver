@@ -31,8 +31,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.health = config.info.health;
     this.direction = 1;
     this.velocity = {
-      x: 70,
-      y: -350,
+      x: 100,
+      y: -450,
     };
     this.myTurn = false;
     this.animations = {
