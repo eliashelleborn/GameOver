@@ -8,7 +8,10 @@ import Players from '../../components/Lobby/Players';
 import GameInfo from '../../components/Lobby/GameInfo';
 
 const StyledLobby = styled(Div100vh)`
-  padding: 2rem;
+  padding-top: calc(env(safe-area-inset-top) + 2rem);
+  padding-right: calc(env(safe-area-inset-right) + 2rem);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 2rem);
+  padding-left: calc(env(safe-area-inset-left) + 2rem);
   display: flex;
   flex-direction: column;
   position: relative;
