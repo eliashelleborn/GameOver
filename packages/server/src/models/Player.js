@@ -7,10 +7,12 @@ class Player {
     this.inventory = [{
       type: 'Bazooka',
       ammo: 10,
+      key: 'bazooka',
     },
     {
       type: 'GrenadeLauncher',
       ammo: 10,
+      key: 'grenadelauncher', // using this until grenadelauncher exist
     },
     ];
 

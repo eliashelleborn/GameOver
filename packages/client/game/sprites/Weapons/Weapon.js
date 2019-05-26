@@ -8,14 +8,14 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
     this.damage = 50;
     this.scene.add.existing(this);
     this.thrust = 0;
-    this.maxThrust = 1000;
+    this.maxThrust = 1150;
     this.loadingThrust = Math.round(this.maxThrust * 0.005);
     this.thrustBar = new ThrustBar({
       scene: this.scene,
       x: this.x,
       y: this.y,
       key: 'thrust-bar',
-    });
+    }).setDepth(1);
   }
 
   update(x, y) {

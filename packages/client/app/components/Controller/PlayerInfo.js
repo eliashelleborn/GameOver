@@ -80,7 +80,9 @@ const Button = styled.button`
   }
 `;
 
-const PlayerInfo = ({ player, health, className }) => (
+const PlayerInfo = ({
+  player, health, className, selectInInventory,
+}) => (
   <StyledPlayerInfo className={className}>
     <h3>{player.name}</h3>
     <div>
@@ -90,7 +92,8 @@ const PlayerInfo = ({ player, health, className }) => (
           /100
         </span>
       </Health>
-      <Button>M</Button>
+
+      <Button onClick={selectInInventory}> W+ </Button>
     </div>
   </StyledPlayerInfo>
 );

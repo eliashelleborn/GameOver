@@ -87,6 +87,7 @@ const Controls = styled.div`
 `; */
 
 const Controller = () => {
+  const [weaponChoice, setWeaponChoice] = useState(0);
   const [health, setHealth] = useState(100);
   const { socket } = useStore(state => state.socket);
   const [stickAngle, setStickAngle] = useState(0);
@@ -112,6 +113,15 @@ const Controller = () => {
 
   const releaseShoot = () => {
     socket.emit('player release shoot');
+  };
+
+  const selectInInventory = () => {
+    if (weaponChoice === 1) {
+      setWeaponChoice(0);
+    } else {
+      setWeaponChoice(1);
+    }
+    socket.emit('player select inventory item', weaponChoice);
   };
 
   useEffect(() => {
@@ -177,7 +187,6 @@ const Controller = () => {
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
       {/*       <Hamburger /> */}
       {/* ===== Controls ===== */}
-
       <Controls>
         <Aim
           options={{
@@ -198,7 +207,6 @@ const Controller = () => {
             }
           }}
         />
-
         <ActionButtons>
           <Shoot
             onKeyDown={keyDown}
@@ -208,10 +216,8 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
-
           <Jump onMouseDown={jump} onTouchStart={jump} />
         </ActionButtons>
-
         <Move
           options={{
             mode: 'static',
@@ -234,13 +240,13 @@ const Controller = () => {
           }}
         />
       </Controls>
-
       {/* ===== / Controls ===== */}
       <PlayerInfo
         player={{
           name: 'Placeholder',
         }}
         health={health}
+        selectInInventory={selectInInventory}
       />
     </StyledController>
   );

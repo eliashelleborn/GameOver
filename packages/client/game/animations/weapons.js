@@ -33,6 +33,14 @@ export default function makeWeaponsAnimations(scene) {
       frame: 0,
     }],
   });
+  // GRENADE LAUNCHER
+  scene.anims.create({
+    key: 'grenadelauncher',
+    frames: [{
+      key: 'grenadelauncher',
+      frame: 0,
+    }],
+  });
 
   // EXPLOSION
   scene.anims.create({
