@@ -9,14 +9,19 @@ const StyledEndGame = styled(animated.div)`
   height: 100%;
   top: 0;
   left: 0;
-  background-color: #fff;
-  border-radius: 5px;
   padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+
+  > div {
+    height: 100%;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
 
   h1 {
     span {
@@ -35,13 +40,15 @@ const EndGame = ({ visible, game }) => {
   const spring = useSpring({ opacity: visible ? 1 : 0 });
   return (
     <StyledEndGame style={spring}>
-      <h1>
-        Game Ended!
-        <br />
-        <span>{winner.name}</span>
-        {' won the game.'}
-      </h1>
-      <Link to="/">{'< Back to start'}</Link>
+      <div>
+        <h1>
+          Game Ended!
+          <br />
+          <span>{winner.name}</span>
+          {' won the game.'}
+        </h1>
+        <Link to="/">{'< Back to start'}</Link>
+      </div>
     </StyledEndGame>
   );
 };

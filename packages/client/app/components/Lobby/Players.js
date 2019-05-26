@@ -49,7 +49,7 @@ const Players = ({ players }) => (
 
     <div>
       {players.map(player => (
-        <Player>
+        <Player key={player.id}>
           <h3>{player.name}</h3>
 
           <img src={blueGhost} alt="" />
