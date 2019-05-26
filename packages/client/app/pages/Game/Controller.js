@@ -115,10 +115,10 @@ const Controller = () => {
   };
 
   const selectInInventory = () => {
-    if (weaponChoice === 0) {
-      setWeaponChoice(1);
-    } else {
+    if (weaponChoice === 1) {
       setWeaponChoice(0);
+    } else {
+      setWeaponChoice(1);
     }
     socket.emit('player select inventory item', weaponChoice);
   };

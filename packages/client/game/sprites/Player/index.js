@@ -236,6 +236,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   changeWeapon(weaponNumber) {
+    this.weapon.destroy();
     this.weapon = new this.availableWeapons[this.inventory[weaponNumber].type]({
       scene: this.scene,
       key: this.inventory[weaponNumber].key,

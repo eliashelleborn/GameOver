@@ -96,7 +96,7 @@ const PlayerInfo = ({
         </span>
       </Health>
 
-      <Button onClick={selectInInventory}> M </Button>
+      <Button onClick={selectInInventory}> W+ </Button>
     </div>
   </StyledPlayerInfo>
 );
