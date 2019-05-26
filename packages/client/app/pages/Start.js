@@ -1,15 +1,7 @@
-import React, {
-  useEffect,
-  useState,
-} from 'react';
-import {
-  Redirect,
-} from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
-import {
-  useStore,
-  useActions,
-} from 'easy-peasy';
+import { useStore, useActions } from 'easy-peasy';
 import Logo from '../components/Logo';
 
 const StyledStart = styled.div`
@@ -18,9 +10,12 @@ const StyledStart = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 2rem;
-  padding-top: 5rem;
   overflow-y: scroll;
+  position: relative;
+  padding-top: calc(env(safe-area-inset-top) + 5rem);
+  padding-right: calc(env(safe-area-inset-right) + 2rem);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 2rem);
+  padding-left: calc(env(safe-area-inset-left) + 2rem);
 
   button {
     width: 100%;
@@ -61,7 +56,7 @@ const StyledStart = styled.div`
   }
 
   @media screen and (max-height: 500px) {
-    padding: 1rem;
+    padding: env(safe-area-inset-top, 1rem) env(safe-area-inset-right, 1rem) env(safe-area-inset-bottom, 1rem) env(safe-area-inset-left, 1rem);
     justify-content: center;
 
     form {
@@ -70,7 +65,7 @@ const StyledStart = styled.div`
 
     svg {
       position: absolute;
-      left: 1rem;
+      left: calc(env(safe-area-inset-right) + 1rem);
       top: 1rem;
       width: 100px;
     }
@@ -133,83 +128,48 @@ const Start = () => {
     });
   };
 
-  if (redirectPath) {return <Redirect to = {
-    `/game/${redirectPath}`
+  if (redirectPath) {
+    return <Redirect to={`/game/${redirectPath}`} />;
   }
-  />;}
 
   return (
-<
-    StyledStart >
-    <
-    Logo width = "450px" / >
-
-    <
-    form onSubmit = {
-      (e) => {
-        e.preventDefault();
-        joinGame();
-      }
-    } >
-    <
-    input type = "text"
-    placeholder = "Room Code"
-    value = {
-      roomCode.toUpperCase()
-    }
-    onChange = {
-      ({
-        target
-      }) => setRoomCode(target.value)
-    }
-    minLength = {
-      4
-    }
-    maxLength = {
-      4
-    }
-    required /
-    >
-    <
-    input type = "text"
-    placeholder = "Name"
-    value = {
-      name
-    }
-    onChange = {
-      ({
-        target
-      }) => setName(target.value)
-    }
-    minLength = {
-      3
-    }
-    maxLength = {
-      15
-    }
-    required /
-    >
-    <
-    button type = "submit" > JOIN < /button> <
-    /form>
-
-    <
-    OrDivider >
-    <
-    span / >
-    OR <
-    span / >
-    <
-    /OrDivider>
-
-    <
-    button type = "button"
-    onClick = {
-      hostGame
-    } >
-    HOST GAME <
-    /button> <
-    /StyledStart>
+    <StyledStart>
+      <Logo width="450px" />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          joinGame();
+        }}
+      >
+        <input
+          type="text"
+          placeholder="Room Code"
+          value={roomCode.toUpperCase()}
+          onChange={({ target }) => setRoomCode(target.value)}
+          minLength={4}
+          maxLength={4}
+          required
+        />
+        <input
+          type="text"
+          placeholder="Name"
+          value={name}
+          onChange={({ target }) => setName(target.value)}
+          minLength={3}
+          maxLength={15}
+          required
+        />
+        <button type="submit"> JOIN </button>
+      </form>
+      <OrDivider>
+        <span />
+        OR
+        <span />
+      </OrDivider>
+      <button type="button" onClick={hostGame}>
+        HOST GAME
+      </button>
+    </StyledStart>
   );
 };
 

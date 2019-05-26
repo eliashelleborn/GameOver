@@ -28,18 +28,21 @@ const StyledGameInfo = styled.div`
   }
 `;
 
-const GameInfo = ({ startGame }) => (
+const GameInfo = ({ startGame, isHost }) => (
   <StyledGameInfo>
     <h2>Game Info</h2>
 
-    <button type="button" onClick={startGame}>
-      START GAME
-    </button>
+    {isHost && (
+      <button type="button" onClick={startGame}>
+        START GAME
+      </button>
+    )}
   </StyledGameInfo>
 );
 
 GameInfo.propTypes = {
   startGame: PropTypes.func.isRequired,
+  isHost: PropTypes.bool.isRequired,
 };
 
 export default GameInfo;
