@@ -1,13 +1,12 @@
-# Multiplayer Worms (GameOver Project)
-
-Using [Phaser3](https://phaser.io/), [Socket.io](https://socket.io/) and [Parcel](https://parceljs.org/)
+<img src="localghost.png" width="100%">
+A Worms tribute.
 
 ### Made by:
 
 - Elias Johansson - [@eliasjohansson](https://github.com/eliasjohansson)
 - Per Baltzar - [@perbaltzar](https://github.com/perbaltzar)
 
-<img src="https://media.giphy.com/media/l0HFixTtvQ78aaxqw/giphy.gif" width="100%">
+Using [Phaser3](https://phaser.io/), [Socket.io](https://socket.io/) and [Parcel](https://parceljs.org/)
 
 ## Installation
 
@@ -79,3 +78,4 @@ Magic Cliffs Environment - [ansimuz](https://itch.io/profile/ansimuz)
 - [#45 Feature / UI made for Host](https://github.com/eliasjohansson/GameOver/pull/45)
 - [#46 Feature / Scrolls and Notch made for controller](https://github.com/eliasjohansson/GameOver/pull/46)
 - [#47 Feature / Different colored ghost](https://github.com/eliasjohansson/GameOver/pull/47)
+- [#48 Feature / Precision movement](https://github.com/eliasjohansson/GameOver/pull/48)

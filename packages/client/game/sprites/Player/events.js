@@ -1,8 +1,9 @@
 export default (socket, player) => {
   // MOVEMENT
-  socket.on('player start move', (playerId, direction) => {
+  socket.on('player start move', (playerId, direction, speed) => {
     if (playerId === player.id) {
       player.controller.movement.direction = direction;
+      player.controller.movement.speed = speed;
     }
   });
   socket.on('player stop move', (playerId) => {
