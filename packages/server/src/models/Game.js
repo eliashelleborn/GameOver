@@ -14,7 +14,7 @@ class Game {
 
     this.timer = null;
 
-    this.countdownTime = 3;
+    this.countdownTime = 5;
     this.countdown = this.countdownTime;
 
     this.turn = {

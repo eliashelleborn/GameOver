@@ -10,9 +10,12 @@ const StyledStart = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 2rem;
-  padding-top: 5rem;
   overflow-y: scroll;
+  position: relative;
+  padding-top: calc(env(safe-area-inset-top) + 5rem);
+  padding-right: calc(env(safe-area-inset-right) + 2rem);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 2rem);
+  padding-left: calc(env(safe-area-inset-left) + 2rem);
 
   button {
     width: 100%;
@@ -53,7 +56,7 @@ const StyledStart = styled.div`
   }
 
   @media screen and (max-height: 500px) {
-    padding: 1rem;
+    padding: env(safe-area-inset-top, 1rem) env(safe-area-inset-right, 1rem) env(safe-area-inset-bottom, 1rem) env(safe-area-inset-left, 1rem);
     justify-content: center;
 
     form {
@@ -62,7 +65,7 @@ const StyledStart = styled.div`
 
     svg {
       position: absolute;
-      left: 1rem;
+      left: calc(env(safe-area-inset-right) + 1rem);
       top: 1rem;
       width: 100px;
     }

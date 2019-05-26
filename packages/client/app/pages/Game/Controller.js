@@ -93,8 +93,8 @@ const Controller = () => {
     left: false,
     right: false,
   });
-  const startMove = (dir) => {
-    socket.emit('player start move', dir);
+  const startMove = (dir, speed) => {
+    socket.emit('player start move', dir, speed);
   };
 
   const stopMove = () => {
@@ -130,11 +130,17 @@ const Controller = () => {
 
   const keyDown = (e) => {
     if (e.key === 'ArrowLeft') {
-      setKeys({ ...keys, left: true });
+      setKeys({
+        ...keys,
+        left: true,
+      });
       startMove(-1);
     }
     if (e.key === 'ArrowRight') {
-      setKeys({ ...keys, right: true });
+      setKeys({
+        ...keys,
+        right: true,
+      });
       startMove(1);
     }
     if (e.key === 'ArrowUp') {
@@ -148,11 +154,17 @@ const Controller = () => {
 
   const keyUp = (e) => {
     if (e.key === 'ArrowLeft') {
-      setKeys({ ...keys, left: false });
+      setKeys({
+        ...keys,
+        left: false,
+      });
     }
 
     if (e.key === 'ArrowRight') {
-      setKeys({ ...keys, right: false });
+      setKeys({
+        ...keys,
+        right: false,
+      });
     }
 
     if (e.key === 'Space') {
@@ -163,13 +175,16 @@ const Controller = () => {
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
       {/*       <Hamburger /> */}
-
       {/* ===== Controls ===== */}
+
       <Controls>
         <Aim
           options={{
             mode: 'static',
-            position: { top: '50%', left: '50%' },
+            position: {
+              top: '50%',
+              left: '50%',
+            },
             size: 200,
             color: '#FFCD55',
             restJoystick: false,
@@ -182,6 +197,7 @@ const Controller = () => {
             }
           }}
         />
+
         <ActionButtons>
           <Shoot
             onKeyDown={keyDown}
@@ -191,29 +207,40 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
+
           <Jump onMouseDown={jump} onTouchStart={jump} />
         </ActionButtons>
+
         <Move
           options={{
             mode: 'static',
-            position: { top: '50%', left: '50%' },
+            position: {
+              top: '50%',
+              left: '50%',
+            },
             size: 200,
             color: '#364872',
             lockX: true,
             multitouch: true,
           }}
-          onPlain={(e, data) => {
+          onMove={(e, data) => {
             const dir = data.direction.x === 'right' ? 1 : -1;
-            startMove(dir);
+            const speed = data.force;
+            startMove(dir, speed);
           }}
           onEnd={() => {
             stopMove();
           }}
         />
       </Controls>
-      {/* ===== / Controls ===== */}
 
-      <PlayerInfo player={{ name: 'Placeholder' }} health={health} />
+      {/* ===== / Controls ===== */}
+      <PlayerInfo
+        player={{
+          name: 'Placeholder',
+        }}
+        health={health}
+      />
     </StyledController>
   );
 };

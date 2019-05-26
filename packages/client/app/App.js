@@ -37,9 +37,11 @@ const App = () => {
           {socket && (
             <Fragment>
               <Route exact path="/" component={Start} />
-              <Route path="/lobby" component={Lobby} />
               <Route path="/game/:id" component={Game} />
+
+              {/* TEST ROUTES */}
               <Route path="/testing" component={TestGame} />
+              <Route path="/lobby" component={Lobby} />
               <Route path="/game-ui" component={GameUI} />
               <Route path="/controller" component={Controller} />
             </Fragment>

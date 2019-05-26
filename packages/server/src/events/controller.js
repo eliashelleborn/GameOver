@@ -1,8 +1,8 @@
 export default (io, socket, dataStore) => {
   // MOVEMENT
-  socket.on('player start move', (direction) => {
+  socket.on('player start move', (direction, speed) => {
     const game = dataStore.findGameByPlayer(socket.id);
-    socket.to(game.host).emit('player start move', socket.id, direction);
+    socket.to(game.host).emit('player start move', socket.id, direction, speed);
   });
   socket.on('player stop move', () => {
     const game = dataStore.findGameByPlayer(socket.id);
