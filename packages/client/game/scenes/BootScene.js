@@ -15,6 +15,8 @@ import red from '../assets/sprites/ghost-red.png';
 import yellow from '../assets/sprites/ghost-yellow.png';
 import purple from '../assets/sprites/ghost-purple.png';
 import darkblue from '../assets/sprites/ghost-darkblue.png';
+import turquoise from '../assets/sprites/ghost-turquoise.png';
+import grey from '../assets/sprites/ghost-grey.png';
 
 // Animations
 import makeSpriteAnimations from '../animations/sprites';
@@ -96,6 +98,14 @@ class BootScene extends Phaser.Scene {
       frameHeight: 32,
     });
     this.load.spritesheet('darkblue', darkblue, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('turquoise', turquoise, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('grey', grey, {
       frameWidth: 32,
       frameHeight: 32,
     });

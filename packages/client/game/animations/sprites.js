@@ -286,4 +286,100 @@ export default function makeSpriteAnimations(scene) {
     frameRate: 7,
     repeat: -1,
   });
+
+  // GHOST ANIMATION TURQUOISE
+  scene.anims.create({
+    key: 'turquoise-right',
+    frames: scene.anims.generateFrameNumbers('turquoise', {
+      end: 2,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  scene.anims.create({
+    key: 'turquoise-standLeft',
+    frames: [{
+      key: 'turquoise',
+      frame: 4,
+    }],
+    frameRate: 20,
+  });
+
+  scene.anims.create({
+    key: 'turquoise-left',
+    frames: scene.anims.generateFrameNumbers('turquoise', {
+      start: 3,
+      end: 5,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  scene.anims.create({
+    key: 'turquoise-standRight',
+    frames: [{
+      key: 'turquoise',
+      frame: 1,
+    }],
+    frameRate: 20,
+  });
+
+  scene.anims.create({
+    key: 'turquoise-dead',
+    frames: scene.anims.generateFrameNumbers('turquoise', {
+      start: 6,
+      end: 11,
+    }),
+    frameRate: 7,
+    repeat: -1,
+  });
+
+  // GHOST ANIMATION GREY
+  scene.anims.create({
+    key: 'grey-right',
+    frames: scene.anims.generateFrameNumbers('grey', {
+      end: 2,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  scene.anims.create({
+    key: 'grey-standLeft',
+    frames: [{
+      key: 'grey',
+      frame: 4,
+    }],
+    frameRate: 20,
+  });
+
+  scene.anims.create({
+    key: 'grey-left',
+    frames: scene.anims.generateFrameNumbers('grey', {
+      start: 3,
+      end: 5,
+    }),
+    frameRate: 10,
+    repeat: -1,
+  });
+
+  scene.anims.create({
+    key: 'grey-standRight',
+    frames: [{
+      key: 'grey',
+      frame: 1,
+    }],
+    frameRate: 20,
+  });
+
+  scene.anims.create({
+    key: 'grey-dead',
+    frames: scene.anims.generateFrameNumbers('grey', {
+      start: 6,
+      end: 11,
+    }),
+    frameRate: 7,
+    repeat: -1,
+  });
 }
