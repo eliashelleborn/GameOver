@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
@@ -103,6 +103,13 @@ const Player = styled.div`
 const Players = ({ players }) => {
   const { socket } = useStore(state => state.socket);
   const [currentGhostIndex, setCurrentGhostIndex] = useState(0);
+
+  useEffect(() => {
+    if (players.length > 0) {
+      const [socketPlayer] = players.filter(p => p.id === socket.id);
+      setCurrentGhostIndex(ghosts.map(g => g.name).indexOf(socketPlayer.color));
+    }
+  }, []);
 
   const nextGhost = () => {
     let newIndex = 0;
