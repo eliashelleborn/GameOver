@@ -18,11 +18,10 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
     // Collider to players
     this.scene.players.getChildren().forEach((p) => {
-      this.scene.physics.add.collider(this, p, (a, b) => this.hitPlayer(a, b));
+      this.scene.physics.add.overlap(this, p, (a, b) => this.hitPlayer(a, b));
     });
 
     // Getting all hit tiles and changing values to -1
-
     const hitTiles = this.scene.map.getTilesWithinShape(
       new Phaser.Geom.Circle(this.x, this.y, (this.width / 2) * this.scale),
     );
@@ -47,7 +46,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     if (!this.hasHurt.includes(player)) {
       // Calculating the damage
       const distance = Phaser.Math.Distance.Between(player.x, player.y, explosion.x, explosion.y);
-      let updatedDamage = Math.round(this.damage - (distance / this.scale));
+      let updatedDamage = Math.round(this.damage - distance / this.scale);
       if (updatedDamage < 1) {
         updatedDamage = 1;
       }
