@@ -10,7 +10,7 @@ const PlayerInfo = styled(CPlayerInfo)``;
 const ActionButtons = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  column-gap: 10rem;
+  column-gap: 25vw;
   margin: 0 auto;
 `;
 
@@ -21,6 +21,7 @@ const StyledController = styled.div`
   padding: 1rem;
   display: grid;
   grid-template-rows: 1fr auto;
+  overflow-y: scroll;
 
   * {
     -webkit-user-select: none;
@@ -71,7 +72,7 @@ const Controls = styled.div`
     ${ActionButtons} {
       margin: 0;
       order: 3;
-      column-gap: 4rem;
+      column-gap: 10vw;
     }
   }
 `;

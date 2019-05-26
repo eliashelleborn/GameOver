@@ -61,13 +61,18 @@ export default (io, socket, dataStore) => {
       const disconnectedPlayer = gameByPlayer.findPlayer(socket.id);
       socket.to(`game ${gameByPlayer.id}`).emit('player left', disconnectedPlayer);
       socket.leave(`game ${gameByPlayer.id}`);
-      disconnectedPlayer.die();
-      disconnectedPlayer.connected = false;
-      io.to(`game ${gameByPlayer.id}`).emit(
-        'player dies',
-        disconnectedPlayer.id,
-        disconnectedPlayer.alive,
-      );
+
+      if (gameByPlayer.status === 'lobby') {
+        gameByPlayer.removePlayer(disconnectedPlayer.id);
+      } else {
+        disconnectedPlayer.die();
+        disconnectedPlayer.connected = false;
+        io.to(`game ${gameByPlayer.id}`).emit(
+          'player dies',
+          disconnectedPlayer.id,
+          disconnectedPlayer.alive,
+        );
+      }
     }
   };
 
