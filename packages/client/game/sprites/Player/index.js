@@ -31,7 +31,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.health = config.info.health;
     this.direction = 1;
     this.velocity = {
-      x: 100,
+      x: 70,
       y: -350,
     };
     this.myTurn = false;
@@ -111,7 +111,10 @@ export default class Player extends Phaser.GameObjects.Sprite {
       ) {
         // Run
         if (this.canMove) {
-          this.run(this.velocity.x * this.controller.movement.direction);
+          if (this.controller.movement.speed > 1) {
+            this.controller.movement.speed = 1;
+          }
+          this.run(this.velocity.x * this.controller.movement.direction * this.controller.movement.speed);
         }
         // Jump
         if (this.controller.movement.jump && this.body.onFloor()) {
