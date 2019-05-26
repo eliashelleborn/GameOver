@@ -28,29 +28,8 @@ const Lobby = () => {
       <RoomCode gameId={game.id} />
       <LobbyBox>
         <Players players={game.players} />
-        <GameInfo startGame={startGame} />
+        <GameInfo startGame={startGame} isHost={game.host === socket.id} />
       </LobbyBox>
-      {/*  {game && (
-        <div>
-          <h1>
-            {'Game ID: '}
-            {game.id}
-          </h1>
-          {game.host === socket.id && (
-            <button type="button" onClick={startGame}>
-              Start Game
-            </button>
-          )}
-        </div>
-      )}
-      <ul>
-        {game.players.map(player => (
-          <li key={player.id}>
-            {`${player.id} - ${player.name}`}
-            {player.id === socket.id && <span> (me)</span>}
-          </li>
-        ))}
-      </ul> */}
     </StyledLobby>
   );
 };
