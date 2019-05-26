@@ -1,7 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+
+// Ghost images
+import { useStore } from 'easy-peasy';
 import blueGhost from '../../images/ghost-blue.png';
+import darkblueGhost from '../../images/ghost-darkblue.png';
+import turqouiseGhost from '../../images/ghost-turqouise.png';
+import greenGhost from '../../images/ghost-green.png';
+import yellowGhost from '../../images/ghost-yellow.png';
+import redGhost from '../../images/ghost-red.png';
+import purpleGhost from '../../images/ghost-purple.png';
+import greyGhost from '../../images/ghost-grey.png';
+
+const ghosts = [
+  {
+    image: blueGhost,
+    name: 'blue',
+  },
+  {
+    image: darkblueGhost,
+    name: 'darkblue',
+  },
+  {
+    image: turqouiseGhost,
+    name: 'turqouise',
+  },
+  {
+    image: greenGhost,
+    name: 'green',
+  },
+  {
+    image: yellowGhost,
+    name: 'yellow',
+  },
+  {
+    image: redGhost,
+    name: 'red',
+  },
+  {
+    image: purpleGhost,
+    name: 'purple',
+  },
+  {
+    image: greyGhost,
+    name: 'grey',
+  },
+];
 
 const StyledPlayers = styled.div`
   border-right: 1px solid #e0e0e0;
@@ -39,25 +84,51 @@ const Player = styled.div`
     margin: 0;
   }
 
-  img {
+  button {
     height: 45px;
+    width: 45px;
+    border: none;
+    background: #fff;
+    outline: 0;
+    cursor: pointer;
+    padding: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   }
 `;
-const Players = ({ players }) => (
-  <StyledPlayers>
-    <h2> Players </h2>
+const Players = ({ players }) => {
+  const { socket } = useStore(state => state.socket);
+  const [currentGhostIndex, setCurrentGhostIndex] = useState(0);
 
-    <div>
-      {players.map(player => (
-        <Player>
-          <h3>{player.name}</h3>
+  const nextGhost = () => {
+    let newIndex = 0;
+    if (currentGhostIndex !== ghosts.length - 1) {
+      newIndex = currentGhostIndex + 1;
+    }
+    setCurrentGhostIndex(newIndex);
+  };
 
-          <img src={blueGhost} alt="" />
-        </Player>
-      ))}
-    </div>
-  </StyledPlayers>
-);
+  return (
+    <StyledPlayers>
+      <h2> Players </h2>
+
+      <div>
+        {players.map(player => (
+          <Player>
+            <h3>{player.name}</h3>
+            <button type="button" onClick={socket.id === player.id && nextGhost}>
+              <img src={ghosts[currentGhostIndex].image} alt="" />
+            </button>
+          </Player>
+        ))}
+      </div>
+    </StyledPlayers>
+  );
+};
 
 Players.propTypes = {
   players: PropTypes.arrayOf(PropTypes.object).isRequired,

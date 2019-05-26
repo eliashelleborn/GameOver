@@ -2,7 +2,16 @@
 import { action } from 'easy-peasy';
 
 const gameStore = {
-  game: null,
+  game: {
+    id: 'AAAA',
+    players: [
+      {
+        name: 'Elias',
+        color: 'blue',
+        id: '1',
+      },
+    ],
+  },
   testing: false,
 
   enableTesting: action((state) => {
