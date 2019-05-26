@@ -15,7 +15,7 @@ export default class Weapon extends Phaser.GameObjects.Sprite {
       x: this.x,
       y: this.y,
       key: 'thrust-bar',
-    });
+    }).setDepth(1);
   }
 
   update(x, y) {

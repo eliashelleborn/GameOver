@@ -66,7 +66,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     // ===== WEAPON =====
     this.weapon = new this.availableWeapons[this.inventory[0].type]({
       scene: this.scene,
-      key: 'bazooka',
+      key: this.inventory[0].key,
       x: this.x,
       y: this.y,
     });
@@ -233,5 +233,14 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.crosshair.destroy();
     this.weapon.destroy();
     this.alive = lifeStatus;
+  }
+
+  changeWeapon(weaponNumber) {
+    this.weapon = new this.availableWeapons[this.inventory[weaponNumber].type]({
+      scene: this.scene,
+      key: this.inventory[weaponNumber].key,
+      x: this.x,
+      y: this.y,
+    });
   }
 }
