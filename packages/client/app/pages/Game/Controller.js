@@ -174,10 +174,9 @@ const Controller = () => {
 
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
-      {' '}
       {/*       <Hamburger /> */}
       {/* ===== Controls ===== */}
-      {' '}
+
       <Controls>
         <Aim
           options={{
@@ -198,7 +197,7 @@ const Controller = () => {
             }
           }}
         />
-        {' '}
+
         <ActionButtons>
           <Shoot
             onKeyDown={keyDown}
@@ -208,11 +207,10 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
-          {' '}
+
           <Jump onMouseDown={jump} onTouchStart={jump} />
-          {' '}
         </ActionButtons>
-        {' '}
+
         <Move
           options={{
             mode: 'static',
@@ -234,9 +232,8 @@ const Controller = () => {
             stopMove();
           }}
         />
-        {' '}
       </Controls>
-      {' '}
+
       {/* ===== / Controls ===== */}
       <PlayerInfo
         player={{
@@ -244,7 +241,6 @@ const Controller = () => {
         }}
         health={health}
       />
-      {' '}
     </StyledController>
   );
 };
