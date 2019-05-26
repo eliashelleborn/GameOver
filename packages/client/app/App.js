@@ -34,7 +34,7 @@ const App = () => {
         {game && game.status !== 'playing' && <Background />}
 
         <Router>
-          {true && (
+          {socket && (
             <Fragment>
               <Route exact path="/" component={Start} />
               <Route path="/lobby" component={Lobby} />

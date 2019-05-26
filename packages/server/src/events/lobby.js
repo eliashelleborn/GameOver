@@ -15,7 +15,6 @@ export default (io, socket, dataStore) => {
   // JOIN GAME
   socket.on('join game', ({ id, name }) => {
     const game = dataStore.findGame(id);
-
     if (game && game.status === 'lobby') {
       const newPlayer = game.addPlayer(socket.id, name);
 
@@ -26,6 +25,16 @@ export default (io, socket, dataStore) => {
     }
 
     socket.emit('join game failed');
+  });
+
+  // UPDATE PLAYER INFO
+  socket.on('lobby update player', (key, value) => {
+    const game = dataStore.findGameByPlayer(socket.id);
+    if (game.status === 'lobby') {
+      const player = game.findPlayer(socket.id);
+      player[key] = value;
+      socket.to(`game ${game.id}`).emit('lobby update player', player);
+    }
   });
 
   // LEAVE GAME / DISCONNECT

@@ -2,16 +2,7 @@
 import { action } from 'easy-peasy';
 
 const gameStore = {
-  game: {
-    id: 'AAAA',
-    players: [
-      {
-        name: 'Elias',
-        color: 'blue',
-        id: '1',
-      },
-    ],
-  },
+  game: null,
   testing: false,
 
   enableTesting: action((state) => {
@@ -29,6 +20,11 @@ const gameStore = {
   removePlayer: action((state, player) => {
     const i = state.game.players.indexOf(player);
     state.game.players.splice(i, 1);
+  }),
+
+  updatePlayer: action((state, player) => {
+    const i = state.game.players.map(p => p.id).indexOf(player.id);
+    state.game.players[i] = player;
   }),
 
   updateTurn: action((state, turn) => {

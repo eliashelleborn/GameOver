@@ -110,21 +110,32 @@ const Players = ({ players }) => {
       newIndex = currentGhostIndex + 1;
     }
     setCurrentGhostIndex(newIndex);
+    socket.emit('lobby update player', 'color', ghosts[newIndex].name); // key, value
   };
 
   return (
     <StyledPlayers>
       <h2> Players </h2>
-
       <div>
-        {players.map(player => (
-          <Player>
-            <h3>{player.name}</h3>
-            <button type="button" onClick={socket.id === player.id && nextGhost}>
-              <img src={ghosts[currentGhostIndex].image} alt="" />
-            </button>
-          </Player>
-        ))}
+        {players.map((player) => {
+          const [ghost] = ghosts.filter(g => g.name === player.color);
+          return (
+            <Player key={player.id}>
+              <h3>{player.name}</h3>
+              <button
+                type="button"
+                onClick={() => {
+                  if (socket.id === player.id) nextGhost();
+                }}
+              >
+                <img
+                  src={player.id === socket.id ? ghosts[currentGhostIndex].image : ghost.image}
+                  alt="Ghost color"
+                />
+              </button>
+            </Player>
+          );
+        })}
       </div>
     </StyledPlayers>
   );
