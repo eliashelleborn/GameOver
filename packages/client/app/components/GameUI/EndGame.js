@@ -10,6 +10,7 @@ const StyledEndGame = styled(animated.div)`
   top: 0;
   left: 0;
   padding: 2rem;
+  z-index: 100;
 
   > div {
     height: 100%;

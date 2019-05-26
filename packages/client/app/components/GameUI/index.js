@@ -31,7 +31,7 @@ const GameUI = (props) => {
         <EndGame visible={game.status === 'ended'} game={game} />
 
         <NextTurnCountdown
-          visible={activePlayer && game.turn.status === 'countdown'}
+          visible={activePlayer && game.turn.status === 'countdown' && game.status !== 'ended'}
           timer={game.timer}
           player={activePlayer}
         />
