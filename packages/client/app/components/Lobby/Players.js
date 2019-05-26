@@ -24,7 +24,7 @@ const ghosts = [
   },
   {
     image: turqouiseGhost,
-    name: 'turqouise',
+    name: 'turquoise',
   },
   {
     image: greenGhost,
