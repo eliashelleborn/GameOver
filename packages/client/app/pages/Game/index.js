@@ -10,7 +10,9 @@ const Game = ({ match }) => {
   const [isLoading, setIsLoading] = useState(true);
   const { socket } = useStore(state => state.socket);
   const { game } = useStore(state => state.game);
-  const { setGame, addPlayer, removePlayer } = useActions(actions => actions.game);
+  const {
+    setGame, addPlayer, removePlayer, updatePlayer,
+  } = useActions(actions => actions.game);
 
   useEffect(() => {
     if (!game) {
@@ -36,6 +38,10 @@ const Game = ({ match }) => {
       removePlayer(player);
     });
 
+    socket.on('lobby update player', (player) => {
+      updatePlayer(player);
+    });
+
     socket.on('game deleted', () => {
       setGame(null);
     });
@@ -50,7 +56,7 @@ const Game = ({ match }) => {
     };
   }, []);
 
-  if (!game && isLoading) return <p>Trying to join game...</p>;
+  if (!game && isLoading) return null;
   if (!game && !isLoading) return <Redirect to="/" />;
 
   return (

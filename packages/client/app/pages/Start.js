@@ -112,9 +112,7 @@ const Start = () => {
       setRedirectPath(game.id);
     });
 
-    socket.on('join game failed', () => {
-      console.log('join game failed');
-    });
+    socket.on('join game failed', () => {});
   }, []);
 
   const hostGame = () => {

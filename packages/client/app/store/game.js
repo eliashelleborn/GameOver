@@ -38,6 +38,11 @@ const gameStore = {
     state.game.players.splice(i, 1);
   }),
 
+  updatePlayer: action((state, player) => {
+    const i = state.game.players.map(p => p.id).indexOf(player.id);
+    state.game.players[i] = player;
+  }),
+
   updateTurn: action((state, turn) => {
     state.game.turn = turn;
   }),
