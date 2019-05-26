@@ -21,6 +21,7 @@ const StyledController = styled.div`
   padding: 1rem;
   display: grid;
   grid-template-rows: 1fr auto;
+  overflow-y: scroll;
 
   * {
     -webkit-user-select: none;
