@@ -103,3 +103,19 @@ Magic Cliffs Environment - [ansimuz](https://itch.io/profile/ansimuz)
 - [#51 Fix / Pre-Presentation fixes](https://github.com/eliasjohansson/GameOver/pull/51)
 - [#52 Feat / Added real player name to controller](https://github.com/eliasjohansson/GameOver/pull/52)
 - [#53 Fix / Finished readme for assignment](https://github.com/eliasjohansson/GameOver/pull/53)
+
+### Comments from testers
+
+- Great that you have comment the code. It was easy to understand.
+- Nice that you have been working whit classes, it made it clear and simple to understand.
+- Good separated code in different files.
+- Don’t forget to remove out comment code ex:  TestScene.js line 64-65, GameScene.js line 109-110
+- Good folder structure
+- Nice to see that you have worked with both REACT and phaser. Why did you choose to do that, any special reason?
+- Good naming of the variables
+- Good indented code, easy to read.
+- When we were trying out the game with the netlify link we couldn´t start the game.
+- Instructions on how to play the game in the readme file and in the game
+
+
+
