@@ -105,7 +105,7 @@ Magic Cliffs Environment - [ansimuz](https://itch.io/profile/ansimuz)
 - [#53 Fix / Finished readme for assignment](https://github.com/eliasjohansson/GameOver/pull/53)
 
 ## Feedback
-[Feedback on Lovisa Hallgren and Rebecca Klaening project](https://github.com/lovisahallgren/GameOver/pull/21)
+[Feedback on Lovisa Hallgren and Rebecca Klaenings "GameOver" project](https://github.com/lovisahallgren/GameOver/pull/21)
 
 ### Comments from testers
 
