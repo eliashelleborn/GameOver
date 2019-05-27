@@ -21,6 +21,7 @@ const StyledStart = styled.div`
     width: 100%;
     max-width: 350px;
     height: 55px;
+flex-shrink: 0;
     background-color:  ${({ theme }) => theme.colorPrimary};
     color: #fff;
     border: none;
