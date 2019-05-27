@@ -89,7 +89,9 @@ const Controls = styled.div`
 const Controller = () => {
   const [weaponChoice, setWeaponChoice] = useState(0);
   const [health, setHealth] = useState(100);
+  const { game } = useStore(state => state.game);
   const { socket } = useStore(state => state.socket);
+  const [player] = game.players.filter(p => p.id === socket.id);
   const [stickAngle, setStickAngle] = useState(0);
   const [keys, setKeys] = useState({
     left: false,
@@ -241,13 +243,7 @@ const Controller = () => {
         />
       </Controls>
       {/* ===== / Controls ===== */}
-      <PlayerInfo
-        player={{
-          name: 'Placeholder',
-        }}
-        health={health}
-        selectInInventory={selectInInventory}
-      />
+      <PlayerInfo player={player} health={health} selectInInventory={selectInInventory} />
     </StyledController>
   );
 };
