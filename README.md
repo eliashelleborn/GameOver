@@ -104,6 +104,9 @@ Magic Cliffs Environment - [ansimuz](https://itch.io/profile/ansimuz)
 - [#52 Feat / Added real player name to controller](https://github.com/eliasjohansson/GameOver/pull/52)
 - [#53 Fix / Finished readme for assignment](https://github.com/eliasjohansson/GameOver/pull/53)
 
+## Feedback
+[Feedback on Lovisa Hallgren and Rebecca Klaenings "GameOver" project](https://github.com/lovisahallgren/GameOver/pull/21)
+
 ### Comments from testers
 
 - Great that you have comment the code. It was easy to understand.
