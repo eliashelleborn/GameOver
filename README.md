@@ -1,12 +1,14 @@
 <img src="localghost.png" width="100%">
 A Worms tribute.
 
+🎮 LIVE: https://localghost-game.netlify.com/
+
 ### Made by:
 
 - Elias Johansson - [@eliasjohansson](https://github.com/eliasjohansson)
 - Per Baltzar - [@perbaltzar](https://github.com/perbaltzar)
 
-Using [Phaser3](https://phaser.io/), [Socket.io](https://socket.io/) and [Parcel](https://parceljs.org/)
+Using [Phaser3](https://phaser.io/), [Socket.io](https://socket.io/) and [React](https://reactjs.org/)
 
 ## Installation
 
@@ -20,7 +22,24 @@ Install dependencies
 
 Starting server and client
 
-- `$ npm start`
+- `$ npm run dev`
+
+## Testers
+  Programmers:
+  - Linn Johansson
+  - Isa Areschoug
+  - Fredrik Leemann
+  - Samuel Johansson
+  - Izabella Larsson
+  - Lovisa Hallgren
+  - Isac Larsson
+  
+  Non-programmers:
+  - Lena Svensson
+  - Mikael Johansson
+  - Robert Berger
+  - Eric Ellersten
+  
 
 ## Credits
 
@@ -83,3 +102,4 @@ Magic Cliffs Environment - [ansimuz](https://itch.io/profile/ansimuz)
 - [#50 Feature / Switch weapons in controller](https://github.com/eliasjohansson/GameOver/pull/50)
 - [#51 Fix / Pre-Presentation fixes](https://github.com/eliasjohansson/GameOver/pull/51)
 - [#52 Feat / Added real player name to controller](https://github.com/eliasjohansson/GameOver/pull/52)
+- [#53 Fix / Finished readme for assignment](https://github.com/eliasjohansson/GameOver/pull/53)
