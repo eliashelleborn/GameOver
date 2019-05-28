@@ -15,6 +15,7 @@ const StyledInstructions = styled.div`
   align-items: center;
   flex-flow: column;
   padding: 1rem 3rem 3rem 3rem;
+  overflow-y: scroll;
   h3 {
     margin-top: 2rem;
     margin-bottom: 0.5rem;
@@ -25,6 +26,13 @@ const StyledInstructions = styled.div`
     margin-bottom: 0.5rem;
     font-size: 19px;
   }
+  button {
+    max-width: 350px;
+  }
+  @media screen and (max-width: 500px) {
+    width: 90vw;
+    left: 5vw;
+  }
 `;
 
 const StyledControlsContainer = styled.div`
@@ -33,6 +41,12 @@ const StyledControlsContainer = styled.div`
   img {
     height: auto;
     width: 170px;
+  }
+  @media screen and (max-width: 500px) {
+    grid-template-columns: 1fr;
+    img {
+      width: 100%;
+    }
   }
 `;
 
