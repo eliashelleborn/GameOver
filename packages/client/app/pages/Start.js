@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 import { useStore, useActions } from 'easy-peasy';
 import Logo from '../components/Logo';
+import HowToPlay from '../components/Lobby/HowToPlay';
 
 const StyledStart = styled.div`
   height: 100vh;
@@ -102,7 +103,7 @@ const Start = () => {
   const [redirectPath, setRedirectPath] = useState(null);
   const socket = useStore(state => state.socket.socket);
   const setGame = useActions(actions => actions.game.setGame);
-
+  const [showHelp, setShowHelp] = useState(false);
   // Form
   const [roomCode, setRoomCode] = useState('');
   const [name, setName] = useState('');
@@ -127,6 +128,11 @@ const Start = () => {
     });
   };
 
+  const toggleShowHelp = () => {
+    setShowHelp(!showHelp);
+    console.log(showHelp);
+  };
+
   if (redirectPath) {
     return <Redirect to={`/game/${redirectPath}`} />;
   }
@@ -144,7 +150,7 @@ const Start = () => {
           type="text"
           placeholder="Room Code"
           value={roomCode.toUpperCase()}
-          onChange={({ target }) => setRoomCode(target.value)}
+          onChange={({ target }) => setRoomCode(target.value.toUpperCase())}
           minLength={4}
           maxLength={4}
           required
@@ -168,6 +174,7 @@ const Start = () => {
       <button type="button" onClick={hostGame}>
         HOST GAME
       </button>
+      <HowToPlay showHelp={showHelp} toggleShowHelp={toggleShowHelp} />
     </StyledStart>
   );
 };
