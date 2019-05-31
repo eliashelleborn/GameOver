@@ -150,7 +150,7 @@ const Start = () => {
           type="text"
           placeholder="Room Code"
           value={roomCode.toUpperCase()}
-          onChange={({ target }) => setRoomCode(target.value)}
+          onChange={({ target }) => setRoomCode(target.value.toUpperCase())}
           minLength={4}
           maxLength={4}
           required
