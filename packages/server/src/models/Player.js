@@ -8,11 +8,13 @@ class Player {
       type: 'Bazooka',
       ammo: 10,
       key: 'bazooka',
+      image: '../../images/bazooka.png',
     },
     {
       type: 'GrenadeLauncher',
       ammo: 10,
       key: 'grenadelauncher',
+      image: '../../images/grenadelauncher.png',
     },
     ];
 

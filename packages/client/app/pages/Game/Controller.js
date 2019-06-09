@@ -259,6 +259,7 @@ const Controller = () => {
         health={health}
         toggleInventory={toggleInventory}
         openInventory={openInventory}
+        inventory={inventory}
       />
     </StyledController>
   );

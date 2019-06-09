@@ -82,10 +82,10 @@ const Button = styled.button`
 `;
 
 const PlayerInfo = ({
-  player, health, className, toggleInventory, openInventory,
+  player, health, className, toggleInventory, openInventory, inventory,
 }) => (
   <StyledPlayerInfo className={className}>
-    {openInventory && <Inventory />}
+    {openInventory && <Inventory inventory={inventory} />}
     <h3>
       {player.name}
       Player Name
