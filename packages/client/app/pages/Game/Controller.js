@@ -87,43 +87,54 @@ const Controls = styled.div`
 `; */
 
 const Controller = () => {
-  const [weaponChoice, setWeaponChoice] = useState(0);
+  // Test-variables REMOVE AFTER DESIGN
+  const player = {};
+  const inventory = [
+    {
+      type: 'Bazooka',
+      ammo: 10,
+      key: 'bazooka',
+    },
+    {
+      type: 'GrenadeLauncher',
+      ammo: 10,
+      key: 'grenadelauncher',
+    },
+  ];
+  // :::::::::::::::::::
+
+  const [openInventory, setOpenInventory] = useState(false);
   const [health, setHealth] = useState(100);
-  const { game } = useStore(state => state.game);
-  const { socket } = useStore(state => state.socket);
-  const [player] = game.players.filter(p => p.id === socket.id);
+  // const { game } = useStore(state => state.game);
+  // const { socket } = useStore(state => state.socket);
+  // const [player] = game.players.filter(p => p.id === socket.id);
   const [stickAngle, setStickAngle] = useState(0);
   const [keys, setKeys] = useState({
     left: false,
     right: false,
   });
   const startMove = (dir, speed) => {
-    socket.emit('player start move', dir, speed);
+    // socket.emit('player start move', dir, speed);
   };
 
   const stopMove = () => {
-    socket.emit('player stop move');
+    // socket.emit('player stop move');
   };
 
   const jump = () => {
-    socket.emit('player jump');
+    // socket.emit('player jump');
   };
 
   const startShoot = () => {
-    socket.emit('player start shoot');
+    // socket.emit('player start shoot');
   };
 
   const releaseShoot = () => {
-    socket.emit('player release shoot');
+    // socket.emit('player release shoot');
   };
 
-  const selectInInventory = () => {
-    if (weaponChoice === 1) {
-      setWeaponChoice(0);
-    } else {
-      setWeaponChoice(1);
-    }
-    socket.emit('player select inventory item', weaponChoice);
+  const toggleInventory = () => {
+    setOpenInventory(!openInventory);
   };
 
   useEffect(() => {
@@ -132,14 +143,14 @@ const Controller = () => {
     }
   }, [keys]);
 
-  useEffect(() => {
-    socket.on('player health update', (id, updatedHealth) => {
-      if (socket.id === id) {
-        setHealth(updatedHealth);
-      }
-    });
-    return () => socket.removeAllListeners();
-  }, []);
+  // useEffect(() => {
+  //   socket.on('player health update', (id, updatedHealth) => {
+  //     if (socket.id === id) {
+  //       setHealth(updatedHealth);
+  //     }
+  //   });
+  //   return () => socket.removeAllListeners();
+  // }, []);
 
   const keyDown = (e) => {
     if (e.key === 'ArrowLeft') {
@@ -161,7 +172,7 @@ const Controller = () => {
     }
 
     if (e.key === 'Space') {
-      socket.emit('player start shoot');
+      // socket.emit('player start shoot');
     }
   };
 
@@ -243,7 +254,12 @@ const Controller = () => {
         />
       </Controls>
       {/* ===== / Controls ===== */}
-      <PlayerInfo player={player} health={health} selectInInventory={selectInInventory} />
+      <PlayerInfo
+        player={player}
+        health={health}
+        toggleInventory={toggleInventory}
+        openInventory={openInventory}
+      />
     </StyledController>
   );
 };

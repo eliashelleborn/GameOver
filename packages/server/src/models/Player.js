@@ -12,7 +12,7 @@ class Player {
     {
       type: 'GrenadeLauncher',
       ammo: 10,
-      key: 'grenadelauncher', // using this until grenadelauncher exist
+      key: 'grenadelauncher',
     },
     ];
 
