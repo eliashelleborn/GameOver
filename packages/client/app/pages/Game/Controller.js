@@ -104,6 +104,8 @@ const Controller = () => {
   // :::::::::::::::::::
 
   const [openInventory, setOpenInventory] = useState(false);
+  const [selectedWeapon, setSelectedWeapon] = useState(inventory[0]);
+
   const [health, setHealth] = useState(100);
   // const { game } = useStore(state => state.game);
   // const { socket } = useStore(state => state.socket);
@@ -133,8 +135,13 @@ const Controller = () => {
     // socket.emit('player release shoot');
   };
 
+  // INVENTORY AND WEAPON SELECTION
   const toggleInventory = () => {
     setOpenInventory(!openInventory);
+  };
+
+  const selectWeapon = (weapon) => {
+    setSelectedWeapon(weapon);
   };
 
   useEffect(() => {
@@ -260,6 +267,8 @@ const Controller = () => {
         toggleInventory={toggleInventory}
         openInventory={openInventory}
         inventory={inventory}
+        selectedWeapon={selectedWeapon}
+        selectWeapon={selectWeapon}
       />
     </StyledController>
   );

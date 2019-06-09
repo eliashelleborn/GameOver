@@ -31,15 +31,21 @@ const StyledWeaponGrid = styled.div`
   grid-gap: 1rem;
 `;
 
-const Inventory = ({ inventory }) => (
+const Inventory = ({ inventory, selectedWeapon, selectWeapon }) => (
   <StyledInventory>
     <div>
       <p>Chosen Weapon</p>
-      <h4>NAME</h4>
+      <h4>{selectedWeapon.type}</h4>
     </div>
     <StyledWeaponGrid>
       {inventory.map(weapon => (
-        <Weapon name={weapon.type} image={weapon.key} key={weapon.key} />
+        <Weapon
+          name={weapon.type}
+          image={weapon.key}
+          key={weapon.key}
+          isSelected={weapon.key === selectedWeapon.key}
+          selectWeapon={() => selectWeapon(weapon)}
+        />
       ))}
     </StyledWeaponGrid>
   </StyledInventory>
