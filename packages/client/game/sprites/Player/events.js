@@ -49,9 +49,9 @@ export default (socket, player) => {
   });
 
   // CHANGE WEAPON
-  socket.on('player select inventory item', (playerId, weaponNumber) => {
+  socket.on('player select inventory item', (playerId, item) => {
     if (playerId === player.id) {
-      player.changeWeapon(weaponNumber);
+      player.changeWeapon(item);
     }
   });
 };

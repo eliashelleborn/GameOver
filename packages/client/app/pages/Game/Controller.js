@@ -87,7 +87,6 @@ const Controls = styled.div`
 `; */
 
 const Controller = () => {
-  const [weaponChoice, setWeaponChoice] = useState(0);
   const [health, setHealth] = useState(100);
   const { game } = useStore(state => state.game);
   const { socket } = useStore(state => state.socket);
@@ -97,6 +96,9 @@ const Controller = () => {
     left: false,
     right: false,
   });
+  const [openInventory, setOpenInventory] = useState(false);
+  const [selectedWeapon, setSelectedWeapon] = useState(player.inventory[0]);
+
   const startMove = (dir, speed) => {
     socket.emit('player start move', dir, speed);
   };
@@ -117,13 +119,14 @@ const Controller = () => {
     socket.emit('player release shoot');
   };
 
-  const selectInInventory = () => {
-    if (weaponChoice === 1) {
-      setWeaponChoice(0);
-    } else {
-      setWeaponChoice(1);
-    }
-    socket.emit('player select inventory item', weaponChoice);
+  // INVENTORY AND WEAPON SELECTION
+  const toggleInventory = () => {
+    setOpenInventory(!openInventory);
+  };
+
+  const selectWeapon = (item) => {
+    setSelectedWeapon(item);
+    socket.emit('player select inventory item', item);
   };
 
   useEffect(() => {
@@ -140,6 +143,10 @@ const Controller = () => {
     });
     return () => socket.removeAllListeners();
   }, []);
+
+  useEffect(() => {
+    socket.on('player pick up item', (item, id) => {});
+  });
 
   const keyDown = (e) => {
     if (e.key === 'ArrowLeft') {
@@ -243,7 +250,15 @@ const Controller = () => {
         />
       </Controls>
       {/* ===== / Controls ===== */}
-      <PlayerInfo player={player} health={health} selectInInventory={selectInInventory} />
+      <PlayerInfo
+        player={player}
+        health={health}
+        toggleInventory={toggleInventory}
+        openInventory={openInventory}
+        inventory={player.inventory}
+        selectedWeapon={selectedWeapon}
+        selectWeapon={selectWeapon}
+      />
     </StyledController>
   );
 };

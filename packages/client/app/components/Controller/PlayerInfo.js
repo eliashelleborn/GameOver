@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Inventory from './Inventory';
 
 const StyledPlayerInfo = styled.div`
   h3 {
@@ -81,9 +82,23 @@ const Button = styled.button`
 `;
 
 const PlayerInfo = ({
-  player, health, className, selectInInventory,
+  player,
+  health,
+  className,
+  toggleInventory,
+  openInventory,
+  inventory,
+  selectedWeapon,
+  selectWeapon,
 }) => (
   <StyledPlayerInfo className={className}>
+    {openInventory && (
+      <Inventory
+        inventory={inventory}
+        selectedWeapon={selectedWeapon}
+        selectWeapon={selectWeapon}
+      />
+    )}
     <h3>{player.name}</h3>
     <div>
       <Health health={health}>
@@ -93,7 +108,7 @@ const PlayerInfo = ({
         </span>
       </Health>
 
-      <Button onClick={selectInInventory}> W+ </Button>
+      <Button onClick={toggleInventory}> I+ </Button>
     </div>
   </StyledPlayerInfo>
 );

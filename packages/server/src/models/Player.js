@@ -6,13 +6,17 @@ class Player {
     this.alive = true;
     this.inventory = [{
       type: 'Bazooka',
+      name: 'Bazooka',
       ammo: 10,
       key: 'bazooka',
+      image: '../../images/bazooka.png',
     },
     {
       type: 'GrenadeLauncher',
+      name: 'Grenade Launcher',
       ammo: 10,
-      key: 'grenadelauncher', // using this until grenadelauncher exist
+      key: 'grenadelauncher',
+      image: '../../images/grenadelauncher.png',
     },
     ];
 
@@ -32,6 +36,10 @@ class Player {
 
   die() {
     this.alive = false;
+  }
+
+  pickUpWeapon(weapon) {
+    this.inventory.push(weapon);
   }
 }
 
