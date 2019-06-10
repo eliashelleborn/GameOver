@@ -35,6 +35,14 @@ class Player {
   die() {
     this.alive = false;
   }
+
+  pickUpWeapon(weapon) {
+    this.inventory.push(weapon);
+  }
+
+  selectWeapon() {
+
+  }
 }
 
 export default Player;
