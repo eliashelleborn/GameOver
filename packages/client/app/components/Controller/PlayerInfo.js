@@ -99,10 +99,7 @@ const PlayerInfo = ({
         selectWeapon={selectWeapon}
       />
     )}
-    <h3>
-      {player.name}
-      Player Name
-    </h3>
+    <h3>{player.name}</h3>
     <div>
       <Health health={health}>
         <span>
