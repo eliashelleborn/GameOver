@@ -126,7 +126,6 @@ const Controller = () => {
 
   const selectWeapon = (item) => {
     setSelectedWeapon(item);
-    console.log('selectWeapon');
     socket.emit('player select inventory item', item);
   };
 

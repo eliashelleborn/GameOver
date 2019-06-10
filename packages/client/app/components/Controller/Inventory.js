@@ -35,12 +35,12 @@ const Inventory = ({ inventory, selectedWeapon, selectWeapon }) => (
   <StyledInventory>
     <div>
       <p>Chosen Weapon</p>
-      <h4>{selectedWeapon.type}</h4>
+      <h4>{selectedWeapon.name}</h4>
     </div>
     <StyledWeaponGrid>
       {inventory.map(weapon => (
         <Weapon
-          name={weapon.type}
+          name={weapon.name}
           image={weapon.key}
           key={weapon.key}
           isSelected={weapon.key === selectedWeapon.key}
