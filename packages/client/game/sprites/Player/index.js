@@ -235,13 +235,17 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.alive = lifeStatus;
   }
 
-  changeWeapon(weaponNumber) {
+  changeWeapon(weapon) {
     this.weapon.destroy();
-    this.weapon = new this.availableWeapons[this.inventory[weaponNumber].type]({
+    this.weapon = new this.availableWeapons[weapon.type]({
       scene: this.scene,
-      key: this.inventory[weaponNumber].key,
+      key: weapon.key,
       x: this.x,
       y: this.y,
     });
+  }
+
+  pickUpWeapon(weapon) {
+    this.scene.socket.emit('player pick up item', weapon, this.id);
   }
 }

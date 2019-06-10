@@ -87,24 +87,6 @@ const Controls = styled.div`
 `; */
 
 const Controller = () => {
-  // Test-variables REMOVE AFTER DESIGN
-  const inventory = [
-    {
-      type: 'Bazooka',
-      ammo: 10,
-      key: 'bazooka',
-    },
-    {
-      type: 'GrenadeLauncher',
-      ammo: 10,
-      key: 'grenadelauncher',
-    },
-  ];
-  // :::::::::::::::::::
-
-  const [openInventory, setOpenInventory] = useState(false);
-  const [selectedWeapon, setSelectedWeapon] = useState(inventory[0]);
-
   const [health, setHealth] = useState(100);
   const { game } = useStore(state => state.game);
   const { socket } = useStore(state => state.socket);
@@ -114,6 +96,9 @@ const Controller = () => {
     left: false,
     right: false,
   });
+  const [openInventory, setOpenInventory] = useState(false);
+  const [selectedWeapon, setSelectedWeapon] = useState(player.inventory[0]);
+
   const startMove = (dir, speed) => {
     socket.emit('player start move', dir, speed);
   };
@@ -159,6 +144,10 @@ const Controller = () => {
     });
     return () => socket.removeAllListeners();
   }, []);
+
+  useEffect(() => {
+    socket.on('player pick up item', (item, id) => {});
+  });
 
   const keyDown = (e) => {
     if (e.key === 'ArrowLeft') {
@@ -267,7 +256,7 @@ const Controller = () => {
         health={health}
         toggleInventory={toggleInventory}
         openInventory={openInventory}
-        inventory={inventory}
+        inventory={player.inventory}
         selectedWeapon={selectedWeapon}
         selectWeapon={selectWeapon}
       />

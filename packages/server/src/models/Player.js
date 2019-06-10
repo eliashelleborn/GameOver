@@ -39,10 +39,6 @@ class Player {
   pickUpWeapon(weapon) {
     this.inventory.push(weapon);
   }
-
-  selectWeapon() {
-
-  }
 }
 
 export default Player;
