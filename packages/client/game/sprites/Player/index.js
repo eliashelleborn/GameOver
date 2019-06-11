@@ -245,7 +245,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
     });
   }
 
-  pickUpWeapon(weapon) {
-    this.scene.socket.emit('player pick up item', weapon, this.id);
+  pickUpItem(item) {
+    console.log('pickupitem');
+    // this.scene.socket.emit('player pick up item', item, this.id);
   }
 }
