@@ -78,6 +78,6 @@ export default (io, socket, dataStore) => {
     const game = dataStore.findGameByPlayer(id);
     const player = game.findPlayer(id);
     player.pickUpItem(item);
-    io.to;
+    io.to(`game ${game.id}`).emit('player pick up item', player.id, player.inventory);
   });
 };

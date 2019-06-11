@@ -98,6 +98,7 @@ const Controller = () => {
   });
   const [openInventory, setOpenInventory] = useState(false);
   const [selectedWeapon, setSelectedWeapon] = useState(player.inventory[0]);
+  const [inventory, setInventory] = useState(player.inventory);
 
   const startMove = (dir, speed) => {
     socket.emit('player start move', dir, speed);
@@ -130,10 +131,21 @@ const Controller = () => {
   };
 
   useEffect(() => {
+    socket.on('player pick up item', (id, updatedInventory) => {
+      if (socket.id === id) {
+        setInventory(updatedInventory);
+      }
+    });
+    return () => socket.removeAllListeners();
+  }, []);
+
+  useEffect(() => {
     if (!keys.left && !keys.right) {
       stopMove();
     }
   }, [keys]);
+
+  // HEALTH UPDATE
 
   useEffect(() => {
     socket.on('player health update', (id, updatedHealth) => {
@@ -195,7 +207,9 @@ const Controller = () => {
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
       {/*       <Hamburger /> */}
+
       {/* ===== Controls ===== */}
+
       <Controls>
         <Aim
           options={{
@@ -216,6 +230,7 @@ const Controller = () => {
             }
           }}
         />
+
         <ActionButtons>
           <Shoot
             onKeyDown={keyDown}
@@ -225,8 +240,10 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
+
           <Jump onMouseDown={jump} onTouchStart={jump} />
         </ActionButtons>
+
         <Move
           options={{
             mode: 'static',
@@ -249,13 +266,15 @@ const Controller = () => {
           }}
         />
       </Controls>
+
       {/* ===== / Controls ===== */}
+
       <PlayerInfo
         player={player}
         health={health}
         toggleInventory={toggleInventory}
         openInventory={openInventory}
-        inventory={player.inventory}
+        inventory={inventory}
         selectedWeapon={selectedWeapon}
         selectWeapon={selectWeapon}
       />
