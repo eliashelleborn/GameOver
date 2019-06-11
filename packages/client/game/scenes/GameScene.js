@@ -146,7 +146,6 @@ class GameScene extends Phaser.Scene {
 
     // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-    /* this.cameras.main.setViewport(0, 0, window.innerWidth, window.innerHeight); */
     this.cameras.main.setZoom(1.5);
 
     this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);

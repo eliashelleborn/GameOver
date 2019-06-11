@@ -37,6 +37,9 @@ import explosion from '../assets/sprites/explosion.png';
 // Thrust Bar
 import thrustBar from '../assets/sprites/thrust-bar.png';
 
+// Crate
+import crate from '../assets/sprites/crate.png';
+
 import store from '../../app/store';
 
 class BootScene extends Phaser.Scene {
@@ -145,6 +148,12 @@ class BootScene extends Phaser.Scene {
     this.load.spritesheet('thrust-bar', thrustBar, {
       frameWidth: 50,
       frameHeight: 10,
+    });
+
+    // Crates
+    this.load.spritesheet('crate', crate, {
+      frameWidth: 32,
+      frameHeight: 32,
     });
   }
 }
