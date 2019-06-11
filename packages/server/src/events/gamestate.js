@@ -75,9 +75,9 @@ export default (io, socket, dataStore) => {
 
   // PLAYER PICK UP ITEM
   socket.on('player pick up item', (item, id) => {
-    console.log(item, id);
     const game = dataStore.findGameByPlayer(id);
     const player = game.findPlayer(id);
     player.pickUpItem(item);
+    io.to;
   });
 };

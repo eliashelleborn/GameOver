@@ -246,7 +246,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   pickUpItem(item) {
-    console.log('pickupitem');
-    // this.scene.socket.emit('player pick up item', item, this.id);
+    this.scene.socket.emit('player pick up item', item, this.id);
   }
 }

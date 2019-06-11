@@ -10,15 +10,7 @@ class Player {
       ammo: 10,
       key: 'bazooka',
       image: '../../images/bazooka.png',
-    },
-    {
-      type: 'GrenadeLauncher',
-      name: 'Grenade Launcher',
-      ammo: 10,
-      key: 'grenadelauncher',
-      image: '../../images/grenadelauncher.png',
-    },
-    ];
+    }];
 
     this.connected = true;
     this.colors = [
@@ -38,8 +30,8 @@ class Player {
     this.alive = false;
   }
 
-  pickUpWeapon(weapon) {
-    this.inventory.push(weapon);
+  pickUpItem(item) {
+    this.inventory.push(item);
   }
 }
 
