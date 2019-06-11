@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 import Player from '../sprites/Player';
+import Crate from '../sprites/Crate';
+
 import store from '../../app/store';
 
 class GameScene extends Phaser.Scene {
@@ -74,6 +76,7 @@ class GameScene extends Phaser.Scene {
     const updateTurn = (turn) => {
       store.dispatch.game.updateTurn(turn);
       this.getGameState();
+      this.dropCrate();
     };
 
     this.socket.on('prepare turn', (turn) => {
@@ -115,6 +118,13 @@ class GameScene extends Phaser.Scene {
       this.getGameState();
     });
 
+
+    // ================== \\
+    // ===== CRATES ===== \\
+    // ================== \\
+
+    this.crates = this.add.group();
+
     // ===================================== \\
     // ===== TILE LAYERS AND COLLISION ===== \\
     // ===================================== \\
@@ -130,8 +140,9 @@ class GameScene extends Phaser.Scene {
     this.layers.add(this.backLayer);
     this.layers.add(this.topLayer);
 
-    // Add collision between players and layers
+    // Add collision between players, crates and layers
     this.physics.add.collider(this.players, this.layers);
+    this.physics.add.collider(this.crates, this.layers);
 
     // // Property collide set in TILED on Tileset
     this.groundLayer.setCollisionByProperty({
@@ -155,6 +166,19 @@ class GameScene extends Phaser.Scene {
     this.players.getChildren().forEach((p) => {
       p.update();
     });
+  }
+
+  dropCrate() {
+    // Random item from lists
+    const includes = this.gameState.weapons.list[1];
+    const crate = new Crate({
+      scene: this,
+      x: 500,
+      y: 400,
+      key: 'crate',
+      includes,
+    });
+    this.crates.add(crate);
   }
 }
 

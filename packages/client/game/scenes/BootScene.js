@@ -150,7 +150,7 @@ class BootScene extends Phaser.Scene {
       frameHeight: 10,
     });
 
-    // Crates
+    // Crate
     this.load.spritesheet('crate', crate, {
       frameWidth: 32,
       frameHeight: 32,
