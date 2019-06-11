@@ -10,7 +10,7 @@ class Weapons {
     {
       type: 'GrenadeLauncher',
       name: 'Grenade Launcher',
-      ammo: 10,
+      ammo: 1,
       key: 'grenadelauncher',
       image: '../../images/grenadelauncher.png',
     },
