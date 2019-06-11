@@ -41,9 +41,13 @@ class GameScene extends Phaser.Scene {
 
     // Getting spawn points
     this.spawnPoints = [];
-    // this.map.fin;
+    this.crateSpawnPoints = [];
+
     this.map.findObject('start', (obj) => {
       this.spawnPoints.push(obj);
+    });
+    this.map.findObject('crate', (obj) => {
+      this.crateSpawnPoints.push(obj);
     });
 
     // =================== \\
@@ -171,10 +175,15 @@ class GameScene extends Phaser.Scene {
   dropCrate() {
     // Random item from lists
     const content = this.gameState.weapons.list[1];
+
+    // Get spawn point
+    const randomNumber = Phaser.Math.Between(0, this.spawnPoints.length - 1);
+    const spawnPoint = this.crateSpawnPoints[randomNumber];
+
     const crate = new Crate({
       scene: this,
-      x: 500,
-      y: 400,
+      x: spawnPoint.x,
+      y: spawnPoint.y,
       key: 'crate',
       content,
     });
