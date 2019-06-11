@@ -31,7 +31,18 @@ class Player {
   }
 
   pickUpItem(item) {
-    this.inventory.push(item);
+    let alreadyInInventory = false;
+    this.inventory.forEach((inventoryItem, index) => {
+      if (item.key === inventoryItem.key) {
+        this.inventory[index].ammo += item.ammo;
+        alreadyInInventory = true;
+      }
+    });
+    if (!alreadyInInventory) {
+      this.inventory.push(item);
+    }
+
+    console.log(this.inventory);
   }
 }
 
