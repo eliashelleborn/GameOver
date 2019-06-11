@@ -117,7 +117,7 @@ const Controller = () => {
   };
 
   const releaseShoot = () => {
-    socket.emit('player release shoot');
+    socket.emit('player release shoot', selectedWeapon);
   };
 
   // INVENTORY AND WEAPON SELECTION
@@ -130,8 +130,9 @@ const Controller = () => {
     socket.emit('player select inventory item', item);
   };
 
+  // UPDATE INVENTORY
   useEffect(() => {
-    socket.on('player pick up item', (id, updatedInventory) => {
+    socket.on('player update inventory', (id, updatedInventory) => {
       if (socket.id === id) {
         setInventory(updatedInventory);
       }

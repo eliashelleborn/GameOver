@@ -41,8 +41,19 @@ class Player {
     if (!alreadyInInventory) {
       this.inventory.push(item);
     }
-
     console.log(this.inventory);
+  }
+
+  loseAmmo(weapon) {
+    this.inventory.forEach((inventoryItem, index) => {
+      if (inventoryItem.key === weapon.key) {
+        this.inventory[index].ammo -= 1;
+
+        if (this.inventory[index].ammo < 1) {
+          this.inventory.splice(index, 1);
+        }
+      }
+    });
   }
 }
 
