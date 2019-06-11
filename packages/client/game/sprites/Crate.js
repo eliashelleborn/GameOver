@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 export default class Crate extends Phaser.GameObjects.Sprite {
   constructor(config) {
-    super(config.scene, config.key, config.x, config.y, config.includes);
+    super(config.scene, config.key, config.x, config.y, config.content);
     this.scene = config.scene;
     this.anims.play(config.key);
     this.scene.add.existing(this);
@@ -19,16 +19,14 @@ export default class Crate extends Phaser.GameObjects.Sprite {
     });
 
     // What it includes
-    this.includes = config.includes;
+    this.content = config.content;
 
     this.isCollectable = true;
   }
 
   collected(crate, player) {
     if (this.isCollectable) {
-      console.log('collected crate');
-      console.log(crate, player);
-      player.pickUpItem(crate);
+      player.pickUpItem(crate.content);
       this.isCollectable = false;
     }
     this.destroy();

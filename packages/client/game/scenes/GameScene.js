@@ -170,13 +170,13 @@ class GameScene extends Phaser.Scene {
 
   dropCrate() {
     // Random item from lists
-    const includes = this.gameState.weapons.list[1];
+    const content = this.gameState.weapons.list[1];
     const crate = new Crate({
       scene: this,
       x: 500,
       y: 400,
       key: 'crate',
-      includes,
+      content,
     });
     this.crates.add(crate);
   }
