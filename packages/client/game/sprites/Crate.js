@@ -34,7 +34,8 @@ export default class Crate extends Phaser.GameObjects.Sprite {
 
   collected(crate, player) {
     if (this.isCollectable) {
-      player.pickUpItem(crate.content);
+      const message = `You picked up ${this.content.ammo} x ${this.content.name}`;
+      player.pickUpItem(crate.content, message);
       this.isCollectable = false;
     }
     this.destroy();
