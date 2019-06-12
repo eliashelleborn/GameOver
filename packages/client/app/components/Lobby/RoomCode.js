@@ -19,6 +19,7 @@ const StyledRoomCode = styled.h1`
   span {
     font-size: 78px;
     color: #fcfcfc;
+    letter-spacing: 0.5rem;
   }
 
   @media screen and (max-height: 500px) {
@@ -27,13 +28,14 @@ const StyledRoomCode = styled.h1`
     }
     span {
       font-size: 40px;
+      letter-spacing: 0.5rem;
     }
   }
 `;
 
 const RoomCode = ({ gameId }) => (
   <StyledRoomCode>
-    <small>ROOM</small>
+    <small> ROOM </small>
     <span>{gameId}</span>
   </StyledRoomCode>
 );
