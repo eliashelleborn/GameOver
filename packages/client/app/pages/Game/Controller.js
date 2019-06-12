@@ -1,20 +1,9 @@
-import React, {
-  useState,
-  useEffect,
-} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import {
-  useStore,
-} from 'easy-peasy';
+import { useStore } from 'easy-peasy';
 
-import {
-  Aim,
-  Move,
-} from '../../components/Controller/Joysticks';
-import {
-  Shoot,
-  Jump,
-} from '../../components/Controller/ActionButtons';
+import { Aim, Move } from '../../components/Controller/Joysticks';
+import { Shoot, Jump } from '../../components/Controller/ActionButtons';
 import CPlayerInfo from '../../components/Controller/PlayerInfo';
 
 const PlayerInfo = styled(CPlayerInfo)``;
@@ -99,12 +88,8 @@ const Controls = styled.div`
 
 const Controller = () => {
   const [health, setHealth] = useState(100);
-  const {
-    game,
-  } = useStore(state => state.game);
-  const {
-    socket,
-  } = useStore(state => state.socket);
+  const { game } = useStore(state => state.game);
+  const { socket } = useStore(state => state.socket);
   const [player] = game.players.filter(p => p.id === socket.id);
   const [stickAngle, setStickAngle] = useState(0);
   const [keys, setKeys] = useState({
@@ -150,6 +135,16 @@ const Controller = () => {
     socket.on('player update inventory', (id, updatedInventory) => {
       if (socket.id === id) {
         setInventory(updatedInventory);
+        // Check if weapon out of ammo
+        updatedInventory.forEach((inventoryItem) => {
+          if (inventoryItem.key === selectedWeapon.key) {
+            if (inventoryItem.ammo < 1) {
+              selectWeapon(updatedInventory[0]);
+            } else {
+              selectWeapon(selectedWeapon);
+            }
+          }
+        });
       }
     });
     return () => socket.removeAllListeners();
@@ -171,7 +166,6 @@ const Controller = () => {
     });
     return () => socket.removeAllListeners();
   }, []);
-
 
   const keyDown = (e) => {
     if (e.key === 'ArrowLeft') {
@@ -218,133 +212,73 @@ const Controller = () => {
   };
 
   return (
-<
-    StyledController onKeyDown = {
-      keyDown
-    }
-    onKeyUp = {
-      keyUp
-    } > {
-      /*       <Hamburger /> */ }
-
-    {
-      /* ===== Controls ===== */ }
-
-    <
-    Controls >
-    <
-    Aim options = {
-      {
-        mode: 'static',
-        position: {
-          top: '50%',
-          left: '50%',
-        },
-        size: 200,
-        color: '#FFCD55',
-        restJoystick: false,
-      }
-    }
-    onMove = {
-      (evt, data) => {
-        const angle = Math.round(data.angle.radian * 100) / 100;
-        if (data.distance === 100 && angle !== stickAngle) {
-          setStickAngle(angle);
-          socket.emit('player aim', angle);
-        }
-      }
-    }
-    />
-
-    <
-    ActionButtons >
-    <
-    Shoot onKeyDown = {
-      keyDown
-    }
-    onKeyUp = {
-      keyUp
-    }
-    onMouseDown = {
-      startShoot
-    }
-    onMouseUp = {
-      releaseShoot
-    }
-    onTouchStart = {
-      startShoot
-    }
-    onTouchEnd = {
-      releaseShoot
-    }
-    />
-
-    <
-    Jump onMouseDown = {
-      jump
-    }
-    onTouchStart = {
-      jump
-    }
-    /> <
-    /ActionButtons>
-
-    <
-    Move options = {
-      {
-        mode: 'static',
-        position: {
-          top: '50%',
-          left: '50%',
-        },
-        size: 200,
-        color: '#364872',
-        lockX: true,
-        multitouch: true,
-      }
-    }
-    onMove = {
-      (e, data) => {
-        const dir = data.direction.x === 'right' ? 1 : -1;
-        const speed = data.force;
-        startMove(dir, speed);
-      }
-    }
-    onEnd = {
-      () => {
-        stopMove();
-      }
-    }
-    /> <
-    /Controls>
-
-    {
-      /* ===== / Controls ===== */ }
-
-    <
-    PlayerInfo player = {
-      player
-    }
-    health = {
-      health
-    }
-    toggleInventory = {
-      toggleInventory
-    }
-    openInventory = {
-      openInventory
-    }
-    inventory = {
-      inventory
-    }
-    selectedWeapon = {
-      selectedWeapon
-    }
-    selectWeapon = {
-      selectWeapon
-    }
-    /> <
-    /StyledController>
+    <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
+      {/*       <Hamburger /> */}
+      {/* ===== Controls ===== */}
+      <Controls>
+        <Aim
+          options={{
+            mode: 'static',
+            position: {
+              top: '50%',
+              left: '50%',
+            },
+            size: 200,
+            color: '#FFCD55',
+            restJoystick: false,
+          }}
+          onMove={(evt, data) => {
+            const angle = Math.round(data.angle.radian * 100) / 100;
+            if (data.distance === 100 && angle !== stickAngle) {
+              setStickAngle(angle);
+              socket.emit('player aim', angle);
+            }
+          }}
+        />
+        <ActionButtons>
+          <Shoot
+            onKeyDown={keyDown}
+            onKeyUp={keyUp}
+            onMouseDown={startShoot}
+            onMouseUp={releaseShoot}
+            onTouchStart={startShoot}
+            onTouchEnd={releaseShoot}
+          />
+          <Jump onMouseDown={jump} onTouchStart={jump} />
+        </ActionButtons>
+        <Move
+          options={{
+            mode: 'static',
+            position: {
+              top: '50%',
+              left: '50%',
+            },
+            size: 200,
+            color: '#364872',
+            lockX: true,
+            multitouch: true,
+          }}
+          onMove={(e, data) => {
+            const dir = data.direction.x === 'right' ? 1 : -1;
+            const speed = data.force;
+            startMove(dir, speed);
+          }}
+          onEnd={() => {
+            stopMove();
+          }}
+        />
+      </Controls>
+      {/* ===== / Controls ===== */}
+      <PlayerInfo
+        player={player}
+        health={health}
+        toggleInventory={toggleInventory}
+        openInventory={openInventory}
+        inventory={inventory}
+        selectedWeapon={selectedWeapon}
+        selectWeapon={selectWeapon}
+      />
+    </StyledController>
   );
 };
 

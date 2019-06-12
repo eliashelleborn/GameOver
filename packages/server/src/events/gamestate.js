@@ -49,6 +49,11 @@ export default (io, socket, dataStore) => {
     if (game && game.host === socket.id) {
       game.resumeTurn(countdownTick);
       io.to(`game ${game.id}`).emit('resume turn', game.turn);
+
+      // Update player inventory
+      const player = game.findPlayer(game.turn.playerId);
+      console.log(player);
+      io.to(`game ${game.id}`).emit('player update inventory', player.id, player.inventory);
     }
   });
 

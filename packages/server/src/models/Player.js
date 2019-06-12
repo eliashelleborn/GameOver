@@ -41,7 +41,6 @@ class Player {
     if (!alreadyInInventory) {
       this.inventory.push(item);
     }
-    console.log(this.inventory);
   }
 
   loseAmmo(weapon) {
