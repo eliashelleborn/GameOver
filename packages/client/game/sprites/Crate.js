@@ -20,6 +20,7 @@ export default class Crate extends Phaser.GameObjects.Sprite {
 
     // What it includes
     this.content = config.content;
+    this.content.ammo = Phaser.Math.Between(1, this.content.maxLoot);
 
     this.isCollectable = true;
   }
