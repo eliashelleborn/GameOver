@@ -4,6 +4,7 @@ import { useStore } from 'easy-peasy';
 
 import { Aim, Move } from '../../components/Controller/Joysticks';
 import { Shoot, Jump } from '../../components/Controller/ActionButtons';
+import FlashMessage from '../../components/Controller/FlashMessage';
 import CPlayerInfo from '../../components/Controller/PlayerInfo';
 
 const PlayerInfo = styled(CPlayerInfo)``;
@@ -99,6 +100,8 @@ const Controller = () => {
   const [openInventory, setOpenInventory] = useState(false);
   const [selectedWeapon, setSelectedWeapon] = useState(player.inventory[0]);
   const [inventory, setInventory] = useState(player.inventory);
+  const [showMessage, setShowMessage] = useState(false);
+  const [message, setMessage] = useState('');
 
   const startMove = (dir, speed) => {
     socket.emit('player start move', dir, speed);
@@ -162,6 +165,21 @@ const Controller = () => {
     socket.on('player health update', (id, updatedHealth) => {
       if (socket.id === id) {
         setHealth(updatedHealth);
+      }
+    });
+    return () => socket.removeAllListeners();
+  }, []);
+
+  // FLASH MESSAGE
+  const toggleFlashMessage = () => {
+    setShowMessage(!showMessage);
+  };
+
+  useEffect(() => {
+    socket.on('message to controller', (id, newMessage) => {
+      if (socket.id === id) {
+        setMessage(newMessage);
+        toggleFlashMessage();
       }
     });
     return () => socket.removeAllListeners();
@@ -271,6 +289,7 @@ const Controller = () => {
         />
       </Controls>
       {/* ===== / Controls ===== */}
+      {showMessage && <FlashMessage message={message} toggleFlashMessage={toggleFlashMessage} />}
       <PlayerInfo
         player={player}
         health={health}
