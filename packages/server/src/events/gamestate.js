@@ -52,7 +52,6 @@ export default (io, socket, dataStore) => {
 
       // Update player inventory
       const player = game.findPlayer(game.turn.playerId);
-      console.log(player);
       io.to(`game ${game.id}`).emit('player update inventory', player.id, player.inventory);
     }
   });
