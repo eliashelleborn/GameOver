@@ -69,7 +69,6 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
   }
 
   update() {
-    // console.log('projectile:', this.rotation);
     if (this.x > this.mapWidth
       || this.y > this.mapHeight
       || this.x < 0) {

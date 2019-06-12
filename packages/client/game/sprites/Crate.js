@@ -1,4 +1,5 @@
 import Phaser from 'phaser';
+import Explosion from './Explosion';
 
 export default class Crate extends Phaser.GameObjects.Sprite {
   constructor(config) {
@@ -11,7 +12,9 @@ export default class Crate extends Phaser.GameObjects.Sprite {
     this.graphics = this.scene.add.graphics();
     this.scene.physics.world.enable(this);
 
-    // List of all weapons
+    // Exploding Values
+    this.damage = 30;
+    this.canExplode = true;
 
     // Collider to players
     this.scene.players.getChildren().forEach((p) => {
@@ -31,5 +34,19 @@ export default class Crate extends Phaser.GameObjects.Sprite {
       this.isCollectable = false;
     }
     this.destroy();
+  }
+
+  explode() {
+    if (this.canExplode) {
+      this.canExplode = false;
+      this.explosion = new Explosion({
+        scene: this.scene,
+        x: this.x,
+        y: this.y,
+        key: 'explosion',
+        damage: this.damage,
+      });
+      this.destroy();
+    }
   }
 }
