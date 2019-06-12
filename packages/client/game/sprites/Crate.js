@@ -12,6 +12,9 @@ export default class Crate extends Phaser.GameObjects.Sprite {
     this.graphics = this.scene.add.graphics();
     this.scene.physics.world.enable(this);
 
+    // Collider with other crates
+    this.scene.physics.add.collider(this, this.scene.crates);
+
     // Exploding Values
     this.damage = 30;
     this.canExplode = true;
@@ -25,6 +28,7 @@ export default class Crate extends Phaser.GameObjects.Sprite {
     this.content = config.content;
     this.content.ammo = Phaser.Math.Between(1, this.content.maxLoot);
 
+    // Variable stopping from multiple pick ups
     this.isCollectable = true;
   }
 
