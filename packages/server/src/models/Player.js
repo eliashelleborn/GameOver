@@ -7,7 +7,7 @@ class Player {
     this.inventory = [{
       type: 'Bazooka',
       name: 'Bazooka',
-      ammo: 10,
+      ammo: -1,
       key: 'bazooka',
       image: '../../images/bazooka.png',
     }];
