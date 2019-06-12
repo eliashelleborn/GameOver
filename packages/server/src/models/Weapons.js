@@ -6,7 +6,7 @@ class Weapons {
       ammo: 10,
       key: 'bazooka',
       image: '../../images/bazooka.png',
-      maxLoot: 5,
+      maxLoot: 2,
     },
     {
       type: 'GrenadeLauncher',
@@ -14,7 +14,7 @@ class Weapons {
       ammo: 1,
       key: 'grenadelauncher',
       image: '../../images/grenadelauncher.png',
-      maxLoot: 3,
+      maxLoot: 2,
     },
     ];
   }
