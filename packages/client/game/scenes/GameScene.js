@@ -80,7 +80,6 @@ class GameScene extends Phaser.Scene {
     const updateTurn = (turn) => {
       store.dispatch.game.updateTurn(turn);
       this.getGameState();
-      this.dropCrate();
     };
 
     this.socket.on('prepare turn', (turn) => {
@@ -100,6 +99,7 @@ class GameScene extends Phaser.Scene {
     });
     this.socket.on('start turn', (turn) => {
       updateTurn(turn);
+      this.dropCrate();
     });
     this.socket.on('end turn', () => {});
     this.socket.on('countdown', (time, status) => {
@@ -126,8 +126,8 @@ class GameScene extends Phaser.Scene {
     // ================== \\
     // ===== CRATES ===== \\
     // ================== \\
-
     this.crates = this.add.group();
+
 
     // ===================================== \\
     // ===== TILE LAYERS AND COLLISION ===== \\
@@ -180,6 +180,7 @@ class GameScene extends Phaser.Scene {
     const randomNumber = Phaser.Math.Between(0, this.crateSpawnPoints.length - 1);
     const spawnPoint = this.crateSpawnPoints[randomNumber];
 
+    // Create new crate
     const crate = new Crate({
       scene: this,
       x: spawnPoint.x,
