@@ -3,7 +3,7 @@ class Weapons {
     this.list = [{
       type: 'Bazooka',
       name: 'Bazooka',
-      ammo: 10,
+      ammo: 8,
       key: 'bazooka',
       image: '../../images/bazooka.png',
     },

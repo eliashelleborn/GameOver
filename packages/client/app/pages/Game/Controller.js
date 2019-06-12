@@ -140,9 +140,9 @@ const Controller = () => {
           if (inventoryItem.key === selectedWeapon.key) {
             if (inventoryItem.ammo < 1) {
               selectWeapon(updatedInventory[0]);
-            } else {
-              selectWeapon(selectedWeapon);
+              return;
             }
+            selectWeapon(inventoryItem);
           }
         });
       }
@@ -214,7 +214,9 @@ const Controller = () => {
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
       {/*       <Hamburger /> */}
+
       {/* ===== Controls ===== */}
+
       <Controls>
         <Aim
           options={{
@@ -235,6 +237,7 @@ const Controller = () => {
             }
           }}
         />
+
         <ActionButtons>
           <Shoot
             onKeyDown={keyDown}
@@ -244,8 +247,10 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
+
           <Jump onMouseDown={jump} onTouchStart={jump} />
         </ActionButtons>
+
         <Move
           options={{
             mode: 'static',
@@ -268,6 +273,7 @@ const Controller = () => {
           }}
         />
       </Controls>
+
       {/* ===== / Controls ===== */}
       <PlayerInfo
         player={player}

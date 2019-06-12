@@ -25,6 +25,7 @@ export default (io, socket, dataStore) => {
     socket.to(game.host).emit('player release shoot', socket.id);
     player.loseAmmo(selectedWeapon);
   });
+
   socket.on('player aim', (angle) => {
     const game = dataStore.findGameByPlayer(socket.id);
     socket.to(game.host).emit('player aim', socket.id, angle);
