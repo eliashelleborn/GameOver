@@ -1,16 +1,13 @@
+import Weapons from './Weapons';
+
 class Player {
   constructor(id, name) {
     this.id = id; // Socket ID
     this.name = name;
     this.health = 100;
     this.alive = true;
-    this.inventory = [{
-      type: 'Bazooka',
-      name: 'Bazooka',
-      ammo: -1,
-      key: 'bazooka',
-      image: '../../images/bazooka.png',
-    }];
+    this.weapons = new Weapons();
+    this.inventory = this.weapons.list;
 
     this.connected = true;
     this.colors = [
