@@ -85,4 +85,10 @@ export default (io, socket, dataStore) => {
     player.pickUpItem(item);
     io.to(`game ${game.id}`).emit('player update inventory', player.id, player.inventory);
   });
+
+  // FLASHES
+  socket.on('message to controller', (id, message) => {
+    const game = dataStore.findGameByPlayer(id);
+    io.to(`game ${game.id}`).emit('message to controller', id, message);
+  });
 };
