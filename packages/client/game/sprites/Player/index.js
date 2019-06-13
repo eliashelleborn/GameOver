@@ -64,12 +64,16 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.crosshair.visible = false;
     // console.log(this.inventory[0].type);
     // ===== WEAPON =====
-    this.weapon = new this.availableWeapons[this.inventory[0].type]({
-      scene: this.scene,
-      key: this.inventory[0].key,
-      x: this.x,
-      y: this.y,
-    });
+    if (this.inventory.length > 1) {
+      this.weapon = new this.availableWeapons[this.inventory[0].type]({
+        scene: this.scene,
+        key: this.inventory[0].key,
+        x: this.x,
+        y: this.y,
+      });
+    } else {
+      this.weapon = {};
+    }
 
     // Initiate Controller event listeners
     controllerEvents(this.scene.socket, this);
@@ -148,7 +152,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       this.anims.play(this.animations.dead, true);
     }
     // Weapon
-    if (this.weapon) {
+    if (Object.getOwnPropertyNames(this.weapon).length !== 0 && this.weapon.length !== 0) {
       this.weapon.update(this.x, this.y);
     }
     // Update name tag position
@@ -245,7 +249,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   changeWeapon(weapon) {
-    this.weapon.destroy();
+    // Check if there is a weapon to destroy
+    if (Object.getOwnPropertyNames(this.weapon).length !== 0 && this.weapon.length !== 0) {
+      this.weapon.destroy();
+    }
+
+    if (weapon.length === 0) {
+      this.weapon = {};
+      return;
+    }
     this.weapon = new this.availableWeapons[weapon.type]({
       scene: this.scene,
       key: weapon.key,
