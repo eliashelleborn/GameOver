@@ -52,9 +52,11 @@ const Inventory = ({ inventory, selectedWeapon, selectWeapon }) => (
       <p> Chosen Weapon </p>
 
       <h4>
-        {selectedWeapon.name}
-:
-        {(selectedWeapon.ammo === -1 && ' ∞') || ` ${selectedWeapon.ammo}`}
+        {(selectedWeapon.name && `${selectedWeapon.name}: `) || 'Nothing'}
+
+        {(selectedWeapon.ammo === -1 && '∞')
+          || (selectedWeapon.ammo && `${selectedWeapon.ammo}`)
+          || ''}
       </h4>
     </StyledChosenWeapon>
     <StyledWeaponGrid>
