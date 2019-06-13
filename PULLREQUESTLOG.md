@@ -2,6 +2,13 @@
 
 The history of past pull request.
 
+- [#60 Feature / Drop boxes in game](https://github.com/eliasjohansson/GameOver/pull/60)
+- [#59 Fix / Readme links](https://github.com/eliasjohansson/GameOver/pull/59)
+- [#58 Feature / New readme structure](https://github.com/eliasjohansson/GameOver/pull/58)
+- [#57 Feature / Inventory](https://github.com/eliasjohansson/GameOver/pull/57)
+- [#56 Feature / How to play](https://github.com/eliasjohansson/GameOver/pull/56)
+- [#55 Fix / Feedback link](https://github.com/eliasjohansson/GameOver/pull/55)
+- [#54 Fix / Update readme](https://github.com/eliasjohansson/GameOver/pull/54)
 - [#53 Fix / Finished readme for assignment](https://github.com/eliasjohansson/GameOver/pull/53)
 - [#52 Feat / Added real player name to controller](https://github.com/eliasjohansson/GameOver/pull/52)
 - [#51 Fix / Pre-Presentation fixes](https://github.com/eliasjohansson/GameOver/pull/51)
