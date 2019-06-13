@@ -156,31 +156,11 @@ const Controller = () => {
         } else if (!updatedInventory.includes(selectedWeapon)) {
           // Equip next weapon if first ran out of ammo
           const message = {
-            message: `1: ${selectedWeapon.name} ran out of ammo, equipped ${
-              updatedInventory[0].name
-            }`,
+            message: `Your weapon ran out of ammo, equipped ${updatedInventory[0].name}`,
             type: 'pickup',
           };
           selectWeapon(updatedInventory[0]);
           socket.emit('message to controller', socket.id, message);
-        } else {
-          // Check if weapon out of ammo
-          updatedInventory.forEach((inventoryItem) => {
-            if (inventoryItem.key === selectedWeapon.key) {
-              if (inventoryItem.ammo < 1) {
-                const message = {
-                  message: `2: ${selectedWeapon.name} ran out of ammo, equipped ${
-                    updatedInventory[0].name
-                  }`,
-                  type: 'pickup',
-                };
-                selectWeapon(updatedInventory[0]);
-                socket.emit('message to controller', socket.id, message);
-                return;
-              }
-              selectWeapon(inventoryItem);
-            }
-          });
         }
       }
     });
@@ -265,8 +245,11 @@ const Controller = () => {
 
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
+      {' '}
       {/*       <Hamburger /> */}
+      {' '}
       {/* ===== Controls ===== */}
+      {' '}
       <Controls>
         <Aim
           options={{
@@ -287,6 +270,7 @@ const Controller = () => {
             }
           }}
         />
+        {' '}
         <ActionButtons>
           <Shoot
             onKeyDown={keyDown}
@@ -296,8 +280,11 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
+          {' '}
           <Jump onMouseDown={jump} onTouchStart={jump} />
+          {' '}
         </ActionButtons>
+        {' '}
         <Move
           options={{
             mode: 'static',
@@ -319,9 +306,13 @@ const Controller = () => {
             stopMove();
           }}
         />
+        {' '}
       </Controls>
+      {' '}
       {/* ===== / Controls ===== */}
+      {' '}
       <FlashMessages messages={messages} toggleFlashMessage={toggleFlashMessage} />
+      {' '}
       <PlayerInfo
         player={player}
         health={health}
@@ -331,6 +322,7 @@ const Controller = () => {
         selectedWeapon={selectedWeapon}
         selectWeapon={selectWeapon}
       />
+      {' '}
     </StyledController>
   );
 };
