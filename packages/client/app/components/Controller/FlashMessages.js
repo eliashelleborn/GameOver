@@ -9,7 +9,12 @@ const StyledFlashMessages = styled.div`
   flex-flow: column;
   justify-content: center;
   z-index: 1100;
-  bottom: 1rem;
+  top: 1rem;
+  width: 90%;
+  @media screen and (orientation: landscape) and (max-height: 500px) {
+    bottom: 1rem;
+    width: auto;
+  }
 `;
 
 const FlashMessages = ({ messages, toggleFlashMessage }) => (
