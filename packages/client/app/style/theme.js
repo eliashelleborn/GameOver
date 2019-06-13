@@ -4,7 +4,7 @@ const theme = {
   colorSecondary: '#FFCD55',
   colorSecondaryHover: '#FFDA83',
   colorHurt: '#bf3b3b',
-  colorPickUp: '#bfe7a3',
+  colorPickUp: '#77abdb',
 };
 
 export default theme;
