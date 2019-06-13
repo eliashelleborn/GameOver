@@ -202,6 +202,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   takeDamage(damage) {
     if (this.alive) {
+      const message = {
+        message: `You got ${damage} damage`,
+        type: 'hurt',
+      };
+      this.scene.socket.emit('message to controller', this.id, message);
       this.scene.socket.emit('player health update', -damage, this.id);
     }
   }
@@ -224,9 +229,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   die() {
     this.scene.socket.emit('player dies', this.id);
-    // this.scene.physics.world.disable(this);
     this.disableBody();
     this.y -= 55;
+    const message = {
+      message: 'You died...',
+      type: 'hurt',
+    };
+    this.scene.socket.emit('message to controller', this.id, message);
   }
 
   updateAlive(lifeStatus) {
