@@ -4,7 +4,7 @@ import { useStore } from 'easy-peasy';
 
 import { Aim, Move } from '../../components/Controller/Joysticks';
 import { Shoot, Jump } from '../../components/Controller/ActionButtons';
-import FlashMessage from '../../components/Controller/FlashMessage';
+import FlashMessages from '../../components/Controller/FlashMessages';
 import CPlayerInfo from '../../components/Controller/PlayerInfo';
 
 const PlayerInfo = styled(CPlayerInfo)``;
@@ -100,8 +100,7 @@ const Controller = () => {
   const [openInventory, setOpenInventory] = useState(false);
   const [selectedWeapon, setSelectedWeapon] = useState(player.inventory[0]);
   const [inventory, setInventory] = useState(player.inventory);
-  const [showMessage, setShowMessage] = useState(false);
-  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
 
   const startMove = (dir, speed) => {
     socket.emit('player start move', dir, speed);
@@ -171,15 +170,15 @@ const Controller = () => {
   }, []);
 
   // FLASH MESSAGE
-  const toggleFlashMessage = () => {
-    setShowMessage(!showMessage);
+  const toggleFlashMessage = (deleteMessage) => {
+    setMessages(messages.filter(message => message !== deleteMessage));
+    // setShowMessage(!showMessage);
   };
 
   useEffect(() => {
     socket.on('message to controller', (id, newMessage) => {
       if (socket.id === id) {
-        setMessage(newMessage);
-        toggleFlashMessage();
+        setMessages([...messages, newMessage]);
       }
     });
     return () => socket.removeAllListeners();
@@ -232,9 +231,7 @@ const Controller = () => {
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
       {/*       <Hamburger /> */}
-
       {/* ===== Controls ===== */}
-
       <Controls>
         <Aim
           options={{
@@ -255,6 +252,7 @@ const Controller = () => {
             }
           }}
         />
+
         <ActionButtons>
           <Shoot
             onKeyDown={keyDown}
@@ -264,8 +262,10 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
+
           <Jump onMouseDown={jump} onTouchStart={jump} />
         </ActionButtons>
+
         <Move
           options={{
             mode: 'static',
@@ -288,8 +288,11 @@ const Controller = () => {
           }}
         />
       </Controls>
+
       {/* ===== / Controls ===== */}
-      {showMessage && <FlashMessage message={message} toggleFlashMessage={toggleFlashMessage} />}
+
+      <FlashMessages messages={messages} toggleFlashMessage={toggleFlashMessage} />
+
       <PlayerInfo
         player={player}
         health={health}
