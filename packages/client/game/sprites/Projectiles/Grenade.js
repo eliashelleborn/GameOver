@@ -63,7 +63,6 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.y = config.y - 10;
 
     setTimeout(() => this.explode(), this.timer);
-    console.log(this.body);
   }
 
   explode() {
