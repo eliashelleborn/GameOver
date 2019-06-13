@@ -80,8 +80,6 @@ class GameScene extends Phaser.Scene {
     const updateTurn = (turn) => {
       store.dispatch.game.updateTurn(turn);
       this.getGameState();
-      this.dropCrate();
-      this.dropCrate();
     };
 
     this.socket.on('prepare turn', (turn) => {
