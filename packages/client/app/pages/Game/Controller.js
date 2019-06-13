@@ -115,7 +115,15 @@ const Controller = () => {
   };
 
   const startShoot = () => {
-    socket.emit('player start shoot');
+    if (inventory.length > 0) {
+      socket.emit('player start shoot');
+    } else {
+      const message = {
+        message: "You don't have weapons, search for a box!",
+        type: 'pickup',
+      };
+      socket.emit('message to controller', socket.id, message);
+    }
   };
 
   const releaseShoot = () => {
@@ -137,16 +145,43 @@ const Controller = () => {
     socket.on('player update inventory', (id, updatedInventory) => {
       if (socket.id === id) {
         setInventory(updatedInventory);
-        // Check if weapon out of ammo
-        updatedInventory.forEach((inventoryItem) => {
-          if (inventoryItem.key === selectedWeapon.key) {
-            if (inventoryItem.ammo < 1) {
-              selectWeapon(updatedInventory[0]);
-              return;
+        if (updatedInventory.length < 1) {
+          const message = {
+            message: `${selectedWeapon.name} 
+            ran out of ammo and you got nothing to equip, find some boxes`,
+            type: 'pickup',
+          };
+          selectWeapon([]);
+          socket.emit('message to controller', socket.id, message);
+        } else if (!updatedInventory.includes(selectedWeapon)) {
+          // Equip next weapon if first ran out of ammo
+          const message = {
+            message: `1: ${selectedWeapon.name} ran out of ammo, equipped ${
+              updatedInventory[0].name
+            }`,
+            type: 'pickup',
+          };
+          selectWeapon(updatedInventory[0]);
+          socket.emit('message to controller', socket.id, message);
+        } else {
+          // Check if weapon out of ammo
+          updatedInventory.forEach((inventoryItem) => {
+            if (inventoryItem.key === selectedWeapon.key) {
+              if (inventoryItem.ammo < 1) {
+                const message = {
+                  message: `2: ${selectedWeapon.name} ran out of ammo, equipped ${
+                    updatedInventory[0].name
+                  }`,
+                  type: 'pickup',
+                };
+                selectWeapon(updatedInventory[0]);
+                socket.emit('message to controller', socket.id, message);
+                return;
+              }
+              selectWeapon(inventoryItem);
             }
-            selectWeapon(inventoryItem);
-          }
-        });
+          });
+        }
       }
     });
     return () => socket.removeAllListeners();
@@ -252,7 +287,6 @@ const Controller = () => {
             }
           }}
         />
-
         <ActionButtons>
           <Shoot
             onKeyDown={keyDown}
@@ -262,10 +296,8 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
-
           <Jump onMouseDown={jump} onTouchStart={jump} />
         </ActionButtons>
-
         <Move
           options={{
             mode: 'static',
@@ -288,11 +320,8 @@ const Controller = () => {
           }}
         />
       </Controls>
-
       {/* ===== / Controls ===== */}
-
       <FlashMessages messages={messages} toggleFlashMessage={toggleFlashMessage} />
-
       <PlayerInfo
         player={player}
         health={health}
