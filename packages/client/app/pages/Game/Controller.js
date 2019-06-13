@@ -172,13 +172,13 @@ const Controller = () => {
   // FLASH MESSAGE
   const toggleFlashMessage = (deleteMessage) => {
     setMessages(messages.filter(message => message !== deleteMessage));
-    // setShowMessage(!showMessage);
   };
 
   useEffect(() => {
     socket.on('message to controller', (id, newMessage) => {
       if (socket.id === id) {
-        setMessages([...messages, newMessage]);
+        const updatedMessages = [newMessage, ...messages];
+        setMessages(updatedMessages);
       }
     });
     return () => socket.removeAllListeners();
