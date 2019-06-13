@@ -7,6 +7,7 @@ const StyledFlashMessage = styled.div`
   padding: 1rem;
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-bottom: 1rem;
   transition: 0.3s ease-in;
 `;

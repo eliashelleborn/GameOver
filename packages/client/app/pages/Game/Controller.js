@@ -245,11 +245,10 @@ const Controller = () => {
 
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
-      {' '}
       {/*       <Hamburger /> */}
-      {' '}
+
       {/* ===== Controls ===== */}
-      {' '}
+
       <Controls>
         <Aim
           options={{
@@ -270,7 +269,7 @@ const Controller = () => {
             }
           }}
         />
-        {' '}
+
         <ActionButtons>
           <Shoot
             onKeyDown={keyDown}
@@ -280,11 +279,10 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
-          {' '}
+
           <Jump onMouseDown={jump} onTouchStart={jump} />
-          {' '}
         </ActionButtons>
-        {' '}
+
         <Move
           options={{
             mode: 'static',
@@ -306,13 +304,12 @@ const Controller = () => {
             stopMove();
           }}
         />
-        {' '}
       </Controls>
-      {' '}
+
       {/* ===== / Controls ===== */}
-      {' '}
+
       <FlashMessages messages={messages} toggleFlashMessage={toggleFlashMessage} />
-      {' '}
+
       <PlayerInfo
         player={player}
         health={health}
@@ -322,7 +319,6 @@ const Controller = () => {
         selectedWeapon={selectedWeapon}
         selectWeapon={selectWeapon}
       />
-      {' '}
     </StyledController>
   );
 };
