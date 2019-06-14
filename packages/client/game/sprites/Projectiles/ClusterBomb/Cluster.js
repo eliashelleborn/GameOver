@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import Explosion from '../Explosion';
+import Explosion from '../../Explosion';
 
 export default class Projectile extends Phaser.GameObjects.Sprite {
   constructor(config) {
@@ -30,7 +30,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.anims.play(config.key);
 
     // Making camera follow Projectile
-    this.scene.cameras.main.startFollow(this);
+    // this.scene.cameras.main.startFollow(this);
 
     // Adding Collision
     this.scene.physics.add.collider(this, this.scene.players, this.explode);
@@ -52,13 +52,13 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     this.isInBounds = true;
     this.canExplode = true;
 
-    //
-    // this.body.setDragX(100);
-    // this.body.setAngularDrag(40);
+    // Timer
+    this.timer = 1000;
 
     // Fixing fireing poisition
     this.x = config.x + (5 * config.direction);
     this.y = config.y - 10;
+    setTimeout(() => this.explode(), this.timer);
   }
 
   explode() {
