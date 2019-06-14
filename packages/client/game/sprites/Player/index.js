@@ -62,7 +62,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       y: this.y,
     }).setDepth(1);
     this.crosshair.visible = false;
-    // console.log(this.inventory[0].type);
+
     // ===== WEAPON =====
     if (this.inventory.length > 1) {
       this.weapon = new this.availableWeapons[this.inventory[0].type]({
@@ -99,7 +99,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update() {
-    // console.log('player : ', this.controller.weapon.aim);
     if (this.alive) {
       // ===== CHECK AIM DIRECTION ===== \\
       if (this.controller.weapon.aim > 1.5 && this.controller.weapon.aim < 4.7) {
