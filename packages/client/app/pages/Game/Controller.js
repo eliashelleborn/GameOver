@@ -98,8 +98,8 @@ const Controller = () => {
     right: false,
   });
   const [openInventory, setOpenInventory] = useState(false);
-  const [selectedWeapon, setSelectedWeapon] = useState(player.inventory[0]);
   const [inventory, setInventory] = useState(player.inventory);
+  const [selectedWeapon, setSelectedWeapon] = useState(inventory[0]);
   const [messages, setMessages] = useState([]);
 
   const startMove = (dir, speed) => {
@@ -147,25 +147,37 @@ const Controller = () => {
         setInventory(updatedInventory);
         if (updatedInventory.length < 1) {
           const message = {
-            message: `${selectedWeapon.name} 
+            message: `Your ${selectedWeapon.name} 
             ran out of ammo and you got nothing to equip, find some boxes`,
             type: 'pickup',
           };
-          selectWeapon([]);
+          selectWeapon({});
           socket.emit('message to controller', socket.id, message);
-        } else if (!updatedInventory.includes(selectedWeapon)) {
+        } else {
+          let isStillInInventory = false;
+          updatedInventory.forEach((item) => {
+            if (item.key === selectedWeapon.key) {
+              isStillInInventory = true;
+              selectWeapon(item);
+            }
+          });
           // Equip next weapon if first ran out of ammo
-          const message = {
-            message: `Your weapon ran out of ammo, equipped ${updatedInventory[0].name}`,
-            type: 'pickup',
-          };
-          selectWeapon(updatedInventory[0]);
-          socket.emit('message to controller', socket.id, message);
+          if (!isStillInInventory) {
+            const message = {
+              message: `Your ${selectedWeapon.name} ran out of ammo, equipped ${
+                updatedInventory[0].name
+              }`,
+              type: 'pickup',
+            };
+            selectWeapon(updatedInventory[0]);
+
+            socket.emit('message to controller', socket.id, message);
+          }
         }
       }
     });
     return () => socket.removeAllListeners();
-  }, []);
+  }, [selectedWeapon]);
 
   useEffect(() => {
     if (!keys.left && !keys.right) {
@@ -191,13 +203,15 @@ const Controller = () => {
 
   useEffect(() => {
     socket.on('message to controller', (id, newMessage) => {
+      console.log('MESSAGES', id, socket.id);
       if (socket.id === id) {
+        console.log('were in');
         const updatedMessages = [newMessage, ...messages];
         setMessages(updatedMessages);
       }
     });
     return () => socket.removeAllListeners();
-  }, []);
+  }, [messages]);
 
   const keyDown = (e) => {
     if (e.key === 'ArrowLeft') {
