@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import bazooka from '../../images/bazooka.png';
 import grenadelauncher from '../../images/grenadelauncher.png';
+import clusterbomblauncher from '../../images/clusterbomblauncher.png';
 
 const StyledWeapon = styled.div`
   width: 100%;
@@ -28,6 +29,7 @@ const Weapon = ({
   const imageArray = {
     bazooka,
     grenadelauncher,
+    clusterbomblauncher,
   };
 
   return (

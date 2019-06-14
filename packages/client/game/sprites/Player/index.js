@@ -4,6 +4,7 @@ import controllerEvents from './events';
 import Crosshair from '../Crosshair';
 import Bazooka from '../Weapons/Bazooka';
 import GrenadeLauncher from '../Weapons/GrenadeLauncher';
+import ClusterBombLauncher from '../Weapons/ClusterBombLauncher';
 
 export default class Player extends Phaser.GameObjects.Sprite {
   constructor(config) {
@@ -22,6 +23,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
     this.availableWeapons = {
       Bazooka,
       GrenadeLauncher,
+      ClusterBombLauncher,
     };
 
     this.inventory = config.info.inventory;
