@@ -27,6 +27,7 @@ import missile from '../assets/sprites/bullet.png';
 import bazooka from '../assets/sprites/bazooka.png';
 import bomb from '../assets/sprites/bomb.png';
 import grenadelauncher from '../assets/sprites/grenadelauncher.png';
+import clusterbomblauncher from '../assets/sprites/clusterbomblauncher.png';
 
 // Crosshair
 import crosshair from '../assets/sprites/crosshair.png';
@@ -139,7 +140,7 @@ class BootScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
-    this.load.spritesheet('clusterbomblauncher', grenadelauncher, {
+    this.load.spritesheet('clusterbomblauncher', clusterbomblauncher, {
       frameWidth: 32,
       frameHeight: 32,
     });
