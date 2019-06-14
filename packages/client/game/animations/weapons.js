@@ -41,6 +41,32 @@ export default function makeWeaponsAnimations(scene) {
       frame: 0,
     }],
   });
+  // CLUSTER
+  scene.anims.create({
+    key: 'cluster',
+    frames: [{
+      key: 'cluster',
+      frame: 0,
+    }],
+  });
+
+  // CLUSTER BOMB
+  scene.anims.create({
+    key: 'clusterbomb',
+    frames: [{
+      key: 'clusterbomb',
+      frame: 0,
+    }],
+  });
+
+  // CLUSTER BOMB LAUNCHER
+  scene.anims.create({
+    key: 'clusterbomblauncher',
+    frames: [{
+      key: 'clusterbomblauncher',
+      frame: 0,
+    }],
+  });
 
   // EXPLOSION
   scene.anims.create({

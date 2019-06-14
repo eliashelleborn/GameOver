@@ -131,6 +131,18 @@ class BootScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32,
     });
+    this.load.spritesheet('clusterbomb', bomb, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('cluster', bomb, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet('clusterbomblauncher', grenadelauncher, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
 
     // Crosshair
     this.load.spritesheet('crosshair', crosshair, {
