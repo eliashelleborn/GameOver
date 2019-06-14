@@ -34,6 +34,7 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     // Adding Collision
     this.scene.physics.add.collider(this, this.scene.players, () => this.hitGround());
     this.scene.physics.add.collider(this, this.scene.layers, () => this.hitGround());
+    this.scene.physics.add.collider(this, this.scene.crates, () => this.hitGround());
 
     // Adding the amount of damage
     this.damage = config.damage;
@@ -69,7 +70,6 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
   }
 
   update() {
-    // console.log('projectile:', this.rotation);
     if (this.x > this.mapWidth
       || this.y > this.mapHeight
       || this.x < 0) {

@@ -130,7 +130,6 @@ const Start = () => {
 
   const toggleShowHelp = () => {
     setShowHelp(!showHelp);
-    console.log(showHelp);
   };
 
   if (redirectPath) {

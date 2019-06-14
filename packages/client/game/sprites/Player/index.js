@@ -62,14 +62,18 @@ export default class Player extends Phaser.GameObjects.Sprite {
       y: this.y,
     }).setDepth(1);
     this.crosshair.visible = false;
-    // console.log(this.inventory[0].type);
+
     // ===== WEAPON =====
-    this.weapon = new this.availableWeapons[this.inventory[0].type]({
-      scene: this.scene,
-      key: this.inventory[0].key,
-      x: this.x,
-      y: this.y,
-    });
+    if (this.inventory.length > 1) {
+      this.weapon = new this.availableWeapons[this.inventory[0].type]({
+        scene: this.scene,
+        key: this.inventory[0].key,
+        x: this.x,
+        y: this.y,
+      });
+    } else {
+      this.weapon = {};
+    }
 
     // Initiate Controller event listeners
     controllerEvents(this.scene.socket, this);
@@ -95,7 +99,6 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   update() {
-    // console.log('player : ', this.controller.weapon.aim);
     if (this.alive) {
       // ===== CHECK AIM DIRECTION ===== \\
       if (this.controller.weapon.aim > 1.5 && this.controller.weapon.aim < 4.7) {
@@ -148,7 +151,7 @@ export default class Player extends Phaser.GameObjects.Sprite {
       this.anims.play(this.animations.dead, true);
     }
     // Weapon
-    if (this.weapon) {
+    if (Object.getOwnPropertyNames(this.weapon).length !== 0 && this.weapon.length !== 0) {
       this.weapon.update(this.x, this.y);
     }
     // Update name tag position
@@ -202,6 +205,11 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   takeDamage(damage) {
     if (this.alive) {
+      const message = {
+        message: `You got ${damage} damage`,
+        type: 'hurt',
+      };
+      this.scene.socket.emit('message to controller', this.id, message);
       this.scene.socket.emit('player health update', -damage, this.id);
     }
   }
@@ -224,9 +232,13 @@ export default class Player extends Phaser.GameObjects.Sprite {
 
   die() {
     this.scene.socket.emit('player dies', this.id);
-    // this.scene.physics.world.disable(this);
     this.disableBody();
     this.y -= 55;
+    const message = {
+      message: 'You died...',
+      type: 'hurt',
+    };
+    this.scene.socket.emit('message to controller', this.id, message);
   }
 
   updateAlive(lifeStatus) {
@@ -236,7 +248,15 @@ export default class Player extends Phaser.GameObjects.Sprite {
   }
 
   changeWeapon(weapon) {
-    this.weapon.destroy();
+    // Check if there is a weapon to destroy
+    if (Object.getOwnPropertyNames(this.weapon).length !== 0 && this.weapon.length !== 0) {
+      this.weapon.destroy();
+    }
+
+    if (weapon.length === 0) {
+      this.weapon = {};
+      return;
+    }
     this.weapon = new this.availableWeapons[weapon.type]({
       scene: this.scene,
       key: weapon.key,
@@ -245,7 +265,8 @@ export default class Player extends Phaser.GameObjects.Sprite {
     });
   }
 
-  pickUpWeapon(weapon) {
-    this.scene.socket.emit('player pick up item', weapon, this.id);
+  pickUpItem(item, message) {
+    this.scene.socket.emit('player pick up item', item, this.id);
+    this.scene.socket.emit('message to controller', this.id, message);
   }
 }

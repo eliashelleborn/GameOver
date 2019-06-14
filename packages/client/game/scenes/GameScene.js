@@ -1,5 +1,7 @@
 import Phaser from 'phaser';
 import Player from '../sprites/Player';
+import Crate from '../sprites/Crate';
+
 import store from '../../app/store';
 
 class GameScene extends Phaser.Scene {
@@ -39,9 +41,13 @@ class GameScene extends Phaser.Scene {
 
     // Getting spawn points
     this.spawnPoints = [];
-    // this.map.fin;
+    this.crateSpawnPoints = [];
+
     this.map.findObject('start', (obj) => {
       this.spawnPoints.push(obj);
+    });
+    this.map.findObject('crate', (obj) => {
+      this.crateSpawnPoints.push(obj);
     });
 
     // =================== \\
@@ -93,6 +99,7 @@ class GameScene extends Phaser.Scene {
     });
     this.socket.on('start turn', (turn) => {
       updateTurn(turn);
+      this.dropCrate();
     });
     this.socket.on('end turn', () => {});
     this.socket.on('countdown', (time, status) => {
@@ -115,6 +122,13 @@ class GameScene extends Phaser.Scene {
       this.getGameState();
     });
 
+
+    // ================== \\
+    // ===== CRATES ===== \\
+    // ================== \\
+    this.crates = this.add.group();
+
+
     // ===================================== \\
     // ===== TILE LAYERS AND COLLISION ===== \\
     // ===================================== \\
@@ -130,8 +144,9 @@ class GameScene extends Phaser.Scene {
     this.layers.add(this.backLayer);
     this.layers.add(this.topLayer);
 
-    // Add collision between players and layers
+    // Add collision between players, crates and layers
     this.physics.add.collider(this.players, this.layers);
+    this.physics.add.collider(this.crates, this.layers);
 
     // // Property collide set in TILED on Tileset
     this.groundLayer.setCollisionByProperty({
@@ -146,7 +161,6 @@ class GameScene extends Phaser.Scene {
 
     // CAMERA SETTINGS (outsideX, outsideY, MaxWidth, MaxHeight )
     this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
-    /* this.cameras.main.setViewport(0, 0, window.innerWidth, window.innerHeight); */
     this.cameras.main.setZoom(1.5);
 
     this.physics.world.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
@@ -156,6 +170,25 @@ class GameScene extends Phaser.Scene {
     this.players.getChildren().forEach((p) => {
       p.update();
     });
+  }
+
+  dropCrate() {
+    // Random item from lists
+    const content = this.gameState.weapons.list[1];
+
+    // Get spawn point
+    const randomNumber = Phaser.Math.Between(0, this.crateSpawnPoints.length - 1);
+    const spawnPoint = this.crateSpawnPoints[randomNumber];
+
+    // Create new crate
+    const crate = new Crate({
+      scene: this,
+      x: spawnPoint.x,
+      y: spawnPoint.y,
+      key: 'crate',
+      content,
+    });
+    this.crates.add(crate);
   }
 }
 

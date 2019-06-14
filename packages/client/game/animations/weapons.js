@@ -64,4 +64,13 @@ export default function makeWeaponsAnimations(scene) {
     frameRate: 10,
     repeat: -1,
   });
+
+  // CRATE
+  scene.anims.create({
+    key: 'crate',
+    frames: [{
+      key: 'crate',
+      frame: 0,
+    }],
+  });
 }

@@ -1,4 +1,5 @@
 import Player from './Player';
+import Weapons from './Weapons';
 
 class Game {
   constructor(id, host, testing) {
@@ -25,6 +26,7 @@ class Game {
       canMove: true,
       status: 'countdown', // 'countdown', 'playing', 'paused'
     };
+    this.weapons = new Weapons();
   }
 
   // Pause & resume turn

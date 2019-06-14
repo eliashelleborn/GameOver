@@ -49,6 +49,10 @@ export default (io, socket, dataStore) => {
     if (game && game.host === socket.id) {
       game.resumeTurn(countdownTick);
       io.to(`game ${game.id}`).emit('resume turn', game.turn);
+
+      // Update player inventory
+      const player = game.findPlayer(game.turn.playerId);
+      io.to(`game ${game.id}`).emit('player update inventory', player.id, player.inventory);
     }
   });
 
@@ -75,9 +79,15 @@ export default (io, socket, dataStore) => {
 
   // PLAYER PICK UP ITEM
   socket.on('player pick up item', (item, id) => {
-    console.log(item, id);
     const game = dataStore.findGameByPlayer(id);
     const player = game.findPlayer(id);
     player.pickUpItem(item);
+    io.to(`game ${game.id}`).emit('player update inventory', player.id, player.inventory);
+  });
+
+  // FLASHES
+  socket.on('message to controller', (id, message) => {
+    const game = dataStore.findGameByPlayer(id);
+    io.to(`game ${game.id}`).emit('message to controller', id, message);
   });
 };

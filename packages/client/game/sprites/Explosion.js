@@ -13,12 +13,17 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
     // Setting damage and correlating Scale
     this.damage = config.damage;
-    this.scale = 6 * (config.damage / 100);
+    this.scale = 7 * (config.damage / 100);
     this.setScale(this.scale);
 
     // Collider to players
     this.scene.players.getChildren().forEach((p) => {
       this.scene.physics.add.overlap(this, p, (a, b) => this.hitPlayer(a, b));
+    });
+
+    // Collider to crates
+    this.scene.crates.getChildren().forEach((p) => {
+      this.scene.physics.add.overlap(this, p, (a, b) => this.hitCrate(a, b));
     });
 
     // Getting all hit tiles and changing values to -1
@@ -53,6 +58,13 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
       player.takeDamage(updatedDamage);
       player.flyFromExplosion(explosion, updatedDamage);
       this.hasHurt.push(player);
+    }
+  }
+
+  hitCrate(explosion, crate) {
+    if (!this.hasHurt.includes(crate)) {
+      crate.explode();
+      this.hasHurt.push(crate);
     }
   }
 }

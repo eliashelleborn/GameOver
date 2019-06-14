@@ -4,6 +4,7 @@ import { useStore } from 'easy-peasy';
 
 import { Aim, Move } from '../../components/Controller/Joysticks';
 import { Shoot, Jump } from '../../components/Controller/ActionButtons';
+import FlashMessages from '../../components/Controller/FlashMessages';
 import CPlayerInfo from '../../components/Controller/PlayerInfo';
 
 const PlayerInfo = styled(CPlayerInfo)``;
@@ -97,8 +98,9 @@ const Controller = () => {
     right: false,
   });
   const [openInventory, setOpenInventory] = useState(false);
-  const [selectedWeapon, setSelectedWeapon] = useState(player.inventory[0]);
-
+  const [inventory, setInventory] = useState(player.inventory);
+  const [selectedWeapon, setSelectedWeapon] = useState(inventory[0]);
+  const [messages, setMessages] = useState([]);
   const startMove = (dir, speed) => {
     socket.emit('player start move', dir, speed);
   };
@@ -112,11 +114,19 @@ const Controller = () => {
   };
 
   const startShoot = () => {
-    socket.emit('player start shoot');
+    if (inventory.length > 0) {
+      socket.emit('player start shoot');
+    } else {
+      const message = {
+        message: "You don't have weapons, search for a box!",
+        type: 'pickup',
+      };
+      setMessages([message, ...messages]);
+    }
   };
 
   const releaseShoot = () => {
-    socket.emit('player release shoot');
+    socket.emit('player release shoot', selectedWeapon);
   };
 
   // INVENTORY AND WEAPON SELECTION
@@ -129,11 +139,73 @@ const Controller = () => {
     socket.emit('player select inventory item', item);
   };
 
+  // FLASH MESSAGE
+  const toggleFlashMessage = (deleteMessage) => {
+    setMessages(messages.filter(message => message !== deleteMessage));
+  };
+
+  useEffect(() => {
+    socket.on('message to controller', (id, newMessage) => {
+      if (socket.id === id) {
+        setMessages([newMessage, ...messages]);
+      }
+    });
+    return () => socket.removeAllListeners();
+  }, [messages]);
+
+  // UPDATE INVENTORY
+  useEffect(() => {
+    socket.on('player update inventory', (id, updatedInventory) => {
+      if (socket.id === id) {
+        setInventory(updatedInventory);
+
+        // If inventory is empty
+        if (
+          updatedInventory.length < 1
+          && Object.getOwnPropertyNames(selectedWeapon).length !== 0
+        ) {
+          const message = {
+            message: `Your ${selectedWeapon.name} 
+            ran out of ammo and you got nothing to equip, find some boxes`,
+            type: 'pickup',
+          };
+          selectWeapon({});
+          setMessages([message, ...messages]);
+        } else {
+          let isStillInInventory = false;
+
+          // Check if used weapon still is in inventory
+          updatedInventory.forEach((item) => {
+            if (item.key === selectedWeapon.key) {
+              isStillInInventory = true;
+              selectWeapon(item);
+            }
+          });
+
+          // Equip next weapon if the used weapon ran out of ammo
+          if (!isStillInInventory) {
+            const message = {
+              message: `Your ${selectedWeapon.name} ran out of ammo, equipped ${
+                updatedInventory[0].name
+              }`,
+              type: 'pickup',
+            };
+            selectWeapon(updatedInventory[0]);
+            setMessages([message, ...messages]);
+          }
+        }
+      }
+    });
+    return () => socket.removeAllListeners();
+  }, [selectedWeapon, messages]);
+
   useEffect(() => {
     if (!keys.left && !keys.right) {
       stopMove();
     }
   }, [keys]);
+
+  // HEALTH UPDATE
 
   useEffect(() => {
     socket.on('player health update', (id, updatedHealth) => {
@@ -143,10 +215,6 @@ const Controller = () => {
     });
     return () => socket.removeAllListeners();
   }, []);
-
-  useEffect(() => {
-    socket.on('player pick up item', (item, id) => {});
-  });
 
   const keyDown = (e) => {
     if (e.key === 'ArrowLeft') {
@@ -195,7 +263,9 @@ const Controller = () => {
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
       {/*       <Hamburger /> */}
+
       {/* ===== Controls ===== */}
+
       <Controls>
         <Aim
           options={{
@@ -216,6 +286,7 @@ const Controller = () => {
             }
           }}
         />
+
         <ActionButtons>
           <Shoot
             onKeyDown={keyDown}
@@ -225,8 +296,10 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
+
           <Jump onMouseDown={jump} onTouchStart={jump} />
         </ActionButtons>
+
         <Move
           options={{
             mode: 'static',
@@ -249,13 +322,17 @@ const Controller = () => {
           }}
         />
       </Controls>
+
       {/* ===== / Controls ===== */}
+
+      <FlashMessages messages={messages} toggleFlashMessage={toggleFlashMessage} />
+
       <PlayerInfo
         player={player}
         health={health}
         toggleInventory={toggleInventory}
         openInventory={openInventory}
-        inventory={player.inventory}
+        inventory={inventory}
         selectedWeapon={selectedWeapon}
         selectWeapon={selectWeapon}
       />
