@@ -101,7 +101,6 @@ const Controller = () => {
   const [inventory, setInventory] = useState(player.inventory);
   const [selectedWeapon, setSelectedWeapon] = useState(inventory[0]);
   const [messages, setMessages] = useState([]);
-
   const startMove = (dir, speed) => {
     socket.emit('player start move', dir, speed);
   };
@@ -122,7 +121,7 @@ const Controller = () => {
         message: "You don't have weapons, search for a box!",
         type: 'pickup',
       };
-      socket.emit('message to controller', socket.id, message);
+      setMessages([message, ...messages]);
     }
   };
 
@@ -140,28 +139,50 @@ const Controller = () => {
     socket.emit('player select inventory item', item);
   };
 
+  // FLASH MESSAGE
+  const toggleFlashMessage = (deleteMessage) => {
+    setMessages(messages.filter(message => message !== deleteMessage));
+  };
+
+  useEffect(() => {
+    socket.on('message to controller', (id, newMessage) => {
+      if (socket.id === id) {
+        setMessages([newMessage, ...messages]);
+      }
+    });
+    return () => socket.removeAllListeners();
+  }, [messages]);
+
   // UPDATE INVENTORY
   useEffect(() => {
     socket.on('player update inventory', (id, updatedInventory) => {
       if (socket.id === id) {
         setInventory(updatedInventory);
-        if (updatedInventory.length < 1) {
+
+        // If inventory is empty
+        if (
+          updatedInventory.length < 1
+          && Object.getOwnPropertyNames(selectedWeapon).length !== 0
+        ) {
           const message = {
             message: `Your ${selectedWeapon.name} 
             ran out of ammo and you got nothing to equip, find some boxes`,
             type: 'pickup',
           };
           selectWeapon({});
-          socket.emit('message to controller', socket.id, message);
+          setMessages([message, ...messages]);
         } else {
           let isStillInInventory = false;
+
+          // Check if used weapon still is in inventory
           updatedInventory.forEach((item) => {
             if (item.key === selectedWeapon.key) {
               isStillInInventory = true;
               selectWeapon(item);
             }
           });
-          // Equip next weapon if first ran out of ammo
+
+          // Equip next weapon if the used weapon ran out of ammo
           if (!isStillInInventory) {
             const message = {
               message: `Your ${selectedWeapon.name} ran out of ammo, equipped ${
@@ -170,14 +191,13 @@ const Controller = () => {
               type: 'pickup',
             };
             selectWeapon(updatedInventory[0]);
-
-            socket.emit('message to controller', socket.id, message);
+            setMessages([message, ...messages]);
           }
         }
       }
     });
     return () => socket.removeAllListeners();
-  }, [selectedWeapon]);
+  }, [selectedWeapon, messages]);
 
   useEffect(() => {
     if (!keys.left && !keys.right) {
@@ -195,23 +215,6 @@ const Controller = () => {
     });
     return () => socket.removeAllListeners();
   }, []);
-
-  // FLASH MESSAGE
-  const toggleFlashMessage = (deleteMessage) => {
-    setMessages(messages.filter(message => message !== deleteMessage));
-  };
-
-  useEffect(() => {
-    socket.on('message to controller', (id, newMessage) => {
-      console.log('MESSAGES', id, socket.id);
-      if (socket.id === id) {
-        console.log('were in');
-        const updatedMessages = [newMessage, ...messages];
-        setMessages(updatedMessages);
-      }
-    });
-    return () => socket.removeAllListeners();
-  }, [messages]);
 
   const keyDown = (e) => {
     if (e.key === 'ArrowLeft') {
