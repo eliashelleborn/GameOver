@@ -76,15 +76,14 @@ export default class ClusterBombProjectile extends Phaser.GameObjects.Sprite {
     if (this.canExplode) {
       this.canExplode = false;
       for (let index = 0; index < this.numberOfClusters; index += 1) {
-        console.log('cluster', index);
         const cluster = new Cluster({
           scene: this.scene,
           key: 'cluster',
           x: this.x,
           y: this.y,
-          force: this.thrust,
-          dx: this.dx - (4 - index),
-          dy: this.dy,
+          force: 400,
+          dx: -1 + (index * 0.5),
+          dy: 1,
           damage: this.damage,
           direction: this.direction,
           angle: this.angle,

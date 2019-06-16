@@ -33,9 +33,9 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
     // this.scene.cameras.main.startFollow(this);
 
     // Adding Collision
-    this.scene.physics.add.collider(this, this.scene.players, this.explode);
-    this.scene.physics.add.collider(this, this.scene.layers, this.explode);
-    this.scene.physics.add.collider(this, this.scene.crates, this.explode);
+    this.scene.physics.add.collider(this, this.scene.players, () => this.explode());
+    this.scene.physics.add.collider(this, this.scene.layers, () => this.explode());
+    this.scene.physics.add.collider(this, this.scene.crates, () => this.explode());
 
     // Adding the amount of damage
     this.damage = config.damage;
@@ -51,14 +51,6 @@ export default class Projectile extends Phaser.GameObjects.Sprite {
 
     this.isInBounds = true;
     this.canExplode = true;
-
-    // Timer
-    this.timer = 1000;
-
-    // Fixing fireing poisition
-    this.x = config.x + (5 * config.direction);
-    this.y = config.y - 10;
-    setTimeout(() => this.explode(), this.timer);
   }
 
   explode() {
