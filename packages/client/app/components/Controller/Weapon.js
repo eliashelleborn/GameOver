@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import bazooka from '../../images/bazooka.png';
 import grenadelauncher from '../../images/grenadelauncher.png';
@@ -23,9 +24,7 @@ const StyledWeapon = styled.div`
   }
 `;
 
-const Weapon = ({
-  name, image, selectWeapon, isSelected,
-}) => {
+const Weapon = ({ image, selectWeapon, isSelected }) => {
   const imageArray = {
     bazooka,
     grenadelauncher,
@@ -37,6 +36,12 @@ const Weapon = ({
       <img src={imageArray[image]} alt="weapon" />
     </StyledWeapon>
   );
+};
+
+Weapon.propTypes = {
+  image: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
+  selectWeapon: PropTypes.func.isRequired,
 };
 
 export default Weapon;
