@@ -22,9 +22,9 @@ export default class ClusterBombProjectile extends Phaser.GameObjects.Sprite {
     this.scene.add.existing(this);
     this.body.setSize(12, 12);
     this.body.setBounce(0.7);
-    this.timer = 5000;
+    this.timer = 3000;
 
-    // Movement values
+    // Movement values
     this.dx = config.dx;
     this.dy = config.dy;
     this.direction = config.direction;
@@ -66,7 +66,7 @@ export default class ClusterBombProjectile extends Phaser.GameObjects.Sprite {
     this.y = config.y - 10;
 
     // Number of clusters
-    this.numberOfClusters = 4;
+    this.numberOfClusters = 5;
     this.clusters = [];
 
     setTimeout(() => this.explode(), this.timer);
@@ -82,7 +82,7 @@ export default class ClusterBombProjectile extends Phaser.GameObjects.Sprite {
           x: this.x,
           y: this.y,
           force: 400,
-          dx: -1 + (index * 0.5),
+          dx: -1 + (index * (2 / this.numberOfClusters)),
           dy: 1,
           damage: this.damage,
           direction: this.direction,
