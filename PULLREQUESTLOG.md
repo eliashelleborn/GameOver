@@ -2,6 +2,7 @@
 
 The history of past pull request.
 
+- [#60 Feature / Cluster bombs](https://github.com/eliasjohansson/GameOver/pull/60)
 - [#59 Fix / Readme links](https://github.com/eliasjohansson/GameOver/pull/59)
 - [#58 Feature / New readme structure](https://github.com/eliasjohansson/GameOver/pull/58)
 - [#57 Feature / Inventory](https://github.com/eliasjohansson/GameOver/pull/57)
