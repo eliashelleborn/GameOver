@@ -33,11 +33,11 @@ Credits to people who made graphics and other stuff.
 
 ## Contributing
 
-Feel free to contribute to the game but please read the [contribution guidelines](https://github.com/eliasjohansson/GameOver/CONTRIBUTE.md) before submitting a pull request.
+Feel free to contribute to the game but please read the [contribution guidelines](https://github.com/eliasjohansson/GameOver/blob/master/CONTRIBUTE.md) before submitting a pull request.
 
 ## Pull requests log
 
-You'll find past pull request [here](https://github.com/eliasjohansson/GameOver/PULLREQUESTLOG.md)
+You'll find past pull request [here](https://github.com/eliasjohansson/GameOver/blob/master/PULLREQUESTLOG.md)
 
 ## Testers
 
