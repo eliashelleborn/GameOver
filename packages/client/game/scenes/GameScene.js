@@ -175,7 +175,7 @@ class GameScene extends Phaser.Scene {
   dropCrate() {
     // Random item from lists
     let randomNumber = Phaser.Math.Between(0, this.gameState.weapons.list.length - 1);
-    const content = this.gameState.weapons.list[1];
+    const content = this.gameState.weapons.list[randomNumber];
 
     // Get spawn point
     randomNumber = Phaser.Math.Between(0, this.crateSpawnPoints.length - 1);

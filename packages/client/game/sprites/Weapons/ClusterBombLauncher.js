@@ -7,7 +7,7 @@ export default class ClusterBombLauncher extends Weapon {
     const dx = Math.cos(angle);
     const dy = Math.sin(angle);
 
-    this.damage = 20;
+    this.damage = 25;
 
     this.projectile = new ClusterBomb({
       scene: this.scene,

@@ -150,7 +150,6 @@ const Controller = () => {
         setMessages([newMessage, ...messages]);
       }
     });
-    return () => socket.removeAllListeners();
   }, [messages]);
 
   // UPDATE INVENTORY
@@ -196,7 +195,6 @@ const Controller = () => {
         }
       }
     });
-    return () => socket.removeAllListeners();
   }, [selectedWeapon, messages]);
 
   useEffect(() => {
@@ -206,7 +204,6 @@ const Controller = () => {
   }, [keys]);
 
   // HEALTH UPDATE
-
   useEffect(() => {
     socket.on('player health update', (id, updatedHealth) => {
       if (socket.id === id) {
@@ -216,6 +213,7 @@ const Controller = () => {
     return () => socket.removeAllListeners();
   }, []);
 
+  // Movement
   const keyDown = (e) => {
     if (e.key === 'ArrowLeft') {
       setKeys({
@@ -263,9 +261,7 @@ const Controller = () => {
   return (
     <StyledController onKeyDown={keyDown} onKeyUp={keyUp}>
       {/*       <Hamburger /> */}
-
       {/* ===== Controls ===== */}
-
       <Controls>
         <Aim
           options={{
@@ -286,7 +282,6 @@ const Controller = () => {
             }
           }}
         />
-
         <ActionButtons>
           <Shoot
             onKeyDown={keyDown}
@@ -296,10 +291,8 @@ const Controller = () => {
             onTouchStart={startShoot}
             onTouchEnd={releaseShoot}
           />
-
           <Jump onMouseDown={jump} onTouchStart={jump} />
         </ActionButtons>
-
         <Move
           options={{
             mode: 'static',
@@ -322,11 +315,8 @@ const Controller = () => {
           }}
         />
       </Controls>
-
       {/* ===== / Controls ===== */}
-
       <FlashMessages messages={messages} toggleFlashMessage={toggleFlashMessage} />
-
       <PlayerInfo
         player={player}
         health={health}
