@@ -147,10 +147,12 @@ const Controller = () => {
   useEffect(() => {
     socket.on('message to controller', (id, newMessage) => {
       if (socket.id === id) {
-        setMessages([newMessage, ...messages]);
+        if (!messages.includes(newMessage)) {
+          setMessages([newMessage, ...messages]);
+        }
       }
     });
-  }, [messages]);
+  }, []);
 
   // UPDATE INVENTORY
   useEffect(() => {
@@ -184,9 +186,7 @@ const Controller = () => {
           // Equip next weapon if the used weapon ran out of ammo
           if (!isStillInInventory) {
             const message = {
-              message: `Your ${selectedWeapon.name} ran out of ammo, equipped ${
-                updatedInventory[0].name
-              }`,
+              message: `Your ${selectedWeapon.name} ran out of ammo, equipped ${updatedInventory[0].name}`,
               type: 'pickup',
             };
             selectWeapon(updatedInventory[0]);
@@ -316,7 +316,10 @@ const Controller = () => {
         />
       </Controls>
       {/* ===== / Controls ===== */}
-      <FlashMessages messages={messages} toggleFlashMessage={toggleFlashMessage} />
+      <FlashMessages
+        messages={messages}
+        toggleFlashMessage={toggleFlashMessage}
+      />
       <PlayerInfo
         player={player}
         health={health}

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 const StyledFlashMessage = styled.div`
   border-radius: 5px;
-  background-color: ${({ theme, type }) => (type === 'pickup' && theme.colorPickUp) || (type === 'hurt' && theme.colorHurt)};
+  background-color: ${({ theme, type }) => (type === 'pickup' && theme.colorPickUp)
+    || (type === 'hurt' && theme.colorHurt)};
   padding: 1rem;
   display: flex;
   align-items: center;
@@ -12,10 +13,21 @@ const StyledFlashMessage = styled.div`
   transition: 0.3s ease-in;
 `;
 
-const FlashMessage = ({ message, toggleFlashMessage }) => (
-  <StyledFlashMessage type={message.type} onClick={() => toggleFlashMessage(message)}>
-    {message.message}
-  </StyledFlashMessage>
-);
+const FlashMessage = ({ message, toggleFlashMessage }) => {
+  useEffect(() => {
+    setTimeout(() => {
+      toggleFlashMessage(message);
+    }, 2500);
+  }, []);
+
+  return (
+    <StyledFlashMessage
+      type={message.type}
+      onClick={() => toggleFlashMessage(message)}
+    >
+      {message.message}
+    </StyledFlashMessage>
+  );
+};
 
 export default FlashMessage;

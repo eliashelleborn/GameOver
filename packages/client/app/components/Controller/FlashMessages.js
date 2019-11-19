@@ -20,7 +20,11 @@ const StyledFlashMessages = styled.div`
 const FlashMessages = ({ messages, toggleFlashMessage }) => (
   <StyledFlashMessages>
     {messages.map((message, i) => (
-      <FlashMessage message={message} toggleFlashMessage={toggleFlashMessage} key={i} />
+      <FlashMessage
+        message={message}
+        toggleFlashMessage={toggleFlashMessage}
+        key={i}
+      />
     ))}
   </StyledFlashMessages>
 );
