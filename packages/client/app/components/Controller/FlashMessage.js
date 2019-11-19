@@ -17,7 +17,7 @@ const FlashMessage = ({ message, toggleFlashMessage }) => {
   useEffect(() => {
     setTimeout(() => {
       toggleFlashMessage(message);
-    }, 3000);
+    }, 2500);
   }, []);
 
   return (
