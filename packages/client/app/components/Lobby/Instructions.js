@@ -41,6 +41,7 @@ const StyledControlsContainer = styled.div`
   img {
     height: auto;
     width: 170px;
+    margin-right: 10px;
   }
   @media screen and (max-width: 500px) {
     grid-template-columns: 1fr;
